@@ -74,6 +74,6 @@
 ## 참고
 
 * [인프런 강의 : 빠르게 git - 핵심만 골라 배우는 Git/Github](https://www.inflearn.com/course/%EB%B9%A0%EB%A5%B4%EA%B2%8C-git)
-* [amamov GitHub / Computer-Science / GIT](https://github.com/amamov/Computer-Science/tree/main/7%20GIT#-git-)
+* [amamov gits](https://github.com/amamov/gits)
 * [Mac Training : Let's focus on Software](https://mactraining.tistory.com/148)
 
