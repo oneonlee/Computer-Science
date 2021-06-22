@@ -1,9 +1,7 @@
 # Git 
 ~~햣햣햣~~
 
-<details>
-<summary>목차</summary>
-<div markdown="1">
+## 목차
 * [1. 버전관리의 첫 시작](#1-버전관리의-첫-시작)
   + [버전이 되기까지 거쳐가는 세 개의 공간](#버전이-되기까지-거쳐가는-세-개의-공간)
   + [명령어 살펴보기](#명령어-살펴보기)
@@ -34,10 +32,6 @@
       * [Solution 1. rebase](#solution-1-rebase)
       * [Solution 2. pull request](#solution-2-pull-request)
 * [참고](#참고)
-</div>
-</details>
-
-
 
 ---
 
