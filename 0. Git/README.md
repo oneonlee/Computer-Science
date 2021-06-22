@@ -1,5 +1,5 @@
 # Git
-햣햣햣
+~~햣햣햣~~
 
 ## 목차
 1. 버전관리의 첫 시작
@@ -17,7 +17,7 @@
   2. 되돌리기
   3. 효율적으로 백업하기
 
-###  버전이 되기까지 거쳐가는 세 개의 공간
+### 버전이 되기까지 거쳐가는 세 개의 공간
   1. Working directory (작업 공간)
   2. Staging Area
   3. Repository (저장소)
@@ -153,6 +153,9 @@ error: 레퍼런스를 'https://github.com/oneonlee/git_test.git'에 푸시하�
 - 다른 branch로 들어가기
   - `$ git checkout <브랜치 이름>`
 
+- 새 branch를 만들고 동시에 그 branch로 들어가기
+  - `$ git checkout -b <브랜치 이름>`
+
 - 어떤 branch를 어디로 합칠 것인가? (만약에 'my_branch'라는 branch를 'main'에 합치려고 한다면,)
  - 병합의 결과가 되는 대상에 `checkout`
     - `$ git checkout main`
@@ -162,7 +165,6 @@ error: 레퍼런스를 'https://github.com/oneonlee/git_test.git'에 푸시하�
 
 ### 변경내역들을 비교하고 싶을 때
 `$ git diff`는 변경내역들끼리의 비교 결과를 보여준다.
-
 
 버전을 관리하는 도중에 다음과 같은 상황이 있을 수 있을 것이다.
 
@@ -302,31 +304,76 @@ Branch 개념을 원격저장소 (GitHub)에 접목시켜 실질적인 협업을
 - `$ git remote add <단축이름> <url>`
   - 기존 워킹 디렉토리에 새 원격저장소를 추가하는 명령어
 - `$ git remote add origin <url>`
-  - <url>에 있는 원격저장소를 origin이라는 이름으로 추가하기
+  - <url>에 있는 원격저장소를 `origin`이라는 이름으로 추가하기
+- `$ git remote rm <단축이름>`
+  - 등록한 원격저장소를 지우는 명령어 (remove의 약자)
   
 #### 2) `$ git push` : 원격저장소에 밀어넣기
-- `$ git push -u origin master`
-  - 내 repository의 master 브랜치를 origin의 master 브랜치로 push 
-  - `-u` : 디폴트 설정
+- `$ git push -u origin main`
+  - 내 repository의 main 브랜치를 origin의 main 브랜치로 push 
+  - `-u` : 디폴트 설정 (main 브랜치를 기본값으로 설정해줌)
+    - 그 이후엔 `$ git push`만 써도 push가 된다.
 
 #### 3) `$ git pull` : 원격저장소 갖고 와서 합치기
-- `$ git pull (origin master)`
-  - origin을 내 repository의 master 브랜치로 갖고와라 (merge)
+- `$ git pull origin main`
+  - origin을 내 repository의 main 브랜치로 갖고와라 (merge)
   
 #### 4) `$ git fetch` : 원격저장소 일단 갖고만 오기
-- `$ git fetch (origin master)`
-  - 동기화시키지는 말고 (merge하지는 말고), origin을 내 repository의 master 브랜치로 일단 갖고와라
+- `$ git fetch origin`
+  - 동기화시키지는 말고 (merge하지는 말고), `origin`을 내 repository의 main 브랜치로 일단 갖고와라
+  - 다시 한 번 말하자면, `origin`은 명령어가 아니라 임의의 이름이다.
+  - (당연하게도) 로컬 저장소의 파일이 실제로 변하지는 않는다.
+  - 물론 fetch한 내용을 담은 branch를 로컬의 main branch로 merge 할 수는 있다.
+  
+- fetch한 파일을 확인하는 방법
+  - 특정 branch에 들어가서 확인
+    - `rb92303..73b393f  master     ->  origin/main`이라고 뜨면 `origin/main`에서 확인 가능
+    - 그 특정 branch는 `$ git branch`로는 확인할 수 없다.
+  - `$ git checkout origin/main`의 명령어를 입력 후, 로컬 저장소를 보면 바뀐 파일을 확인할 수 있다.
+    - `$ git checkout FETCH_HEAD`도 가능
+  - `$ git checkout main`으로 다시 원래 있던 main으로 돌아올 수 있다.
   
 #### 5) `$ git clone` : 원격저장소 복사하기
 - `$ git clone <url>`
   - <url>에 있는 원격 저장소 내용을 현재 디렉토리에 복사해오기
-  - origin 자동 생성
+  - remote를 추가해주지 않아도 `origin`이라는 이름으로 프로젝트를 자동 생성
+  
+### 협업의 세가지 시나리오
+#### 1) 내 로컬 저장소는 **변했는데** 원격 저장소는 **변함 없는** 경우
+- 그냥 push하면 그만
+  
+#### 2) 내 로컬 저장소는 **변함** 없는데 원격 저장소는 **변한** 경우
+- `$ git pull origin main`으로 동기화를 시킨 다음에 코드를 작성한 후, push하기
+  
+#### 3) 내 로컬 저장소는 **변했는데** 원격 저장소는 **변한** 경우
+가장 골치 아픈 상황인 동시에 가장 일반적인 경우
+  
+##### Solution 1. rebase
+: 현재 내가 작업하고 있는 branch의 base를 옮긴다.
+* base : 현재 내가 작업하고 있는 branch와 합치려는 branch의 공통 조상
+  
+##### Solution 2. pull request
+1. 협업 대상 repository를 fork 한다.
+2. fork한 나의 repository를 clone 한다.
+3. 로컬에서 새 branch를 만들어준다.
+4. 이 branch에서 쓰고 싶은 코드를 맘껏 작성한다.
+5. 이 branch에서 commit을 한다.
+6. 코드작업을 수행한 fork 해온 repository의 그 branch에 push
+  - `$ git push origin newbranch`
+7. 원격저장소에 pull request를 보낸다.
+  - 로컬 관점에선 push지만, 원격저장소 관점에서는 pull이기 때문에 이름이 **pull** request이다.
+  - GitHub에서 `Compare & pull request` 버튼을 누름으로서 가능
+8. 원격 저장소의 관리자가 승인을 해주면, merge 됨으로서 코드가 반영된다.
+9. 승인된 후에는 branch를 GitHub 웹페이지에서 직접 지우거나, `$ git branch -d newbranch`의 명령어로 지워주는 것이 좋다.
+  - branch가 많아봤자 좋을 것이 없기 때문. 
   
 ---
 
 ## 참고 
 
+* [git 공식 문서](https://git-scm.com/doc)
 * [인프런 강의 : 빠르게 git - 핵심만 골라 배우는 Git/Github](https://www.inflearn.com/course/%EB%B9%A0%EB%A5%B4%EA%B2%8C-git)
 * [amamov gits](https://github.com/amamov/gits)
 * [유용한 터미널 명령어 모음 - Mac Training : Let's focus on Software](https://mactraining.tistory.com/148)
-
+* [learn git branching](https://learngitbranching.js.org/?locale=ko) - branch의 변화를 시각적으로 확인할 수 있는 사이트 1
+* [visualizing git](http://git-school.github.io/visualizing-git/) - branch의 변화를 시각적으로 확인할 수 있는 사이트 2
