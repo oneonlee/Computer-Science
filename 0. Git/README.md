@@ -122,13 +122,14 @@ error: 레퍼런스를 'https://github.com/oneonlee/git_test.git'에 푸시하�
 #### 2) `$ git revert`
 - `$ git revert`도 `reset`과 동일하게 commit을 되돌리는 명령어이다.
 - `$ git revert <되돌아가고 싶은 commit>` 으로 작성할 수 있다.
-  - ex> `$ git revert de6d5c1148981e15617999c7ecaa6ec2ea21ff29`
+- [아래 예제](https://github.com/oneonlee/CS101/blob/main/0.%20Git/README.md#1-%EB%91%90-%EC%BB%A4%EB%B0%8B-%EA%B0%84%EC%9D%98-%EB%B9%84%EA%B5%90)에서 3번 commit으로 `revert`하고 싶다면
+  - `$ git revert de6d5c1148981e15617999c7ecaa6ec2ea21ff29`
 
 - `reset`과의 차이점
   - `$ git reset`과 `$ git revert`는 commit을 과거 시점으로 되돌려준다는 점에서 결과적으로 같은 결과를 내지만, 차이점은 **되돌리는 commit까지의 이력이 사라지느냐**의 여부에 있다.
   - `$ git reset`은 되돌린 버전 이후의 버전들이 모두 사라지게 되지만, `$ git revert`는 되돌린 버전 이후의 버전들은 모두 유지되고, revert되었다는 사실을 담은 commit만 새로 추가된다.
 
-  - 아래 예제에서 3번 commit으로 reset을 하면 4, 5번 commit은 삭제되지만, 3번 commit으로 revert를 하면 4,5번 commit은 그대로 유지됩니다.
+  - [아래 예제](https://github.com/oneonlee/CS101/blob/main/0.%20Git/README.md#1-%EB%91%90-%EC%BB%A4%EB%B0%8B-%EA%B0%84%EC%9D%98-%EB%B9%84%EA%B5%90)에서 3번 commit으로 reset을 하면 4, 5번 commit은 삭제되지만, 3번 commit으로 revert를 하면 4,5번 commit은 그대로 유지됩니다.
 
   - 즉, `reset`은 과거 자체를 바꾸는 명령어이고, `revert`는 과거를 변경시켰다는 새로운 commit으로써 새로운 commit을 만드는 명령어다.
 
@@ -287,12 +288,41 @@ index 8fda00d..cead32e 100644
 #### 5) branch 간의 비교
 - `$ git diff <비교대상 branch 이름> <기준 branch 이름>`
 
-
 ---
 
 ## 3. 원격저장소(GitHub)를 이용하여 협업하기
+### 로컬과 원격의 상호작용
+Branch 개념을 원격저장소 (GitHub)에 접목시켜 실질적인 협업을 이루기
 
---
+#### 1) `$ git remote` : 원격저장소에 조회(추가) 하기
+- 내 로컬 repository와 상호작용하고 있는 (혹은 할 수 있는) 원격 저장소들의 목록을 조회
+
+- `$ git remote -v`
+  - 단축이름과 URL 같이 보기 
+- `$ git remote add <단축이름> <url>`
+  - 기존 워킹 디렉토리에 새 원격저장소를 추가하는 명령어
+- `$ git remote add origin <url>`
+  - <url>에 있는 원격저장소를 origin이라는 이름으로 추가하기
+  
+#### 2) `$ git push` : 원격저장소에 밀어넣기
+- `$ git push -u origin master`
+  - 내 repository의 master 브랜치를 origin의 master 브랜치로 push 
+  - `-u` : 디폴트 설정
+
+#### 3) `$ git pull` : 원격저장소 갖고 와서 합치기
+- `$ git pull (origin master)`
+  - origin을 내 repository의 master 브랜치로 갖고와라 (merge)
+  
+#### 4) `$ git fetch` : 원격저장소 일단 갖고만 오기
+- `$ git fetch (origin master)`
+  - 동기화시키지는 말고 (merge하지는 말고), origin을 내 repository의 master 브랜치로 일단 갖고와라
+  
+#### 5) `$ git clone` : 원격저장소 복사하기
+- `$ git clone <url>`
+  - <url>에 있는 원격 저장소 내용을 현재 디렉토리에 복사해오기
+  - origin 자동 생성
+  
+---
 
 ## 참고
 
