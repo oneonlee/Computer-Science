@@ -125,3 +125,104 @@ Linked List에서 앞 방향과 반대 방향 등 양 방향으로 탐색을 가
 ![IMG_0AC93EA9E87B-1](https://user-images.githubusercontent.com/73745836/137902602-8d395ec4-efab-4f0d-a0f8-f18b602ce51b.jpeg)
 
 Time Complexity : O(n+1) = O(n)
+
+### Circularly Linked List
+- Rather than having a head or tail, the nodes of a circularly linked list are linked into a cycle
+- Cursor:Aplacetostartfromifweeverneedtotraverseacircularlylinkedlist
+- Back: The element that is referenced by the cursor
+- Front: The element immediately following this in the circular order
+
+#### Queue with a Circularly-Linked List
+- `back()`: Return the element referenced by the cursor; error if empty
+- `front()`: Return the element immediately after the cursor; error if empty
+- `advance()`: Advance the cursor to the next node in the list
+- `add(e)`: Insert a new node with element e immediately after the cursor; if the list is empty, then this node becomes the cursor and its next pointer points to itself
+- `remove()`: Remove the node immediately after the cursor (so the front); if the list has only one node, the node at cursor is removed; if the list becomes empty, the cursor is set to null
+
+```cpp
+#include <string>
+using std::string;
+
+// Code Fragment 3.28 : A node of a circularly linked list.
+typedef string Elem; // element type
+class CNode
+{ // circularly linked list node
+private:
+    Elem elem;               // linked list element value
+    CNode *next;             // next item in the list
+    friend class CircleList; // provide CircleList access
+};
+
+// Code Fragment 3.29: Implementation of a circularly linked list class.
+class CircleList
+{ // a circularly linked list
+public:
+    CircleList();              // constructor
+    ~CircleList();             // destructor
+    bool empty() const;        // is list empty?
+    const Elem &front() const; // element at cursor
+    const Elem &back() const;  // element following cursor
+    void advance();            // advance cursor
+    void add(const Elem &e);   // add after cursor
+    void remove();             // remove node after cursor
+private:
+    CNode *cursor; // the cursor
+};
+
+// Code Fragment 3.30: The constructor and destructor.
+CircleList::CircleList() // constructor
+    : cursor(NULL)
+{
+}
+CircleList::~CircleList() // destructor
+{
+    while (!empty())
+        remove();
+}
+
+// Code Fragment 3.31: Simple member functions.
+bool CircleList::empty() const // is list empty?
+{
+    return cursor == NULL;
+}
+const Elem &CircleList::back() const // element at cursor
+{
+    return cursor->elem;
+}
+const Elem &CircleList::front() const // element following cursor
+{
+    return cursor->next->elem;
+}
+void CircleList::advance() // advance cursor
+{
+    cursor = cursor->next;
+}
+
+// Code Fragment 3.32: Inserting a node just after the cursor of a circularly linked list.
+void CircleList::add(const Elem &e)
+{                         // add after cursor
+    CNode *v = new CNode; // create a new node
+    v->elem = e;
+    if (cursor == NULL)
+    {                // list is empty?
+        v->next = v; // v points to itself
+        cursor = v;  // cursor points to v
+    }
+    else
+    {                           // list is nonempty?
+        v->next = cursor->next; // link in v after cursor
+        cursor->next = v;
+    }
+}
+
+// Code Fragment 3.33: Removing the node following the cursor
+void CircleList::remove()
+{                              // remove node after cursor
+    CNode *old = cursor->next; // the node being removed
+    if (old == cursor)         // removing the only node?
+        cursor = NULL;         // list is now empty
+    else
+        cursor->next = old->next; // link out the old node
+    delete old;                   // delete the old node
+}
+```
