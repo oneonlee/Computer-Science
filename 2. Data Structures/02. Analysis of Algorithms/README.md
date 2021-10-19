@@ -225,6 +225,34 @@ Seven functions that often appear in algorithm analysis:
 ![IMG_F8748871339F-1](https://user-images.githubusercontent.com/73745836/137928953-f577266f-efce-4f72-9775-8de4bdc4f7ff.jpeg)
 
 ## Big-Oh Notation 
-
 - Given functions f(n) and g(n), we say that f(n) is O(g(n)) if there are positive constants c and n_0 such that
   - f(n) <= cg(n) for n >= n_0
+
+## Exception Handling
+```cpp
+#include <iostream>
+using namespace std;
+
+int main()
+{
+    try
+    {
+        int age;
+        cout << "Enter your age: ";
+        cin >> age;
+        if (age >= 18)
+        {
+            cout << "Access granted - you are old enough.";
+        }
+        else
+        {
+            throw(age);
+        }
+    }
+    catch (int myNum)
+    {
+        cout << "Access denied - You must be at least 18 years old.\n";
+        cout << "Age is: " << myNum << endl;
+    }
+}
+```
