@@ -1,7 +1,5 @@
 # Object-Oriented Programming
-
-## OOP
-### Priciples
+## Priciples
 - Encapsulation (캡슐화) 
   -  Hiding implementation details, only exposing the "public interface"
 - Abstraction (추상화) 
@@ -13,7 +11,7 @@
 
 <img width="100%" alt="스크린샷 2021-09-08 오전 9 18 22" src="https://user-images.githubusercontent.com/73745836/132425872-2a60a41a-cbab-47aa-a41a-092640fefb07.png">
 
-### Goals
+## Goals
 - Robustness
   - We want software to be capable of handling unexpected inputs that are not explictly defined for its application.
 - Adaptabillity (≒ Portabillity)
@@ -62,7 +60,7 @@ protected:    // protected access specifier
 - protected
   - Members cannot be accessed from outside the class, however, they can be accessed in inherited classes.
 
-### Example
+## Example
 ```C++
 class Student {
 public:
