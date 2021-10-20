@@ -1,22 +1,24 @@
 #include <iostream>
-using std::cout;    //Ãâ·Â ´ã´ç
-using std::cin;     //ÀÔ·Â ´ã´ç
-using std::endl;    //new line "\n"
+using std::cin;  //ìž…ë ¥ ë‹´ë‹¹
+using std::cout; //ì¶œë ¥ ë‹´ë‹¹
+using std::endl; //new line "\n"
 
-
-//Å×½ºÆ®
+//í…ŒìŠ¤íŠ¸
 #include <string>
-using std::string;
 using std::getline;
+using std::string;
 
-class GradeBook {
+class GradeBook
+{
 public:
-    void displayMessage(string courseName) {
+    void displayMessage(string courseName)
+    {
         cout << "Welcome to the grade book for " << courseName << "!" << endl;
     }
 };
 
-int main() {
+int main()
+{
     string nameOfCourse;
     GradeBook myGradeBook;
 
