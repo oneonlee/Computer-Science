@@ -19,7 +19,7 @@
 - Reusabillity
   - The same code should be usable as a component of different systems in various applications.
 
-<img width="100%" alt="스크린샷 2021-09-08 오전 9 26 12" src="https://user-images.githubusercontent.com/73745836/132426405-ea39beb8-f3c3-4d18-8a77-22f99ececbcf.png">
+<div align="center"><img width="50%" alt="스크린샷 2021-09-08 오전 9 26 12"  src="https://user-images.githubusercontent.com/73745836/132426405-ea39beb8-f3c3-4d18-8a77-22f99ececbcf.png"></div>
 
 ## Object-Oriented Software Design
 - Responsibilities
