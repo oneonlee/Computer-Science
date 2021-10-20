@@ -8,6 +8,12 @@
   - 생성자와 소멸자의 호출시기
   - Default Memberwise Assignment
   - Copy Constructor
+  - const Objects and const Member Functions
+  - Composition: Objects as Members of Classes
+  - friend Functions and friend Classes
+  - Using this Pointer
+  - Dynamic Memory Management with Operators new and delete
+  - static Class Members 
 
 ## Preprocessor Wrappers 
 - 코드가 두번 이상 포함(include)되는 것을 방지
@@ -277,3 +283,125 @@ MAIN FUNCTION: EXECUTION ENDS
 - 컴파일러는 디폴트 복사 생성자를 제공한다.
   - 원래 객체의 각 데이터 멤버를 새로운 객체의 대응되는 데이터 멤버로 복사한다. (즉, 멤버별 대입을 수행)
 - 동적 할당된 포인터를 포함한 데이터 멤버에 대해서는 역시 심각한 문제를 유발 할 수 있다.
+
+## const Objects and const Member Functions
+### 상수 (const)
+- 최소 특권 원리 (Principle of least privilege)
+  - 각 소프트웨어 모듈(객체, 함수, …)에는 그들에게 필요한 최소한의 권한만을 부여한다.
+  - 소프트웨어 설계의 기본적인 원칙 중 하나
+  - 객체지향 설계에도 적용됨
+- const 키워드를 이용
+  - 수정을 시도하면 컴파일 오류 발생
+```cpp
+const a=10;
+a=20;         // error!
+```
+
+### 상수 객체 (constant objects)
+- 최소 특권 원리 (Principle of least privilege)
+ - 각 소프트웨어 모듈(객체, 함수, …)에는 그들에게 필요한 최소한의 권한만을 부여한다.
+ - 소프트웨어 설계의 기본적인 원칙 중 하나
+ - 객체지향 설계에도 적용됨
+- 상수 객체 (constant objects)
+  - `const` 키워드를 이용
+  - 객체를 수정 (즉 데이터 멤버를 수정) 할 수 없음을 의미
+    - 수정을 시도하면 컴파일 오류 발생
+
+### const 멤버 함수
+- 상수 객체는 const 멤버 함수만을 호출할 수 있음
+- `const`로 선언된 멤버 함수는 데이터 멤버를 수정할 수 없음
+- 멤버 함수 선언과 정의에 모두 `const` 형으로 지정해야 함
+- 생성자와 소멸자는 `const` 형으로 지정할 수 없음
+
+#### **Const 위치에 따른 멤버 함수의 의미**
+1. 함수명 뒤의 'const'가 가지는 의미
+해당 함수에서 멤버변수를 읽기전용(RDONLY)으로 사용하겠다는 표시입니다.<br>
+즉, '읽기'만 할뿐 '쓰기'는 하지않겠다는 의미입니다.
+
+2. 위의 함수 매개변수에서 'const'가 가지는 의미
+매개변수에서의 'const' 사용은 다들 익숙하시리라 생각됩니다. <br>
+'call by reference'로 복사 오버헤드없이 참조하는 변수를 마찬가지로 읽기전용(RDONLY)으로 사용하겠다는 표시입니다.
+ 
+3. 함수 반환타입 앞의 'const'가 가지는 의미
+함수의 반환값을 읽기전용(RDONLY)으로 사용하겠다는 표시입니다.<br>
+함수가 반환하는 값은 right-hand-side(이하 rhs)에 해당합니다. 여기서 이 값을 '&&'(r-value 참조)로 받아버리면 수정할 여지가 생깁니다. 이러한 가능성을 제거하고 '해당 함수가 반환하는 값은 대입연산자를 통해 복사해서 사용하라'는 의미라 생각됩니다.
+
+#### **Const 위치에 따른 포인터 변수의 의미**
+1. 포인터가 가리키는 대상의 값을 변경 못하게 하려면 다음과 같이 선언한다.
+
+`const char* c_ptr;`
+
+```cpp
+char s1[] = "hello";
+char s2[] = "bonjour";
+
+const char* c_ptr = s1;
+c_ptr = s2;       // 주소 변경 가능
+c_ptr[0] = 'a';   // 값 변경 불가
+```
+
+- 포인터가 가리키는 대상의 값을 변경할 수 없다. 
+- 하지만 포인터가 가리키는 대상(주소값)을 변경할 수 있다.
+
+
+2. 포인터가 가리키는 대상(주소)을 변경 못하게 하려면 다음과 같이 선언한다.
+
+`char* const ptr;`
+
+```cpp
+char s1[] = "hello";
+char s2[] = "bonjour";
+
+char* const c_ptr = s1;
+c_ptr = s2;     // 주소 변경 불가
+c_ptr[0] = 'a'; // 값 변경 가능
+```
+
+- 포인터가 가리키는 대상(주소)을 변경할 수 없다. 
+- 하지만 포인터가 가리키는 대상의 값을 변경할 수 있다.
+
+
+3. 대상과 대상의 값을 모두 변경하지 못하게 하려면 다음과 같이 선언한다.
+
+`const char* const c_ptr;`
+
+```cpp
+char s1[] = "hello";
+char s2[] = "bonjour";
+
+const char* const c_ptr = s1;
+c_ptr = s2;     // 주소 변경 불가
+c_ptr[0] = 'a'; // 값 변경 불가
+```
+
+- 포인터가 가리키는 대상과 그 값을 모두 변경할 수 없다.
+
+### Member Initializer
+- 멤버 초기화기 (Member initializer)
+  - 모든 데이터 멤버는 member initializer를 이용하여 초기화 가능
+  - const 형 또는 참조형 데이터 멤버는 반드시 member initializer를 이용하여 초기화 해야 함
+- 멤버 초기화기 목록 (Member initializer list)
+  - 클래스 생성자의 인자 리스트와 함수 시작의 { 사이에 위치
+  - 복수의 데이터 멤버를 초기화 할 수 있음
+  - 클래스 생성자가 수행되기 직전에 수행
+  - 구체적인 서식은 다음 예제 참조
+
+- 이니셜라이저의 실행을 포함한 객체 생성의 과정
+  - 1단계 : 메모리 공간의 할당
+  - 2단계 : 이니셜라이저를 이용한 멤버변수(객체)의 초기화
+  - 3단계 : 생성자의 몸체부분 실행
+
+- 이니셜라이저를 사용하면 멤버변수가 **선언과 동시에 초기화**.
+  - const로 선언된 멤버변수도 초기화가 가능.
+    - 선언과 동시에 초기화 되는 형태이므로...
+
+
+## Composition: Objects as Members of Classes
+  
+## friend Functions and friend Classes
+  
+## Using this Pointer
+  
+## Dynamic Memory Management with Operators new and delete
+  
+## static Class Members 
