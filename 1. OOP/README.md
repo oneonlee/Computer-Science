@@ -2,7 +2,7 @@
 Object-oriented design technique using C++ Class
 
 ## Contents
-- [01. Defining a Class]()
+- [01. Defining a Class](https://github.com/oneonlee/Computer-Science/tree/main/1.%20OOP/01.%20Defining%20a%20Class)
 - [02. Using a Class]()
 - [03. Encapsulation]()
 - [04. Abstraction]()
@@ -10,7 +10,7 @@ Object-oriented design technique using C++ Class
 - [06. Inheritance]()
 - [07. Polymorphism]()
 - [08. Template]()
-- 
+
 ---
 
 ## Priciples
