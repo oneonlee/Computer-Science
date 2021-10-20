@@ -2,9 +2,9 @@
 Object-oriented design technique using C++ Class
 
 ## Contents
-- [00. C++ Tutoria](https://github.com/oneonlee/Computer-Science/tree/main/1.%20OOP/00.%20C++%20Tutorial)
+- [00. C++ Tutorial](https://github.com/oneonlee/Computer-Science/tree/main/1.%20OOP/00.%20C++%20Tutorial)
 - [01. Defining a Class](https://github.com/oneonlee/Computer-Science/tree/main/1.%20OOP/01.%20Defining%20a%20Class)
-- [02. Using a Class]()
+- [02. Using a Class](https://github.com/oneonlee/Computer-Science/tree/main/1.%20OOP/02.%20Using%20a%20Class)
 - [03. Encapsulation]()
 - [04. Abstraction]()
 - [05. Operation overloading]()
