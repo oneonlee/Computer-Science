@@ -284,6 +284,10 @@ MAIN FUNCTION: EXECUTION ENDS
   - 원래 객체의 각 데이터 멤버를 새로운 객체의 대응되는 데이터 멤버로 복사한다. (즉, 멤버별 대입을 수행)
 - 동적 할당된 포인터를 포함한 데이터 멤버에 대해서는 역시 심각한 문제를 유발 할 수 있다.
 
+### Shallow Copy vs. Deep Copy
+- 얕은 복사(Shallow Copy)의 경우 객체를 복사했을 때 변수가 따로 메모리에 잡히는 것이 아니라 복사한 객체의 변수 주소를 가리키게 된다.
+- 만일 동적할당으로 선언된 변수가 있을 때 얕은 복사를 한다면 에러가 발생하게 된다.
+
 ## const Objects and const Member Functions
 ### 상수 (const)
 - 최소 특권 원리 (Principle of least privilege)
@@ -397,10 +401,213 @@ c_ptr[0] = 'a'; // 값 변경 불가
 
 
 ## Composition: Objects as Members of Classes
-  
+### 복합 (Composition)
+- has-a 관계라고 표현하기도 함
+- 클래스는 다른 클래스의 객체를 멤버로 가질 수 있다.
+- 예시
+  - AlarmClock 객체는 Time의 객체를 멤버로 가진다.
+
+### 복합 관계에서 멤버 객체 초기화
+- 멤버 초기화기(member initializers)에서 객체 생성자의 인자를 통해 멤버 객체의 생성자에게 인수를 전달
+- 멤버 객체는 클래스 정의에 선언된 순서대로 생성됨
+- 만약 멤버 초기화기가 제공되지 않는다면
+  - 멤버 객체의 디폴트 생성자가 내부적으로 호출된다.
+
+### Composition 예제
+#### Date.h
+```cpp
+#pragma once
+
+class Date {
+public:
+    Date(int = 1, int = 1, int = 1900);
+    Date(int, int);
+    void print()const;
+    ~Date();
+
+private:
+    int month;
+    int day;
+    int year;
+
+    int checkDay(int)const;
+};
+```
+
+#### Date.cpp
+```cpp
+#include <iostream>
+using std::cout;
+using std::endl;
+
+#include "Date.h"
+
+Date::Date(int mn, int dy, int yr) {
+    if (mn > 0 && mn <= 12) {
+        month = mn;
+    }
+    else {
+        month=1;
+        cout << "Invalid month (" << mn << ") set to 1.\n";
+    }
+
+    year = yr;
+    day = checkDay(dy);
+
+    cout << "Date object constructor fordate ";
+    print();
+    cout << endl;
+}
+void Date::print() const {
+    cout << month << '/' << day << '/' << year;
+}
+
+Date::~Date() {
+    cout << "Date object destructor for date ";
+    print();
+    cout << endl;
+}
+
+int Date::checkDay(int testDay) const {
+    static const int daysPerMonth[13] = {
+        0,31,28,31,30,31,30,31,31,30,31,30,31 };
+    if (testDay > 0 && testDay <= daysPerMonth[month])
+        return testDay;
+
+    if (month == 2 && testDay == 29 && (year % 400 == 0 || (year % 4 == 0 &&
+        year % 100 != 0)))
+        return testDay;
+
+    cout << "Invalid day(" << testDay << ") set to 1.\n";
+    return 1;
+}
+```
+
+#### Employee.h
+```cpp
+#pragma once
+#include "Date.h"
+class Employee {
+public:
+    Employee(const char* const, const char* const,
+        const Date&, const Date&);
+    void print() const;
+    ~Employee();
+
+private:
+    char firstName[25];
+    char lastName[25];
+    const Date birthDate;
+    const Date hireDate;
+};
+```
+
+#### Employee.cpp
+```cpp
+#include <iostream>
+using std::cout;
+using std::endl;
+
+#include <cstring>
+using std::strlen;
+using std::strncpy;
+
+#include "Employee.h"
+#include "Date.h"
+
+Employee::Employee(const char *const first, const char *const last,
+                   const Date &dateOfBirth, const Date &dateOfHire) : birthDate(dateOfBirth),
+                                                                      hireDate(dateOfHire)
+{
+    int length = strlen(first);
+    length = (length < 25 ? length : 24);
+    strncpy(firstName, first, length);
+    firstName[length] = '\0';
+    length = strlen(last);
+    length = (length < 25 ? length : 24);
+    strncpy(lastName, last, length);
+    lastName[length] = '\0';
+
+    cout << "Employee object constructor: " << firstName << ' ' << lastName << endl;
+}
+
+void Employee::print() const
+{
+    cout << lastName << ", " << firstName << " Hired: ";
+    hireDate.print();
+    cout << " Birthday: ";
+    birthDate.print();
+    cout << endl;
+}
+
+Employee::~Employee()
+{
+    cout << "Employee object destructor: " << lastName << ", " << firstName << endl;
+}
+```
+
+#### driver
+```cpp
+#include <iostream>
+using std::cout;
+using std::endl;
+
+#include "Employee.h"
+
+int main() {
+    Date birth(7, 24, 1949);
+    Date hire(3, 12, 1988);
+    Date birth2();
+
+    Employee manager("Bob", "Blue", birth, hire);
+
+    cout << endl;
+    manager.print();
+
+    cout << "\n Test Date constructor with invalid values:\n";
+    Date lastDayoff(14, 35, 1994);
+    cout << endl;
+    return 0;
+}
+```
+
+#### 실행 결과
+![image](https://user-images.githubusercontent.com/73745836/144233936-3392fe0f-b61f-4b55-8812-c7e0cdf1e027.png)
+
 ## friend Functions and friend Classes
+### 클래스의 friend function / friend class
+- Class scope의 외부에 정의됨
+- Class의 멤버 함수 아님
+  - 그러나 클래스의 멤버에 접근할 수 있음
+- public 멤버가 아닌 private 멤버에도 접근 가능
+  - 독립적인 함수나 다른 클래스가 어떤 클래스의 friend로 선언될 수 있음
+  - Friend 클래스 간의 직접적인 데이터 멤버 접근이 가능하므로 수행 속도 향상
+  - 멤버 함수만으로는 수행하기 힘든 동작을 구현할 때 사용
+- 클래스의 friend 함수 선언
+  - 클래스 정의에 friend로 시작되는 함수 원형 선언
+- 클래스의 friend 클래스 선언
+  - ClassTwo 클래스를 ClassOne 클래스의 friend 선언
+    - friend class ClassTwo; 를 ClassOne 클래스 정의에 추가
+    - ClassTwo 클래스의 모든 멤버 함수는 ClassOne 클래스의 friend가 됨
+
+### Friendship 관계의 특성
+- 친구 관계 (Friendship relation) 는 허용되는 것 (취득하는 것이 아님)
+  - Class B 가 Class A의 friend가 되기 위해서, class A는 class B를 friend로 명시적으로 선언해야 함 (A가 B를 허용)
+- Friendship relation은 일방적이고, 또한 전이되지 않음
+  - Class A가 class B의 friend여도, class B가 class A의 friend가 되지 않음
+    - 즉, 짝사랑 관계
+  - Class A가 class B의 friend이고, class B가 class C의 friend여, class A가 class C의 friend가 되지 않음
+    - 즉, 친구의 친구는 저절로 친구가 아님
   
 ## Using this Pointer
+### This 포인터란 무엇인가?
+- This 포인터
+  - 객체 내부에서 자기 자신을 가리키는 포인터 (self-reference)
+- 멤버 함수는 this pointer를 통해 자신이 속한 객체를 안다.
+  - 모든 객체는 C++의 키워드인 this 포인터를 통해 자신의 주소에 접근할 수 있다.
+  - 객체의 this 포인터는 객체 자신의 일부는 아님
+
+
   
 ## Dynamic Memory Management with Operators new and delete
   
