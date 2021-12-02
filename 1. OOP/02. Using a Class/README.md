@@ -606,9 +606,94 @@ int main() {
 - 멤버 함수는 this pointer를 통해 자신이 속한 객체를 안다.
   - 모든 객체는 C++의 키워드인 this 포인터를 통해 자신의 주소에 접근할 수 있다.
   - 객체의 this 포인터는 객체 자신의 일부는 아님
+- 객체는 this pointer를 암시적으로 (implicitly) 또는 명시적으로 (explicitly) 사용
+  - 멤버 함수에서 데이터 멤버에 접근할 때 암시적으로 사용
+  - this 키워드를 사용하면 명시적으로 사용
+  - this 포인터의 타입은 객체 타입에 의해 결정됨
 
-
-  
 ## Dynamic Memory Management with Operators new and delete
-  
+### 동적 메모리 관리(Dynamic Memory Management)
+- 동적 메모리 할당 (allocation) 및 해제 (release)
+  - 내장 데이터 타입이나 사용자 정의 타입에 대해 동적으로 메모리를 할당하고 해제할 수 있는 기능을 제공한다.
+  - new 와 delete 연산자를 통해 이루어진다.
+  - 예를 들어, 고정된 크기의 배열 대신 프로그램 수행 중 크기가 결정되는 (= 동적인) 메모리 공간을 생성
+
+- Heap
+  - 각 프로그램에서 실행 시간에 동적으로 생성되는 객체를 저장하기 위해 할당된 메모리 영역이다.
+  - 반대로, 컴파일 시간에 생성되는 객체는 stack 영역의 메모리를 할당 받음.
+
+- 연산자 new
+  - 기본 데이터 타입 (int, double 등) 이나 클래스 타입의 객체를 실행시간 (execution time)에 할당 및 생성
+     - 예시
+          - `Time *ptrTime = new Time;`
+          - `float *ptrNum = new float;`
+     - 클래스 객체를 생성하는 경우, 동시에 객체의 생성자도 호출
+     - 일반적으로 복수의 객체를 생성할 때 흔히 사용함
+  - new의 오른쪽에 지정된 타입의 포인터를 반환
+  - C언어에서의 malloc()과 유사
+
+- 연산자 delete
+  - 동적으로 할당된 객체를 소멸시킴
+    - 이때, 객체의 소멸자를 호출
+      - 예시
+      - `delete ptrTime;`
+      - `delete ptrNum;`
+  - 객체에 대한 메모리 공간을 해제(release)한다.
+    - 해제된 메모리 공간은 다른 객체에 할당되기 위해 재사용이 가능하다.
+  - C언어에서의 free()과 유사
+
+- New를 이용한 객체 초기화
+  - 새롭게 생성된 기본적인 타입의 객체에 초기값 지정
+    - 예시
+      - `double *ptr = new double(3.14159);`
+  - 객체의 생성자에 쉼표로 분리되는 인수 목록을 지정
+    - 예시
+      - `Time *timePtr = new Time(12,45,0);`
+
+- New 연산자는 동적으로 배열을 할당할 수 있다
+  - 10개의 정수 원소를 갖는 배열을 할당
+    - 예시
+      - `int *gradesArray = new int[10];`
+  - 동적 할당 배열의 크기
+    - 프로그램 내에서 정수 변수나 정수 변수의 수식 표현을 통해 나타낼 수 있음
+      - `int *gradesArray = new int[count1+count2];`
+
+- 동적으로 할당된 배열을 제거
+  - `delete  []  gradesArray;`
+    - 위 문장은 gradesArray가 가리키는 배열에 대한 할당을 해제한다.
+    - 위 문장의 포인터가 객체의 배열을 가리키고 있다면,
+      - 위 문장은 먼저 배열 내의 모든 객체에 대한 소멸자를 호출한 후, 메모리를 해제한다.
+    - 위 문장에서 대괄호([])가 없고 gradesArray가 객체의 배열을 가리키고 있다.
+      - 배열 내의 첫 번째 객체만 소멸자 호출을 받은 것을 의미한다.
+      - 동적 할당 받은 배열의 메모리 해제 시 `[]`를 누락하지 않도록 조심.
+
 ## static Class Members 
+- Static 데이터 멤버
+  - 클래스의 모든 객체가 공유하는 변수의 복사본
+    - 모든 객체가 같은 변수를 공유 : “Class-wide” 정보
+    - 클래스의 특정한 객체의 속성이 아닌 클래스 자체의 속성임
+  - 데이터 멤버의 선언 시 static 키워드로 시작
+  - 비록 전역 변수처럼 보이나, 실제로는 class scope를 가짐
+  - public, private or protected 데이터 멤버 모두에 static 을 선언될 수 있다.
+    - private, protected인 경우 public static member function을 통해 접근
+
+- Public static 데이터 멤버
+  - 클래스의 객체가 생성되지 않아도 존재 (클래스 자체의 속성)
+    - 클래스의 객체가 존재하지 않을 때 public static 클래스 멤버에 접근하기 위해
+      - 클래스의 이름과 이항 스코프 식별 연산자(::)를 사용
+      - 예시 – `Martian::martianCount`
+  - 클래스의 어떠한 객체에서도 접근 가능하다.
+    - 객체의 이름과 점 연산자(dot operator)(.)를 사용한다.
+      - 예시 – `myMartian.martianCount`
+
+- Static 멤버 함수
+  - 클래스의 특정 객체가 아닌 클래스 자체의 서비스
+  - static이 아닌 클래스 데이터 멤버 또는 멤버 함수에 접근할 수 없다.
+  - static 멤버 함수는 this 포인터를 갖지 않는다.
+  - static 데이터 멤버와 static 멤버 함수는 클래스의 객체와는 독립적으로 존재한다.
+    - 그 클래스의 객체도 존재하지 않아도, static 멤버 함수를 호출할 수 있다.
+
+
+
+
+
