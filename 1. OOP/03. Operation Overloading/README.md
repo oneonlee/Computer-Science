@@ -146,246 +146,82 @@ int main(void)
     - 예) (123) 456-7890 
 
 ### 연산자 오버로딩과 stream 연산자 예제 
-#### Array.h
+#### PhoneNumber.h
 ```cpp
-#ifndef ARRAY_H
-#define ARRAY_H
+#pragma once
 
 #include <iostream>
-using std::istream;
-using std::ostream;
+using namespace std;
 
-class Array
+class PhoneNumber
 {
-    friend ostream &operator<<(ostream &, const Array &);
-    friend istream &operator>>(istream &, Array &);
-
-public:
-    Array(int = 10);
-    Array(const Array &);
-    ~Array();
-    int getSize() const;
-
-    const Array &operator=(const Array &);
-    bool operator==(const Array &) const;
-
-    bool operator!=(const Array &right) const
-    {
-        return !(*this == right);
-    }
-
-    int &operator[](int);
-
-    int operator[](int) const;
+    friend ostream &operator<<(ostream &, const PhoneNumber &);
+    friend istream &operator>>(istream &, PhoneNumber &);
 
 private:
-    int size;
-    int *ptr;
+    string areaCode;
+    string exchange;
+    string line;
 };
-
-#endif
 ```
 
-#### Array.cpp
+#### PhoneNumber.cpp
 ```cpp
-#include <iostream>
-using std::cerr;
-using std::cin;
-using std::cout;
-using std::endl;
+// #include <iostream>
 
 #include <iomanip>
-using std::setw;
+#include "PhoneNumber.h"
 
-#include <cstdlib>;
-using std::exit;
+using namespace std;
 
-#include "Array.h"
-
-Array::Array(int arraySize)
+ostream &operator<<(ostream &output, const PhoneNumber &number)
 {
-    size = (arraySize > 0 ? arraySize : 10);
-    ptr = new int[size];
+    output << "(" << number.areaCode << ") "
+           << number.exchange << "-" << number.line;
 
-    for (int i = 0; i < size; i++)
-    {
-        ptr[i] = 0;
-    }
+    return output;
 }
 
-Array::Array(const Array &arrayToCopy)
-    : size(arrayToCopy.size)
+istream &operator>>(istream &input, PhoneNumber &number)
 {
-    ptr = new int[size];
-
-    for (int i = 0; i < size; i++)
-    {
-        ptr[i] = arrayToCopy.ptr[i];
-    }
-}
-
-Array::~Array()
-{
-    delete[] ptr;
-}
-
-int Array::getSize() const
-{
-    return size;
-}
-
-const Array &Array::operator=(const Array &right)
-{
-    if (&right != this)
-    {
-        if (size != right.size)
-        {
-            delete[] ptr;
-            size = right.size;
-            ptr = new int[size];
-        }
-
-        for (int i = 0; i < size; i++)
-        {
-            ptr[i] = right.ptr[i];
-        }
-    }
-
-    return *this;
-}
-
-bool Array::operator==(const Array &right) const
-{
-    if (size != right.size)
-    {
-        return false;
-    }
-
-    for (int i = 0; i < size; i++)
-    {
-        if (ptr[i] != right.ptr[i])
-        {
-            return false;
-        }
-    }
-
-    return true;
-}
-
-int &Array::operator[](int subscript)
-{
-    if (subscript < 0 || subscript >= size)
-    {
-        cerr << "\nError: Subscript " << subscript
-             << "out of range" << endl;
-        exit(1);
-    }
-
-    return ptr[subscript];
-}
-
-int Array::operator[](int subscript) const
-{
-    if (subscript < 0 || subscript >= size)
-    {
-        cerr << "\nError: Subscript " << subscript
-             << " out of range" << endl;
-        exit(1);
-    }
-
-    return ptr[subscript];
-}
-
-istream &operator>>(istream &input, Array &a)
-{
-    for (int i = 0; i < a.size; i++)
-    {
-        input >> a.ptr[i];
-    }
+    input.ignore();
+    input >> setw(3) >> number.areaCode;
+    input.ignore(2);
+    input >> setw(3) >> number.exchange;
+    input.ignore();
+    input >> setw(4) >> number.line;
 
     return input;
 }
 
-ostream &operator<<(ostream &output, const Array &a)
+istream &operator>>(istream &input, PhoneNumber &number)
 {
-    int i;
+    input.ignore();
+    input >> setw(3) >> number.areaCode;
+    input.ignore(2);
+    input >> setw(3) >> number.exchange;
+    input.ignore();
+    input >> setw(4) >> number.line;
 
-    for (i = 0; i < a.size; i++)
-    {
-        output << setw(12) << a.ptr[i];
-
-        if ((i + 1) % 4 == 0)
-        {
-            output << endl;
-        }
-    }
-
-    if (i % 4 != 0)
-    {
-        output << endl;
-    }
-
-    return output;
+    return input;
 }
 ```
 
 #### driver
-```cpp
 #include <iostream>
-using std::cin;
-using std::cout;
-using std::endl;
+using namespace std;
 
-#include "Array.h"
+#include "PhoneNumber.h"
 
 int main()
 {
-    Array integers1(7);
-    Array integers2;
+    PhoneNumber phone;
 
-    cout << "Size of Array integers1 is "
-         << integers1.getSize()
-         << "\nArray after initialization:\n"
-         << integers1;
+    cout << "Enter phone number in the forms (12) 456-7890:" << endl;
 
-    cout << "Size of Array integers2 is "
-         << integers2.getSize()
-         << "\nArray after initialization:\n"
-         << integers2;
+    cin >> phone;
 
-    cout << "\nEnter 17 integers:" << endl;
-    cin >> integers1 >> integers2;
-
-    cout << "\nAfter input, the Arrays contatin:\n"
-         << "integers1:\n"
-         << integers1
-         << "integers2:\n"
-         << integers2;
-
-    cout << "\nEvaluating: integers1 != integers2" << endl;
-
-    if (integers1 != integers2)
-    {
-        cout << "integers1 and integers2 are not equal" << endl;
-    }
-
-    Array integers3(integers1);
-
-    cout << "\nSize of Array integers3 is "
-         << integers3.getSize()
-         << "\nArray after initialization:\n"
-         << integers3;
-
-    cout << "\nAssigning integers2 to integers1:" << endl;
-    integers1 = integers2;
-
-    cout << "integers1:\n"
-         << integers1
-         << "integers2:\n"
-         << integers2;
-
-    cout << "\nEvaluating: integers1 == integers2" << endl;
-
+    cout << phone << endl;
     return 0;
 }
 ```
