@@ -7,10 +7,10 @@ Object-oriented design technique using C++ Class
 - [02. Using a Class](https://github.com/oneonlee/Computer-Science/tree/main/1.%20OOP/02.%20Using%20a%20Class)
 <!-- - [03. Encapsulation]() -->
 <!-- - [04. Abstraction]() -->
-- [04. Operation overloading]()
-- [05. Inheritance]()
-- [06. Polymorphism]()
-- [07. Template]()
+- [03. Operation overloading]()
+- [04. Inheritance]()
+- [05. Polymorphism]()
+- [06. Template]()
 
 ---
 
