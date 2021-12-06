@@ -8,6 +8,9 @@
 5. Overloading Stream Insertion and Stream Extraction Operators
 6. Overloading Unary Operators
 7. Overloading Binary Operators
+8. Case Study: Array Class
+9. Overloading ++ and –
+10. Case Study: A Date Class
 
 ## 1. Introduction
 ### 연산자 오버로딩이란?
@@ -208,6 +211,7 @@ istream &operator>>(istream &input, PhoneNumber &number)
 ```
 
 #### driver
+```cpp
 #include <iostream>
 using namespace std;
 
@@ -217,9 +221,11 @@ int main()
 {
     PhoneNumber phone;
 
-    cout << "Enter phone number in the forms (12) 456-7890:" << endl;
+    cout << "Enter phone number in the forms (123) 456-7890:" << endl;
 
     cin >> phone;
+
+    cout << "The phone number entered was: ";
 
     cout << phone << endl;
     return 0;
@@ -257,3 +263,480 @@ public:
 - `const String &operator+=( String &, const String & );`
 - y += 는 operator+=( y, z )으로 작성된 것처럼 처리된다.
 
+## 8. Case Study: Array Class
+### C++ 배열의 단점
+- 배열의 범위를 체크하지 않는다. (no range checking)
+- `==` 로 두 개의 배열을 비교할 수 없다.
+- 대입 연산자로 다른 배열로 대입될 수 없다.
+  - 배열의 이름은 const 포인터이므로
+- 만약 배열이 함수 인자로 전달될 때는 배열의 크기도 인수로 전달되어야 한다.
+  - 배열의 이름으로는 배열 크기를 알 수 없음
+
+### C++ 배열의 개선
+- 다음의 기능을 포함하는 새로운 배열을 구현하기 위한 클래스
+  - 범위 체크(range checking)가 가능
+  - 하나의 배열 객체를 다른 배열 객체에 대입할 수 있다.
+  - 별도의 인수로 배열의 크기를 함수에 전해줄 필요가 없다.
+  - 배열 전체를 << 과 >>를 통해 입출력 할 수 있다.
+  - == 과 != 을 통한 배열 비교가 가능하다.
+  (추가할 만한 유용한 기능이 또 무엇이 있을까?)
+
+### Array 클래스의 복사 생성자(Copy Constructor)
+- 객체의 복사가 필요할 때마다 사용:
+  - 객체가 값으로 함수에 전달될 때 (함수에서 값으로 객체를 반환할 때)
+  - 같은 클래스의 다른 객체를 복사하여 초기화 할 때 다음과 같이 사용
+    - `Array	newArray(oldArray)	또는 Array	newArray =	oldArray;`
+      - =>	수행 후 newArray는 oldArray의 복사본이 됨.
+
+- 복사 생성자 선언
+  - `Array(const Array&);`
+  - 반드시 참조(&)를 가져와야 한다.
+    - 그렇지 않으면, 인수는 값으로 전달되어지면서 매개변수 객체 생성
+    - -> 매개변수 객체 생성을 위해 복사 생성자 다시 호출
+    - -> 또 다시 매개변수 객체 생성을 위해 복사 생성자 호출 
+    - -> 무한 루프
+
+### 연산자 오버로딩으로 개선된 Array 클래스 예제 
+#### Array.h
+```cpp
+#ifndef ARRAY_H
+#define ARRAY_H
+
+#include <iostream>
+using std::istream;
+using std::ostream;
+
+class Array
+{
+    friend ostream &operator<<(ostream &, const Array &);
+    friend istream &operator>>(istream &, Array &);
+
+public:
+    Array(int = 10);
+    Array(const Array &);
+    ~Array();
+    int getSize() const;
+
+    const Array &operator=(const Array &);
+    bool operator==(const Array &) const;
+
+    bool operator!=(const Array &right) const
+    {
+        return !(*this == right);
+    }
+
+    int &operator[](int);
+
+    int operator[](int) const;
+
+private:
+    int size;
+    int *ptr;
+};
+
+#endif
+```
+
+#### Array.cpp
+```cpp
+#include <iostream>
+using std::cerr;
+using std::cin;
+using std::cout;
+using std::endl;
+
+#include <iomanip>
+using std::setw;
+
+#include <cstdlib>;
+using std::exit;
+
+#include "Array.h"
+
+Array::Array(int arraySize)
+{
+    size = (arraySize > 0 ? arraySize : 10);
+    ptr = new int[size];
+
+    for (int i = 0; i < size; i++)
+    {
+        ptr[i] = 0;
+    }
+}
+
+Array::Array(const Array &arrayToCopy)
+    : size(arrayToCopy.size)
+{
+    ptr = new int[size];
+
+    for (int i = 0; i < size; i++)
+    {
+        ptr[i] = arrayToCopy.ptr[i];
+    }
+}
+
+Array::~Array()
+{
+    delete[] ptr;
+}
+
+int Array::getSize() const
+{
+    return size;
+}
+
+const Array &Array::operator=(const Array &right)
+{
+    if (&right != this)
+    {
+        if (size != right.size)
+        {
+            delete[] ptr;
+            size = right.size;
+            ptr = new int[size];
+        }
+
+        for (int i = 0; i < size; i++)
+        {
+            ptr[i] = right.ptr[i];
+        }
+    }
+
+    return *this;
+}
+
+bool Array::operator==(const Array &right) const
+{
+    if (size != right.size)
+    {
+        return false;
+    }
+
+    for (int i = 0; i < size; i++)
+    {
+        if (ptr[i] != right.ptr[i])
+        {
+            return false;
+        }
+    }
+
+    return true;
+}
+
+int &Array::operator[](int subscript)
+{
+    if (subscript < 0 || subscript >= size)
+    {
+        cerr << "\nError: Subscript " << subscript
+             << "out of range" << endl;
+        exit(1);
+    }
+
+    return ptr[subscript];
+}
+
+int Array::operator[](int subscript) const
+{
+    if (subscript < 0 || subscript >= size)
+    {
+        cerr << "\nError: Subscript " << subscript
+             << " out of range" << endl;
+        exit(1);
+    }
+
+    return ptr[subscript];
+}
+
+istream &operator>>(istream &input, Array &a)
+{
+    for (int i = 0; i < a.size; i++)
+    {
+        input >> a.ptr[i];
+    }
+
+    return input;
+}
+
+ostream &operator<<(ostream &output, const Array &a)
+{
+    int i;
+
+    for (i = 0; i < a.size; i++)
+    {
+        output << setw(12) << a.ptr[i];
+
+        if ((i + 1) % 4 == 0)
+        {
+            output << endl;
+        }
+    }
+
+    if (i % 4 != 0)
+    {
+        output << endl;
+    }
+
+    return output;
+}
+```
+
+#### main.cpp
+```cpp
+#include <iostream>
+using std::cin;
+using std::cout;
+using std::endl;
+
+#include "Array.h"
+
+int main()
+{
+    Array integers1(7);
+    Array integers2;
+
+    cout << "Size of Array integers1 is "
+         << integers1.getSize()
+         << "\nArray after initialization:\n"
+         << integers1;
+
+    cout << "Size of Array integers2 is "
+         << integers2.getSize()
+         << "\nArray after initialization:\n"
+         << integers2;
+
+    cout << "\nEnter 17 integers:" << endl;
+    cin >> integers1 >> integers2;
+
+    cout << "\nAfter input, the Arrays contatin:\n"
+         << "integers1:\n"
+         << integers1
+         << "integers2:\n"
+         << integers2;
+
+    cout << "\nEvaluating: integers1 != integers2" << endl;
+
+    if (integers1 != integers2)
+    {
+        cout << "integers1 and integers2 are not equal" << endl;
+    }
+
+    Array integers3(integers1);
+
+    cout << "\nSize of Array integers3 is "
+         << integers3.getSize()
+         << "\nArray after initialization:\n"
+         << integers3;
+
+    cout << "\nAssigning integers2 to integers1:" << endl;
+    integers1 = integers2;
+
+    cout << "integers1:\n"
+         << integers1
+         << "integers2:\n"
+         << integers2;
+
+    cout << "\nEvaluating: integers1 == integers2" << endl;
+
+    return 0;
+}
+```
+
+## 9. Overloading ++ and –
+### 증가/감소 연산자의 오버로딩
+- Date 클래스 객체 d1에 1을 더하려고 함
+- Prototype (member function을 이용한 오버로딩)
+  - `Date &operator++();`
+  - `++d1`은 `d1.operator++()`과 동일
+- Prototype (Global function을 이용한 오버로딩)
+  - `Date &operator++(Date& );`
+  - `++d1`은 `d1.operator++(d1)`과 동일
+
+### 접두(prefix), 접미(postfix) 증가의 구분
+- 예) a++, ++a
+- 접미 증가의 경우 공 매개변수(dummy parameter)를 이용
+  - 정수 0
+- Prototype (member function을 이용한 오버로딩)
+  - `Date operator++();`
+  - `d1++`은 `d1.operator++(0) // C++의 약속`
+- Prototype (Global function을 이용한 오버로딩)
+  - `Date operator++(Date&, int);`
+  - `d1++`은 `d1.operator++(d1, 0)`과 동일
+
+### 접두(prefix), 접미(postfix) 증가의 반환값
+- 반환값
+  - 접두 증가 (prefix increment)
+    - 참조형 반환 (`Date &`)
+    - C++은 반환값을 lvalue로 취급 -> assign 가능
+  - 접미 증가 (post increment)
+    - 값에 의한 반환 (Returns by value)
+    - 이전 값을 가진 임시 객체 반환
+    - C++은 반환값을 rvalue로 취급 -> assign 불가능
+
+- 감소 연산자(--) 의 경우도 같은 방식으로 적용
+
+## 10. Case Study: A Date Class
+### Date 클래스 예제 
+#### 개요
+- 증가 연산자 오버로드
+  - 일, 월, 년을 변화
+- 윤년 (leap years) 테스트를 위한 함수
+- += 연산자 오버로드
+- 일년 마지막 날임을 판단하는 함수
+
+#### date.h
+```cpp
+#pragma once
+
+#include <iostream>
+using std::ostream;
+
+class Date
+{
+    friend ostream &operator<<(ostream &, const Date &);
+
+public:
+    Date(int m = 1, int d = 1, int y = 1900);
+    void setDate(int, int, int);
+    Date &operator++();
+    Date operator++(int);
+    const Date &operator+=(int);
+    bool leapYear(int) const;
+    bool endOfMonth(int) const;
+
+private:
+    int month;
+    int day;
+    int year;
+
+    static const int days[];
+    void helpIncrement();
+};
+```
+
+#### date.cpp
+```cpp
+#include <iostream>
+#include "Date.h"
+
+const int Date::days[] =
+    {0, 31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+
+Date::Date(int m, int d, int y)
+{
+    setDate(m, d, y);
+}
+
+void Date::setDate(int mm, int dd, int yy)
+{
+    month = (mm >= 1 && mm <= 12) ? mm : 1;
+    year = (yy >= 1900 && yy <= 2100) ? yy : 1900;
+
+    if (month == 2 && leapYear(year))
+        day = (dd >= 1 && dd <= 29) ? dd : 1;
+    else
+        day = (dd >= 1 && dd <= days[month]) ? dd : 1;
+}
+
+Date &Date::operator++()
+{
+    helpIncrement();
+    return *this;
+}
+
+Date Date::operator++(int)
+{
+    Date temp = *this;
+    helpIncrement();
+
+    return temp;
+}
+
+const Date &Date::operator+=(int additionalDays)
+{
+    for (int i = 0; i < additionalDays; i++)
+    {
+        helpIncrement();
+    }
+    return *this;
+}
+
+bool Date::leapYear(int testYear) const
+{
+    if (testYear % 400 == 0 ||
+        (testYear % 100 != 0 && testYear % 4 == 0))
+        return true;
+    else
+        return false;
+}
+
+bool Date::endOfMonth(int testDay) const
+{
+    if (month == 2 && leapYear(year))
+        return testDay == 29;
+    else
+        return testDay == days[month];
+}
+
+void Date::helpIncrement()
+{
+    if (!endOfMonth(day))
+        day++;
+    else
+    {
+        if (month < 12)
+        {
+            month++;
+            day = 1;
+        }
+        else
+        {
+            year++;
+            month = 1;
+            day = 1;
+        }
+    }
+}
+
+ostream &operator<<(ostream &output, const Date &d)
+{
+    static char *monthName[13] = {"", "January", "Feburary", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    output << monthName[d.month] << ' ' << d.day << ", " << d.year;
+    return output;
+}
+```
+
+#### main.cpp
+```cpp
+#include <iostream>
+using std::cout;
+using std::endl;
+
+#include "Date.h"
+
+int main()
+{
+    Date d1;
+    Date d2(12, 27, 1992);
+    Date d3(0, 99, 8045);
+
+    cout << "d1 is " << d1 << "\nd2 is " << d2 << "\nd3 is " << d3;
+    cout << "\n\nd2 += 7 is " << (d2 += 7);
+
+    d3.setDate(2, 28, 1992);
+    cout << "\n\n d3 is " << d3;
+    cout << "\n++d3 is " << ++d3 << " (leap year allows 29th)";
+
+    Date d4(7, 13, 2002);
+
+    cout << "\n\nTesting the prefix increment operator:\n"
+         << " d4 is " << d4 << endl;
+    cout << "++d4 is " << ++d4 << endl;
+    cout << " d4 is " << d4;
+    cout << "\n\nTesting the postfix increment operator:\n"
+         << " d4 is " << d4 << endl;
+    cout << "d4++ is " << d4++ << endl;
+    cout << " d4 is " << d4 << endl;
+
+    return 0;
+}
+```
