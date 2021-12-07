@@ -109,7 +109,7 @@
     - 예) shape::area
 
 ### Protected로 선언된 변수가 허용하는 접근의 범위
-<img width="923" alt="스크린샷 2021-12-06 오후 5 28 52" src="https://user-images.githubusercontent.com/73745836/144812766-47ce610a-4552-4e3a-be0c-2249362e439f.png">
+![IMG_FF955B32D458-1](https://user-images.githubusercontent.com/73745836/145048534-2b0560b1-8fbc-4731-8cb8-a0014cdaabf5.jpeg)
 
 ## 4. CommissionEmployee Class
 ### 기본 클래스와 파생 클래스 예제 개요
