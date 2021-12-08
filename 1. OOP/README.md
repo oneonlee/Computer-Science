@@ -4,13 +4,12 @@ Object-oriented design technique using C++ Class
 ## Contents
 - [00. C++ Tutorial](https://github.com/oneonlee/Computer-Science/tree/main/1.%20OOP/00.%20C++%20Tutorial)
 - [01. Defining a Class](https://github.com/oneonlee/Computer-Science/tree/main/1.%20OOP/01.%20Defining%20a%20Class)
-- [02. Using a Class](https://github.com/oneonlee/Computer-Science/tree/main/1.%20OOP/02.%20Using%20a%20Class)
-<!-- - [03. Encapsulation]() -->
-<!-- - [04. Abstraction]() -->
-- [03. Operation overloading]()
-- [04. Inheritance]()
-- [05. Polymorphism]()
-- [06. Template]()
+- [02. Using a Class](https://github.com/oneonlee/Computer-Science/tree/main/1.%20OOP/02.%20Using%20a%20Class)<!-- - [03. Encapsulation]() --><!-- - [04. Abstraction]() -->
+- [03. Operation overloading](https://github.com/oneonlee/Computer-Science/tree/main/1.%20OOP/03.%20Operation%20Overloading)
+- [04. Inheritance](https://github.com/oneonlee/Computer-Science/tree/main/1.%20OOP/04.%20Inheritance)
+- [05. Polymorphism](https://github.com/oneonlee/Computer-Science/tree/main/1.%20OOP/05.%20Polymorphism)
+- [06. Templates](https://github.com/oneonlee/Computer-Science/tree/main/1.%20OOP/06.%20Templates)
+- [07. Exception Handling](https://github.com/oneonlee/Computer-Science/tree/main/1.%20OOP/07.%20Exception%20Handling)
 
 ---
 
