@@ -13,6 +13,7 @@
 - [`exit`](#exit)
 - [`file`](#file)
 - [`find`](#find)
+- [`grep`](#grep)
 - [`gunzip`](#gunzip)
 - [`gzip`](#gzip)
 - [`head`](#head)
@@ -20,7 +21,9 @@
 - [`ln`](#ln)
 - [`mount`](#mount)
 - [`mkdir`](#mkdir)
+- [`mv`](#mv)
 - [`netstat`](#netstat)
+- [`ps`](#ps)
 - [`pwd`](#pwd)
 - [`stat`](#stat)
 - [`tail`](#tail)
@@ -122,6 +125,14 @@
 
 <img width="452" alt="image" src="https://user-images.githubusercontent.com/73745836/158049256-95cb968a-85ba-4a54-b641-7eba733cb378.png">
 
+## `grep`
+
+`grep` 명령어는 입력으로 전달된 파일에서 특정 문자열을 찾을 때 사용하는 명령어다. 쉽게 말해서 원하는 문자나 문자열을 찾을 때 사용한다.<br>
+<br>
+`-nr` 옵션을 사용하면 특정 단어가 포함된 모든 파일들을 확인할 수 있다.<br>
+
+<img width="697" alt="스크린샷 2022-03-13 오후 5 12 29" src="https://user-images.githubusercontent.com/73745836/158051078-0cc33408-239e-428a-89f5-a2a1b1292f67.png">
+
 ## `gunzip`
 
 `gunzip` 명령어는 압축된 파일 압축해제에 쓰이는 명령어이다. `gunzip [압축해체할 파일명.gz]`으로 [압축해체할 파일명.gz]을 압축해제 할 수 있다. <br>
@@ -174,11 +185,26 @@ cat 파일명 | head -n행수
 
 <img width="452" alt="image" src="https://user-images.githubusercontent.com/73745836/158049283-6ceeef8c-ff26-4fb8-b92f-a1c799c99d97.png">
 
+## `mv`
+`mv`는 move의 약자로서 파일이나 디렉토리를 다른 위치로 이동시키거나 파일명을 변경하고자 할때 사용한다.<br>
+파일이름뿐만 아니라 디렉토리명도 변경할 수 있다.<br>
+<br>
+`$ mv 파일명1 파일명2`을 사용하면, 파일명1을 파일명2로 파일명을 변경한다. 이는 cp 명령어와 rm 명령어가 연속으로 사용된 것과 같다.
+ 
+
 ## `netstat` 
 
 `netstat` 명령어는 network statistics (네트워크 통계)의 줄임말로, 네트워크 접속, 라우팅 테이블, 네트워크 인터페이스의 통계 정보를 보여주는 도구이다.
 
 <img width="348" alt="image" src="https://user-images.githubusercontent.com/73745836/158049286-f1f9f8fb-1144-4618-8322-27fcebeb49cd.png">
+
+## `ps`
+
+`ps`는 Process Status의 약자로 현재 돌아가고 있는 프로세스를 확인할 수 있는 명령어이다.<br>
+<br>
+`$ps -ef` 명령어를 사용하면 커널 프로세스를 제외한 모든 프로세스를 풀 포맷으로 출력해준다.<br>
+
+<img width="697" alt="스크린샷 2022-03-13 오후 5 15 18" src="https://user-images.githubusercontent.com/73745836/158051143-e67fd7f0-9982-45aa-98fd-2960443e16ac.png">
 
 ## `pwd`
 
