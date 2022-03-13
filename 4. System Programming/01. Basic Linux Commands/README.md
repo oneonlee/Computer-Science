@@ -15,6 +15,7 @@
 ## `date`
 
 `date` 명령어는 현재 날짜와 시간을 표시하는 명령어이다.
+
 <img width="363" alt="image" src="https://user-images.githubusercontent.com/73745836/158049222-3dcdbdc2-3bb9-46bf-83b8-0d4308595732.png">
 
 ## `dd`
