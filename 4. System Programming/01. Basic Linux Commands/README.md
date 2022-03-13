@@ -2,6 +2,7 @@
 
 - [`chmod`](#chmod)
 - [`clear`](#clear)
+- [`cp`](#cp)
 - [`date`](#date)
 - [`dd`](#dd)
 - [`df`](#df)
@@ -18,7 +19,9 @@
 - [`ifconfig`](#ifconfig)
 - [`ln`](#ln)
 - [`mount`](#mount)
+- [`mkdir`](#mkdir)
 - [`netstat`](#netstat)
+- [`pwd`](#pwd)
 - [`stat`](#stat)
 - [`tail`](#tail)
 - [`time`](#time)
@@ -40,9 +43,20 @@
 
 <img width="361" alt="image" src="https://user-images.githubusercontent.com/73745836/158049195-e47b0b25-b22c-4d9a-a343-814fec7d3199.png">
 
+## `cp`
+
+`cp` 명령어는 copy의 줄임말로서, 파일과 디렉토리를 복사하는 기능을 수행한다.<br>
+
+`$ cp f1 f1` 명령어를 사용하면, f1의 복사본을 f2라는 이름으로 생성한다.<br>
+만약, d1이 이미 존재하는 디렉토리일 경우, `$ cp f1 d1` 명령어를 사용하면, f1의 복사본을 d1 폴더 안에 같은 이름으로 생성한다.<br>
+`$ cp f1 d1/f2` 명령어를 사용하면, f1의 복사본을 d1 폴더 안에 f2라는 이름으로 생성한다.<br>
+
+<img width="452" alt="image" src="https://user-images.githubusercontent.com/73745836/158050320-1dbe7296-167c-4fd3-9d27-168b1a25afd9.png">
+
 ## `date`
 
 `date` 명령어는 현재 날짜와 시간을 표시하는 명령어이다.
+
 <img width="363" alt="image" src="https://user-images.githubusercontent.com/73745836/158049222-3dcdbdc2-3bb9-46bf-83b8-0d4308595732.png">
 
 ## `dd`
@@ -110,7 +124,9 @@
 
 ## `gunzip`
 
-`gunzip` 명령어는 압축된 파일 압축해제에 쓰이는 명령어이다. `gunzip [압축해체할 파일명.gz]`으로 [압축해체할 파일명.gz]을 압축해제 할 수 있다. `gzip -d` 는 `gunzip`과 동일하며, `gzip` 에서 `-d` 옵션을 사용하는 것으로 압축해제를 하는 옵션이다. 하지만, `gunzip` 으로 압축해제를 하면 `gzip`으로 압축하기 전의 원본파일의 소유주와 소유그룹, 파일액세스 시간, 파일변경시간, 퍼미션은 그대로 유지한채로 압축해제가 된다.
+`gunzip` 명령어는 압축된 파일 압축해제에 쓰이는 명령어이다. `gunzip [압축해체할 파일명.gz]`으로 [압축해체할 파일명.gz]을 압축해제 할 수 있다. <br>
+`gzip -d` 는 `gunzip`과 동일하며, `gzip` 에서 `-d` 옵션을 사용하는 것으로 압축해제를 하는 옵션이다. <br>
+하지만, `gunzip` 으로 압축해제를 하면 `gzip`으로 압축하기 전의 원본파일의 소유주와 소유그룹, 파일액세스 시간, 파일변경시간, 퍼미션은 그대로 유지한채로 압축해제가 된다.<br>
 
 참고로, `gzip [압축할 파일명]`으로 [압축할 파일]을 압축 할 수 있다.
 
@@ -148,6 +164,10 @@ cat 파일명 | head -n행수
 
 <img width="452" alt="image" src="https://user-images.githubusercontent.com/73745836/158049278-a1bea65a-1496-4b09-bc56-e3d0c5eed4ef.png">
 
+## `mkdir`
+
+`mkdir`은 make directory의 줄임말로서, 디렉토리(폴더)를 생성할 수 있다.
+
 ## `mount`
 
 `mount` 명령어는 파일시스템 마운트 명령어로서, 현재 시스템에 마운트된 정보 확인할 수 있다.
@@ -160,6 +180,12 @@ cat 파일명 | head -n행수
 
 <img width="348" alt="image" src="https://user-images.githubusercontent.com/73745836/158049286-f1f9f8fb-1144-4618-8322-27fcebeb49cd.png">
 
+## `pwd`
+
+`pwd` 명령어를 통해 login directory를 확인할 수 있다.
+
+<img width="452" alt="image" src="https://user-images.githubusercontent.com/73745836/158050105-33be5b98-1c5b-4f65-a9c7-f880d84b2f9c.png">
+
 ## `stat`
 
 `stat` 명령어는 파일 또는 파일시스템 상태를 조회할 수 있는 명령어로, 파일크기, Inode 번호, 링크 수, 퍼미션, UID, GID, 접근/수정/변경 일시 등을 확인 할 수 있다.
@@ -168,10 +194,10 @@ cat 파일명 | head -n행수
 
 ## `tail`
 
-`tail` 명령어는 문서 파일이나 지정된 데이터의 마지막 몇 줄을 보여주는 리눅스 명령어이다.
+`tail` 명령어는 문서 파일이나 지정된 데이터의 마지막 몇 줄을 보여주는 리눅스 명령어이다.<br>
 
-`tail 파일명`을 사용하면 파일의 끝부분 10개행을 보여준다.
-`tail 파일명 -n숫자`를 사용하면 숫자만큼 파일의 끝부분 행을 보여준다.
+`tail 파일명`을 사용하면 파일의 끝부분 10개행을 보여준다.<br>
+`tail 파일명 -n숫자`를 사용하면 숫자만큼 파일의 끝부분 행을 보여준다.<br>
 
 <img width="423" alt="image" src="https://user-images.githubusercontent.com/73745836/158049295-1354ef5c-fa5b-4cb4-bfda-6e0e12eab4ac.png">
 
