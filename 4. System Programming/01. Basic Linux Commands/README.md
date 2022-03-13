@@ -1,5 +1,33 @@
 # Basic Linux Commands
 
+- [`chmod`](#chmod)
+- [`clear`](#clear)
+- [`date`](#date)
+- [`dd`](#dd)
+- [`df`](#df)
+- [`diff`](#diff)
+- [`dmesg`](#dmesg)
+- [`du`](#du)
+- [`env`](#env)
+- [`exit`](#exit)
+- [`file`](#file)
+- [`find`](#find)
+- [`gunzip`](#gunzip)
+- [`gzip`](#gzip)
+- [`head`](#head)
+- [`ifconfig`](#ifconfig)
+- [`ln`](#ln)
+- [`mount`](#mount)
+- [`netstat`](#netstat)
+- [`stat`](#stat)
+- [`tail`](#tail)
+- [`time`](#time)
+- [`touch`](#touch)
+- [`tty`](#tty)
+- [`whereis`](#whereis)
+- [`which`](#which)
+- [`whoami`](#whoami)
+
 ## `chmod`
 
 `chmod`는 change mode의 줄임말로, 리눅스 퍼미션 변경 명령어이다. 파일 또는 폴더의 사용권한을 지정할 수 있다.
@@ -15,7 +43,6 @@
 ## `date`
 
 `date` 명령어는 현재 날짜와 시간을 표시하는 명령어이다.
-
 <img width="363" alt="image" src="https://user-images.githubusercontent.com/73745836/158049222-3dcdbdc2-3bb9-46bf-83b8-0d4308595732.png">
 
 ## `dd`
