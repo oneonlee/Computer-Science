@@ -16,18 +16,18 @@
 ![Cubic_complexity_code](Cubic_complexity_code.png) 
 matrixmult 함수는 3개의 행렬 a, b, c의 곱셈을 수행하는 함수이다. 본 알고리즘은 3중 for loop를 돌면서 곱셈을 수행하므로, 알고리즘의 time complexity는 O(n^3)이다.
 
-먼저, 계산을 수행하기 전, temp와 res라는 (0으로 채워진) 빈 행렬을 만들었다. 행렬 temp는 행렬 b와 c의 곱(b*c)을 표현하는데에 쓰이고, 행렬 res는 행렬 a와 temp 즉, 행렬 a, b, c의 곱(a*b*c)을 표현하는데에 사용하였다. 빈 행렬을 만들기 위해, python의 numpy라는 라이브러리를 import하였고, numpy의 zeros 함수를 사용하여 빈 행렬을 만들었다.
+먼저, 계산을 수행하기 전, temp와 res라는 (0으로 채워진) 빈 행렬을 만들었다. 행렬 temp는 행렬 b와 c의 곱(b\*c)을 표현하는데에 쓰이고, 행렬 res는 행렬 a와 temp 즉, 행렬 a, b, c의 곱(a\*b\*c)을 표현하는데에 사용하였다. 빈 행렬을 만들기 위해, python의 numpy라는 라이브러리를 import하였고, numpy의 zeros 함수를 사용하여 빈 행렬을 만들었다.
 
-10번 줄부터 13번 줄까지는 행렬의 곱셈의 원리대로 행렬 b와 c의 곱(b*c)을 행렬 temp에 저장하는 코드이다. 마찬가지로, 15번 줄부터 18번 줄까지는 행렬 a와 행렬 temp의 곱(a*temp)을 행렬 res에 저장하는 코드이다.
+10번 줄부터 13번 줄까지는 행렬의 곱셈의 원리대로 행렬 b와 c의 곱(b\*c)을 행렬 temp에 저장하는 코드이다. 마찬가지로, 15번 줄부터 18번 줄까지는 행렬 a와 행렬 temp의 곱(a\*temp)을 행렬 res에 저장하는 코드이다.
 
-위에서 설명한대로, temp = b*c 이고, 행렬 곱셉의 결합법칙에 따라 a*b*c = a*(b*c)이다. 이때, b*c = temp이므로, a*b*c = a*(b*c) = a*temp이다.
+위에서 설명한대로, temp = b\*c 이고, 행렬 곱셉의 결합법칙에 따라 a\*b\*c = a\*(b\*c)이다. 이때, b\*c = temp이므로, a\*b\*c = a\*(b\*c) = a\*temp이다.
 
  
 ### Exponential complexity
-![Exponential_complexity_code](Exponential_complexity_code) 
+![Exponential_complexity_code](Exponential_complexity_code.png) 
 fib 함수는 n을 인자로 받아 피보나치 수열의 n번째 수를 구하는 함수이다. 본 알고리즘은 실행이 될 때마다, 아래 Figure 1처럼 자기자신을 두 번 불러내는 행위 즉, 2번의 재귀호출을 수행하므로 알고리즘의 time complexity는 O(2^n)이다.
 
-![Figure 1](Figure 1) 
+![Figure 1](Figure%201.png) 
 Figure 1 Recursion tree for fib(8)<br>
 
 
@@ -37,10 +37,10 @@ Figure 1 Recursion tree for fib(8)<br>
  
 ## 3. 실행 화면
 ### Cubic complexity
-![Cubic_complexity_result](Cubic_complexity_result) 
+![Cubic_complexity_result](Cubic_complexity_result.png) 
 
 ### Exponential complexity
-![Exponential_complexity_result](Exponential_complexity_result) 
+![Exponential_complexity_result](Exponential_complexity_result.png) 
  
 ## 4. 결론
 ### Cubic complexity
