@@ -6,3 +6,5 @@
 - [04. Review on String](04.%20Review%20on%20String)
 - [05. Basic file system calls](05.%20Basic%20file%20system%20calls)
 - [06. Reading a non-text file](06.%20Reading%20a%20non-text%20file)
+- [07. Command line argument](07.%20Command%20line%20argument)
+- [08. Process](08.%20Process)
