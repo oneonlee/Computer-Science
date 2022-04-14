@@ -1,6 +1,7 @@
-3. Algorithms/**/*.pdf
-3. Algorithms/**/*.docx
-3. Algorithms/**/*.zip
+*.pdf
+*.docx
+*.doc
+*.zip
 
 # Created by https://www.toptal.com/developers/gitignore/api/visualstudiocode,macos,python,c++,jupyternotebooks,c
 # Edit at https://www.toptal.com/developers/gitignore?templates=visualstudiocode,macos,python,c++,jupyternotebooks,c
