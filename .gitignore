@@ -1,4 +1,7 @@
 *.pdf
+*.exe
+*.pptx
+*.m4a
 *.docx
 *.doc
 *.zip
