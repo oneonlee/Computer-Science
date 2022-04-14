@@ -16,7 +16,6 @@
 	- 세 개의 서로 다른 임의의 정수 배열을 정렬하는 데 걸리는 시간 및 그래프
 ## 2. 상세 설계 내용
 ![](img/code.png)
-
 Odd Even Algorithm은 홀수 번째(odd) phase와 짝수 번째(even) phase로 나누어, 수의 대소를 비교하면서 정렬하는 알고리즘이다. N개의 정수로 이루어진 배열인 경우 N번 이하의 phase를 반복하여 정렬이 이루어진다. 
 <br>
 코드의 7번줄부터 12번줄까지는 홀수 번째(odd) phase를 의미하는 코드이며, 14번줄부터 19번줄까지는 짝수 번째(even) phase를 의미하는 코드이다. 각각의 phase에서 `arr[i]`와 `arr[i+1]`를 대소비교하며, 만약 `arr[i] > arr[i+1]`일 때 즉, 정렬이 되지 않았다면 그 두 개의 순서를 바꿔준다. 
@@ -36,8 +35,8 @@ Odd Even Algorithm은 홀수 번째(odd) phase와 짝수 번째(even) phase로 �
 
 ### 세 개의 서로 다른 임의의 정수 배열 
 ![](img/result4.png)
-
-![](img/plot_graph.png) ![](img/bar_graph.png)
+![](img/plot_graph.png)
+![](img/bar_graph.png)
 
 ## 4. 결론
 N개의 정수로 이루어진 배열을, N번 이하의 phase를 반복하여 정렬할 수 있다는 것을 결과를 통해 확인할 수 있었다.

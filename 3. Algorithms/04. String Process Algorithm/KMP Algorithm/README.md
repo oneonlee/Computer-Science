@@ -13,7 +13,6 @@
 ### KMP 패턴 매칭 알고리즘
 
 ![](img/KMP.png)
-
 KMP 패턴 매칭 알고리즘은 텍스트 문자열 text를 패턴 문자열 pattern과 비교하면서 증가적으로 처리한다. 패턴이 일치할 때마다, 현재의 인덱스를 증가시킨다. 반면에, 이전에 pattern에서 진행을 한 다음 불일치가 존재하면, text에 대하여 pattern의 점검을 계속할 필요가 있는 곳의 pattern의 새로운 인덱스를 결정하기 위해 실패 함수로부터 받아온 next의 정보를 참고한다.
 
 불일치가 발생했지만, pattern의 시작 위치에 있다면, 단순히 text의 인덱스를 증가시킨다. 즉, pattern의 인덱스는 처음 값을 유지하게 된다.
@@ -48,7 +47,6 @@ KMP 알고리즘의 주요 아이디어는 미리 수행한 비교를 재사용�
 
 그렇게 함으로써 최악의 경우에서도 KMP 알고리즘은 n 길이의 텍스트 문자열과 m 길이의 패턴 문자열에 대해 O(n+m)의 실행 시간을 얻게 된다. 즉, 최악의 경우에는 실패함수를 만드는데 O(m), 실패함수를 통해 문자열을 검색하는데 O(n)의 시간복잡도를 가지고, 이는 텍스트 내의 모든 문자와 패턴 내의 모든 문자를 최소한 한 번은 검사 해야 한다는 것을 뜻한다.
 
-# 5. 참고문헌 및 사이트
+# 5. 참고문헌
 
 1. Michael T. Goodrich, Roberto Tamassia, David M. Mount. Data Structures & Algorithms in C++. n.p.: Wiley, n.d..
-2. [MEIN_FIGUR.daily_log : [Python]KMP 알고리즘](https://velog.io/@mein-figur/PythonKMP-%EC%95%8C%EA%B3%A0%EB%A6%AC%EC%A6%98)
