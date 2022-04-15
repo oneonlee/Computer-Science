@@ -2,8 +2,8 @@
 - [02. Analysis of Algorithms](https://github.com/oneonlee/Computer-Science/tree/main/2.%20Data%20Structures/02.%20Analysis%20of%20Algorithms)
 - [03. Abstract Data Types](https://github.com/oneonlee/Computer-Science/tree/main/2.%20Data%20Structures/03.%20Abstract%20Data%20Types)
 - [04. List and Iterator ADTs](https://github.com/oneonlee/Computer-Science/tree/main/2.%20Data%20Structures/04.%20List%20and%20Iterator%20ADTs)
-- 05. Trees
-- 06. Priority Queues and Heaps
-- 07. Hash Tables, Maps, and Skip Lists
-- 08. Search Trees
-- 09. Sorting, Sets, and Selection
+- [05. Trees](05.%20Trees)
+- [06. Priority Queues and Heaps](06.%20Priority%20Queues%20and%20Heaps)
+- [07. Maps, Hash Tables, Skip Lists, and Dictionaries](07.%20Maps,%20Hash%20Tables,%20Skip%20Lists,%20and%20Dictionaries)
+- [08. Search Trees](08.%20Search%20Trees)
+- [09. Sorting](09.%20Sorting)
