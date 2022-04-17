@@ -1,4 +1,55 @@
 # Using `vi`
+## VI
+
+`vi x.c` : edit file "x.c"
+
+### 1) mode
+
+- `vi`는 3가지의 모드가 있다.
+  - command mode
+    - 커서 이동 (cursor moving), 삭제 (deleting), 복사 (copying)
+  - input mode
+    - 삽입 (insertion)
+  - status-line mode
+    - other tasks
+
+### 2) In the beginning we are at command mode.
+
+처음 `vi`를 실행하면 command mode로 진행된다.
+
+### command mode:
+
+- 커서 이동 (cursor moving) : `j`(down), `k`(up), `h`(left), `l`(right)
+- 삭제 (deletion) : `x`(delete one character), `dd`(delete a line)
+- copy and paste:
+  - `3yy` : 현재 줄부터 시작해서 "3"줄을 복사한다. (Copy 3 lines starting from the current line.)
+  - `p` : paste them after the current line recover
+  - `u` : recover what you have just deleted
+
+#### command mode -> insertion mode : `i`, `a`, `o`
+
+- `i`: 현재 커서 앞에 (before) 삽입 
+- `a`: 현재 커서 뒤에 (after) 삽입 
+- `o`: 새로운 줄 (new line) 삽입
+
+#### command mode -> status-line mode: `/` or `:`
+
+### insertion mode
+now you can type
+
+#### insertion mode -> command mode: `ESC key`
+
+
+### status-line mode:
+
+- `:q!` : 저장하지 않고 나가기 (quit without saving)
+- `:w` : 쓰기 (write)
+- `:wq` : 저장하고 나가기 (save and exit)
+- `/pat` : "pat"이라는 패턴 찾기 (search the pattern in "pat")
+- `:set number` : 줄번호 나타내기 (display line numbers)
+- `:40` : "40"번 줄로 이동하기 (go to line "40")
+
+## Excersise
 
 ### 1) Make a file with `vi`.
 
