@@ -31,7 +31,7 @@ Therefore, the system will pass
 - `y[2]` <-- `x2` (third command line argument)
 - `y[3]` <-- `x3` (fourth command line argument)
 
-## 2. Homework
+## 2. Exercise
 
 ### 0) Set up bash startup file: copy .bashrc and .bash_profile into your login directory
 
