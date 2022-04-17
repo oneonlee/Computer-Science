@@ -1,4 +1,4 @@
-# Lecture 8: command line argument
+# Command line argument
 
 ## 1. `main()` with command line arguments.
 
@@ -10,19 +10,26 @@ int main(int *x, char *y[]){
 }
 ```
 
-The system passes the command line arguments in `y[]` and the number of the arguments in `x`. For example,
+The system will pass
+
+- `x`: number of command line arguments
+- `y`: command line argument
+
+For example,
 
 ```bash
 $ ./ex1 x1 x2 x3
 ```
 
-will pass 4 command line arguments: `./ex1`, `x1`, `x2`, `x3`. Therefore, the system will pass
+will pass **4** command line arguments: `./ex1`, `x1`, `x2`, `x3`.
 
-`x` <-- 4 (number of command line arguments)
-`y[0]` <-- `./ex1` (first command line argument)
-`y[1]` <-- `x1` (second command line argument)
-`y[2]` <-- `x2` (third command line argument)
-`y[3]` <-- `x3` (fourth command line argument)
+Therefore, the system will pass
+
+- `x` <-- 4 (number of command line arguments)
+- `y[0]` <-- `./ex1` (first command line argument)
+- `y[1]` <-- `x1` (second command line argument)
+- `y[2]` <-- `x2` (third command line argument)
+- `y[3]` <-- `x3` (fourth command line argument)
 
 ## 2. Homework
 
