@@ -1,5 +1,7 @@
-# Basic Linux Commands
+# Basic Linux Commands (http://linux.die.net/Linux-CLI/)
 
+- [`cat`](#cat)
+- [`cd`](#cd)
 - [`chmod`](#chmod)
 - [`clear`](#clear)
 - [`cp`](#cp)
@@ -9,6 +11,7 @@
 - [`diff`](#diff)
 - [`dmesg`](#dmesg)
 - [`du`](#du)
+- [`echo`](#echo)
 - [`env`](#env)
 - [`exit`](#exit)
 - [`file`](#file)
@@ -18,21 +21,132 @@
 - [`gzip`](#gzip)
 - [`head`](#head)
 - [`ifconfig`](#ifconfig)
+- [`less`](#less)
+- [`locate`](#locate)
 - [`ln`](#ln)
-- [`mount`](#mount)
+- [`ls`](#ls)
+- [`man`](#man)
 - [`mkdir`](#mkdir)
+- [`more`](#more)
+- [`mount`](#mount)
 - [`mv`](#mv)
 - [`netstat`](#netstat)
 - [`ps`](#ps)
 - [`pwd`](#pwd)
+- [`rm`](#rm)
 - [`stat`](#stat)
 - [`tail`](#tail)
 - [`time`](#time)
 - [`touch`](#touch)
 - [`tty`](#tty)
+- [`uname`](#uname)
 - [`whereis`](#whereis)
 - [`which`](#which)
 - [`whoami`](#whoami)
+- [`xxd`](#xxd)
+
+---
+
+## Linux command classification
+
+### display information
+
+- general: `man`
+- process: `ps`, `who`, `finger`, `top`, `last`, `history`
+- file:
+  - location: `find`, `which`, `whereis`, `locate`
+  - general: `ls`, `file`
+  - content: `cat`, `more`, `od`, `xxd`, `cmp`, `diff`, `wc`, `head`, `tail`, `objdump`
+  - search: `grep`
+  - others: `echo`
+- other: `tty`, `pwd`, `date`, `cal`, `df`, `du`, `uname`, `mount`, `hostname`, `whoami`, `env`
+
+### manipulate information
+
+- process: `kill`, `gcc`, `make`, `ctrl-c`, `ctrl-z`, `&`, `time`, `gdb`
+- file:
+  - editor: `vi`, `ed`, `sed`
+  - file system: `fsck`
+  - directory: `cd`, `mkdir`, `rmdir`
+  - general: `ln`, `mv`, `cp`, `rm`, `gzip`, `gunzip`, `tar`, `touch`
+  - permission: `chmod`, `umask`, `chown`
+- terminal/login: `login`, `exit`, `su`, `passwd`, `stty`, `clear`
+- communication: `write`, `mail`, `ftp`, `telnet`, `ifconfig`
+- shell: `sh`, `csh`, `ksh`
+
+## file tree
+
+- `/` : root directory
+- `bin` : executable files
+  - `ls`, `zip`, `cat`, `chown`, `df`, `du`, `env`, `ftp`, `grep`, ...
+- `etc` : system configuration files
+  - `password` (password file), `hostname` (the name of this server), …
+- `home` : user home directories
+  - `linuxer2` (home for user linuxer2), `park`(home for user park), …
+- `usr` : library files, header files
+  - `lib` (library files are here), `include` (header files are here), …
+
+## relative path, absolute path
+
+If the path starts with `/`, it is an absolute path; otherwise it is a relative path.
+
+```bash
+   cd  /home/linuxer1/12345   -- go to /home/linuxer1/12345
+   cd  12345                  -- go to directory 12345 in the current directory
+                                 if the current location is /home/linuxer1,
+                                     go to /home/linuxer1/12345
+                                 if the current location is /bin
+                                     go to /bin/12345
+```
+
+If the destination directory does not exist, the system issues an error.
+
+## special symbols
+
+- `.` : current directory
+  - `cp f1 ./f2` -- copy f1 to f2 in the current directory
+- `..` : parent directory
+  - `cp f1 ../f2` -- copy f1 to f2 in the parent directory
+- `>` : standard output redirection
+  - `cat f1 > f3` -- display the content of f1 in f3 (same effect as “cp f1 f3”)
+- `|` : pipe. redirect the standard output of the first program into the standard input of the second program
+  - `cat f1 | more`
+- `*` : match any file name
+  - `ls b*` -- diplay all file/directory names that start with ‘b’
+
+---
+
+## `cat`
+
+`cat` 명령어는 concatenate 또는 catenate에서 따온 이름으로, file의 contents를 보여준다.
+
+- `cat f1` : show the contents of `f1`
+- `cat f1 > f2` : redirect the standard output file of `cat` to `f2`.
+  - As a result, the data in `f1` will be copied to `f2`.
+- `cat > f3` : Read data from keyboard and send them to `f3`.
+  - `^D` will end the input.
+
+```bash
+$ cat f1
+hello
+$ cat f1 >f2
+$ cat f2
+hello
+$ cat > f3
+hihihi
+$ cat f3
+hihihi
+```
+
+## `cd`
+
+`cd` 명령어는 "Change Directory"의 줄임말로서, 현재 디렉토리의 위치를 변경한다.
+
+- `cd /` : go to the `/` directory (the root directory)
+- `cd /dev` : go to `/dev`
+- `cd ..` : go to the parent directory
+- `cd .` : go to the current directory (no moving)
+- `cd` : go to the home directory (the directory you enter when logging)
 
 ## `chmod`
 
@@ -48,13 +162,30 @@
 
 ## `cp`
 
-`cp` 명령어는 copy의 줄임말로서, 파일과 디렉토리를 복사하는 기능을 수행한다.<br>
+`cp` 명령어는 copy의 줄임말로서, 파일과 디렉토리를 복사하는 기능을 수행한다.
 
-`$ cp f1 f1` 명령어를 사용하면, f1의 복사본을 f2라는 이름으로 생성한다.<br>
-만약, d1이 이미 존재하는 디렉토리일 경우, `$ cp f1 d1` 명령어를 사용하면, f1의 복사본을 d1 폴더 안에 같은 이름으로 생성한다.<br>
-`$ cp f1 d1/f2` 명령어를 사용하면, f1의 복사본을 d1 폴더 안에 f2라는 이름으로 생성한다.<br>
+- `cp f1 f2` 명령어를 사용하면, `f1`의 복사본을 `f2`라는 이름으로 생성한다.
+- 만약, `d1`이 이미 존재하는 디렉토리일 경우, `cp f1 d1` 명령어를 사용하면, `f1`의 복사본을 `d1` 폴더 안에 같은 이름으로 생성한다.<br>
+  `cp f1 d1/f2` 명령어를 사용하면, `f1`의 복사본을 `d1` 폴더 안에 라는 이름으로 생성한다.<br>
 
-<img width="452" alt="image" src="https://user-images.githubusercontent.com/73745836/158050320-1dbe7296-167c-4fd3-9d27-168b1a25afd9.png">
+```bash
+$ mkdir d1
+$
+$ cp f1 f2
+$ ls
+d1 f1 f2
+$
+$ cp f1 d1
+$ cd d1
+$ ls
+$ f1
+$
+$ cd ..
+$ cp f1 d1/f2
+$ cd d2
+$ ls
+f1 f2
+```
 
 ## `date`
 
@@ -101,6 +232,20 @@
 
 <img width="436" alt="image" src="https://user-images.githubusercontent.com/73745836/158049245-485d6f11-41d6-4344-8695-7728751d19d6.png">
 
+## `echo`
+
+`echo` 명령어는 argument로 전달되는 텍스트 / 문자열을 화면에 표시하는 데 사용된다.
+
+- `echo korea > f1` : redirect the standard output file of “echo” to `f1`. As a result “korea” will be written to file `f1`.
+
+```bash
+$ echo korea
+korea
+$ echo korea > f1
+$ cat f1
+korea
+```
+
 ## `env` 
 
 `env` 명령어는 리눅스의 환경변수를 조회할 수 있는 명령어이다.
@@ -115,23 +260,76 @@
 
 ## `file`
 
-`file` 명령어는 파일형식 확인하고, 파일의 종류를 판단하는 리눅스 명령어이다. 판단 시, 확장자를 보고 판단하는 것이 아니라 내용을 보고 판단한다.
+`file` 명령어는 파일형식 확인하고, 파일의 종류를 판단하는 리눅스 명령어이다. <br>
+판단 시, 확장자를 보고 판단하는 것이 아니라 내용을 보고 판단한다.
 
-<img width="452" alt="image" src="https://user-images.githubusercontent.com/73745836/158049253-548f32d2-1211-4510-9c99-befeddff7790.png">
+```bash
+$ file README.md
+README.md: ASCII text
+```
 
 ## `find`
 
 `find` 명령어는 파일, 디렉토리의 검색을 수행하는 리눅스 명령어이다.
 
-<img width="452" alt="image" src="https://user-images.githubusercontent.com/73745836/158049256-95cb968a-85ba-4a54-b641-7eba733cb378.png">
+`find / -name "stdio.h" -print` : find the location of `stdio.h` starting from /
+
+```bash
+$ find
+.
+./version-groups.conf
+./pluginconf.d
+./pluginconf.d/security.conf
+./pluginconf.d/fastestmirror.conf
+./vars
+./protected.d
+```
+
+```bash
+$ find / -name "stdio.h" -print
+/Library/Developer/CommandLineTools/usr/include/c++/v1/stdio.h
+/Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/sys/stdio.h
+/Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/usr/include/stdio.h
+/Library/Developer/CommandLineTools/SDKs/MacOSX11.1.sdk/System/Library/Frameworks/Kernel.framework/Versions/A/Headers/sys/stdio.h
+/Library/Developer/CommandLineTools/SDKs/MacOSX11.3.sdk/usr/include/c++/v1/stdio.h
+```
 
 ## `grep`
 
+grep –nr “ko” _ : find all files that contain string “ko”. –n means show the
+line number that contains “ko”. –r means “do this recursively
+searching down all sub-directories”. _ menas “all files” in
+the current directory.
+
 `grep` 명령어는 입력으로 전달된 파일에서 특정 문자열을 찾을 때 사용하는 명령어다. 쉽게 말해서 원하는 문자나 문자열을 찾을 때 사용한다.<br>
 <br>
-`-nr` 옵션을 사용하면 특정 단어가 포함된 모든 파일들을 확인할 수 있다.<br>
+
+- 기본 문법
+
+```bash
+$ grep [-옵션] 패턴 파일명
+```
+
+- `-nr` 옵션을 사용하면 특정 단어가 포함된 모든 파일들을 확인할 수 있다.<br>
 
 <img width="697" alt="스크린샷 2022-03-13 오후 5 12 29" src="https://user-images.githubusercontent.com/73745836/158051078-0cc33408-239e-428a-89f5-a2a1b1292f67.png">
+
+- 출력 명령과 함께 사용할 때 문법
+
+```bash
+출력명령어 | grep 패턴
+```
+
+```bash
+$ ll /etc/ssh/
+total 96
+-rw-r--r--  1 root  wheel   564K  1  1  2020 moduli
+-rw-r--r--  1 root  wheel   1.5K  1  1  2020 ssh_config
+-rw-r--r--  1 root  wheel   3.1K  1  1  2020 sshd_config
+$ ll /etc/ssh/ | grep config
+-rw-r--r--  1 root  wheel   1.5K  1  1  2020 ssh_config
+-rw-r--r--  1 root  wheel   3.1K  1  1  2020 sshd_config
+```
 
 ## `gunzip`
 
@@ -169,15 +367,65 @@ cat 파일명 | head -n행수
 
 <img width="452" alt="image" src="https://user-images.githubusercontent.com/73745836/158049271-b4dc8dad-8ce5-4b2a-ae88-92eb0ab63276.png">
 
+## `less`
+
+[`more`](#more) 명령어와 비슷하다.
+
+## `locate`
+
+find the location of a file in the file database
+
 ## `ln`
 
 `ln` 명령어는 링크 생성을 수행하는 리눅스 명령어이다. 기본 옵션은 하드 링크를 생성하는 것이며, `-s` 옵션을 사용하면 심볼릭 링크를 생성한다.
 
 <img width="452" alt="image" src="https://user-images.githubusercontent.com/73745836/158049278-a1bea65a-1496-4b09-bc56-e3d0c5eed4ef.png">
 
+## `ls`
+
+`ls` 명령어는 "listing"의 줄임말로서, 현재 디렉토리에 있는 파일들과 디렉토리를 보여주는 명령어이다.
+
+- `ls` : list all files
+- `ls –l` : list all files in detail
+- `ls –al` : list all files including hidden files
+- `ls ex*` : list all files whose name start with “ex”
+
+```bash
+$ ls -l
+-rwxr-xr-x 1 linuxer1 linuxer1 14 Feb 26 2013 f1
+```
+
+## `man`
+
+`man` 명령어는 "mannual"의 줄임말로서, commands/system calls/c-lib functions 등의 사용법(매뉴얼)을 확인할 수 있다. <br>
+다음 화면으로 이동하려면 '스페이스바'를 누르면 이동할 수 있고, ‘q’를 누르면 종료할 수 있다.
+
+- `man ls` : shows the usage of `ls` command
+- `man 1 kill` : shows the usage of `kill` command (manual section 1)
+- `man 2 kill` : shows the usage of `kill` system call (manual section 2)
+- `man kill` : same as `man 1 kill`
+- `man 3 printf` : shows the usage of `printf` c library functions (manual section 3)
+- `man printf` : same as `man 3 printf` (`printf` appears at section 3)
+
 ## `mkdir`
 
-`mkdir`은 make directory의 줄임말로서, 디렉토리(폴더)를 생성할 수 있다.
+`mkdir`은 'make directory'의 줄임말로서, 디렉토리(폴더)를 생성할 수 있다.
+
+```bash
+$ mkdir d1
+```
+
+## `more`
+
+`more`은 file의 contents를 화면에 화면 단위로 끊어서 출력하는 명령어이다. <br>
+이 명령어는 위에서 아래 방향으로만 출력 되기 때문에, 지나간 내용을 다시 볼 수 없는 단점이 있다.<br>
+다음 화면으로 이동하려면 '스페이스바'를 누르면 이동할 수 있고, ‘q’를 누르면 종료할 수 있다.
+
+- `more f1`
+- `ls –al | more` : send the output of `ls –al` as an input to `more`.
+  - As a result we can see the output of `ls –al` one screen at a time.
+- `ps –ef | more` : send the output of “ps –ef”to `more`
+- `grep -nr "ko" \* | more` : display the result of `grep ...` screen by screen
 
 ## `mount`
 
@@ -186,11 +434,16 @@ cat 파일명 | head -n행수
 <img width="452" alt="image" src="https://user-images.githubusercontent.com/73745836/158049283-6ceeef8c-ff26-4fb8-b92f-a1c799c99d97.png">
 
 ## `mv`
+
 `mv`는 move의 약자로서 파일이나 디렉토리를 다른 위치로 이동시키거나 파일명을 변경하고자 할때 사용한다.<br>
 파일이름뿐만 아니라 디렉토리명도 변경할 수 있다.<br>
 <br>
-`$ mv 파일명1 파일명2`을 사용하면, 파일명1을 파일명2로 파일명을 변경한다. 이는 cp 명령어와 rm 명령어가 연속으로 사용된 것과 같다.
- 
+
+`mv 파일명1 파일명2`을 사용하면, 파일명1을 파일명2로 파일명을 변경한다. 이는 `cp` 명령어와 `rm` 명령어가 연속으로 사용된 것과 같다.
+
+```bash
+$ mv f2 f3 # change the name of file f2 to f3
+```
 
 ## `netstat` 
 
@@ -200,17 +453,42 @@ cat 파일명 | head -n행수
 
 ## `ps`
 
-`ps`는 Process Status의 약자로 현재 돌아가고 있는 프로세스를 확인할 수 있는 명령어이다.<br>
-<br>
-`$ps -ef` 명령어를 사용하면 커널 프로세스를 제외한 모든 프로세스를 풀 포맷으로 출력해준다.<br>
+`ps`는 Process Status의 약자로 현재 돌아가고 있는 프로세스를 확인할 수 있는 명령어이다.
+
+```bash
+$ ps
+  PID TTY           TIME CMD
+43259 ttys000    0:02.57 -zsh
+43304 ttys000    0:00.01 -zsh
+43311 ttys000    0:01.86 /Users/oneonlee/.cache/gitstatus/gitstatusd-darwin-x86
+60796 ttys000    0:00.00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS
+60812 ttys000    0:00.00 grep --color=auto --exclude-dir=.bzr --exclude-dir=CVS
+```
+
+- PID: process ID
+- TTY: terminal id for this process
+- TIME: time spent on this process
+- CMD: executable file name for this process
+  <br>
+
+- `ps -ef` 명령어를 사용하면 커널 프로세스를 제외한 모든 프로세스를 풀 포맷으로 출력해준다.<br>
 
 <img width="697" alt="스크린샷 2022-03-13 오후 5 15 18" src="https://user-images.githubusercontent.com/73745836/158051143-e67fd7f0-9982-45aa-98fd-2960443e16ac.png">
 
+- `ps –ef | more` : pipeline the output of `ps –ef` to `more`
+  - [`more`](#more) will show the result of “ps –ef” screen by screen
+
 ## `pwd`
 
-`pwd` 명령어를 통해 login directory를 확인할 수 있다.
+`pwd`는 Present Working Directory의 줄임말로서, 현재 directory를 확인할 수 있다.
 
 <img width="452" alt="image" src="https://user-images.githubusercontent.com/73745836/158050105-33be5b98-1c5b-4f65-a9c7-f880d84b2f9c.png">
+
+## `rm`
+
+`rm` 명령어는 "remove"의 줄임말로서, 파일을 삭제하는 명령어이다.
+
+- `rm f4` : remove file `f4`
 
 ## `stat`
 
@@ -245,20 +523,62 @@ cat 파일명 | head -n행수
 
 <img width="243" alt="image" src="https://user-images.githubusercontent.com/73745836/158049300-3308a8fe-f720-43a3-b399-58bf1cc254d3.png">
 
+## `uname`
+
+'UNIX Name'의 줄임말로, 운영체제 (operating system)의 정보를 보여준다.
+
+사용가능한 옵션 : `uname [-amnprsv]`
+
+```bash
+$ uname -s
+Darwin
+```
+
 ## `whereis` 
 
 `whereis` 명령어는 명령어에 대한 바이너리, 소스, 매뉴얼 페이지의 위치를 알려주는 리눅스 명령어이다.
 
-<img width="452" alt="image" src="https://user-images.githubusercontent.com/73745836/158049307-65b510a4-b844-4a20-adc6-b9ba73c8d2f7.png">
+```bash
+$ whereis head
+/usr/bin/head
+$ whereis whereis
+/usr/bin/whereis
+$ whereis kill
+/bin/kill
+```
 
 ## `which`
 
-`which` 명령어는 실행파일의 위치를 찾는 리눅스 명령어이다. alias가 있으면 먼저 보여준다.
+`which` 명령어는 실행파일의 정확한 위치를 찾는 리눅스 명령어이다. 'alias'가 있으면 먼저 보여준다.<br>
+('alias'는 별칭이라는 뜻으로 리눅스에서 'alias'는 사용자가 명령어를 다른 이름으로 바꿔서 사용할 수 있는 쉘 내부 명령어를 말한다.)
 
-<img width="452" alt="image" src="https://user-images.githubusercontent.com/73745836/158049311-4810bb64-a3e9-4619-9b7f-45db2535d64b.png">
+```bash
+$ which kill
+kill: shell built-in command
+$ which cat
+/bin/cat
+$ which ls
+ls: aliased to ls -G
+$ which which
+which: shell built-in command
+$ which whereis
+/usr/bin/whereis
+```
 
 ## `whoami`
 
 `whoami` 명령어는 사용자명을 조회하는 리눅스 명령어이다.
 
-<img width="452" alt="image" src="https://user-images.githubusercontent.com/73745836/158049316-057cdc08-16d0-4800-bc5c-32b5bf76d2c6.png">
+```bash
+$ whoami
+oneonlee
+```
+
+## `xxd`
+
+파일의 내용을 16진수(hexadecimal numbers)로 보여준다.
+
+```bash
+$ xxd f1
+00000000: 6865 6c6c 6f0a                           hello.
+```
