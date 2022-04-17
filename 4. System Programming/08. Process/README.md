@@ -1,24 +1,24 @@
-# Lecture 9. Process related system calls
+# Process related system calls
 
 ## 1. process
 
 A program loaded in the memory.<br>
 process = body + process descriptor<br>
-body= code + data + stack
+body = code + data + stack
 
-`ps -ef` shows all processes currently loaded in the memory.<br>
-`ps -f` shows the processes running in the current terminal.<br>
-The system runs each process one by one in round-robin.<br>
-The scheduler picks next process to run, and the CPU runs it for a short amount of time (called time quantum, 10ms per process for example), and the scheduler picks next, and so on.
+- `ps -ef` 명령어는 현재 메모리에 로드된 모든 프로세스를 보여준다.
+- `ps -f` 명령어는 현재 터미널에서 실행 중인 프로세스를 나타낸다.
+- 시스템은 [round-robin](https://ko.wikipedia.org/wiki/%EB%9D%BC%EC%9A%B4%EB%93%9C_%EB%A1%9C%EB%B9%88_%EC%8A%A4%EC%BC%80%EC%A4%84%EB%A7%81) 방식으로 각 프로세스를 하나씩 실행한다.
+  - 스케줄러는 실행할 다음 프로세스를 선택하고 CPU는 이를 짧은 시간(예: 프로세스당 10ms, time quantum이라고 부름) 동안 실행하고 스케줄러는 다음 실행할 프로세스를 선택한다.
 
 ## 2. System calls to manage processes
 
-`fork`: duplicate a process
-`exec`: transform a process into another
-`exit`: stop the process
-`wait`: wait for the exit of the child process
-`getpid`: get process ID
-`getppid`: get parent process ID
+- `fork`: 프로세스를 복제
+- `exec`: 프로세스를 다른 프로세스로 변환
+- `exit`: 프로세스 중지
+- `wait`: 자식 프로세스(child process)가 종료될 때까지 대기
+- `getpid`: process ID를 get
+- `getppid`: parent process ID를 get
 
 ### What happens when a program calls `fork()`:
 
@@ -30,7 +30,7 @@ The scheduler picks next process to run, and the CPU runs it for a short amount 
   - scheduler picks the parent or the child
   - the selected process starts to run AFTER `fork()`
 
-## 3. Homework
+## 3. Exercise
 
 ### 0) Try "ex0" below. Who is the parent of "ex0"?
 
@@ -279,7 +279,7 @@ hello: 0 41141
 hello: 0 0
 ```
 
-![](img/img5.png)
+<!-- ![](img/img5.png) -->
 
 - "ex5"를 실행하면 4개의 "hello"가 출력되는 것을 확인할 수 있다.
 - `fork()`를 한 번하면 총 2개에 프로세스가 생성된다.
