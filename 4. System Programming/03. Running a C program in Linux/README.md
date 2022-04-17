@@ -1,5 +1,33 @@
 # Running a C program in Linux
 
+## Commands
+
+- `gcc` : C program을 컴파일한다.
+
+  - `gcc -o ex1 ex1.c`
+    - "ex1.c"을 컴파일하고, “ex1”이라는 실행파일 object를 생성한다.
+    - `-o` 옵션으로 executable file name을 지정할 수 있다.
+    - "ex1"이라는 실행파일을 사용하려면 `./ex1` 명령어 사용
+  - gcc –S ex1.c
+    - compile을 하지만, assemble 하지 않는다.
+    - assembly language file인 "ex1.s"를 생성한다.
+
+- `g++` : C++ program 을 컴파일한다.
+
+  - `g++ -o ex1 ex1.cpp`
+
+- `kill` : process에게 신호를 보낸다.
+
+  - `kill 1234`
+    - `pid`가 "1234"인 process를 kill한다.
+
+- `^c` : 현재 실행되고 있는 process를 'kill'한다.
+   
+   - 참고로 `^`이란 키보드에서 컨트롤 키(control)를 의미한다.
+   - `^c`는 Ctrl 키랑 c키를 동시에 누르면 된다. (복사 단축어처럼)
+
+## Exercise
+
 ### 1) Login to the system. Show the current directory. Show what files are in your directory.
 
 ![](img/img17.png)
