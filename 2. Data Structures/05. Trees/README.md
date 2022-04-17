@@ -18,17 +18,20 @@ An abstract model of a hierarchical structure
 | Terminology           | Explain                                                              | Example                   |
 | --------------------- | -------------------------------------------------------------------- | ------------------------- |
 | Root                  | node without parent                                                  | A                         |
+| Child                 | if node u is the parent of node v, v is a child of u                 | A                         |
 | Internal node         | node with at least one child                                         | A, B, C, F                |
 | External node (=Leaf) | node without children                                                | E, I, J, K, G, H, D       |
 | Ancestors of a node   | parent, grandparent, great-grandparent, etc.                         |                           |
 | Siblings of a node    | Any node which shares a parent                                       |                           |
-| Depth of a node       | number of ancestors                                                  | K의 경우, A, B, F이므로 3 |
-| Height of a tree      | maximum depth of any node                                            | 3                         |
+| **Depth of a node**   | number of ancestors (노드의 속성)                                    | K의 경우, A, B, F이므로 3 |
+| **Height of a tree**  | maximum depth of any node (트리의 속성)                              | 3                         |
 | Descendant of a node  | child, grandchild, great-grandchild, etc.                            |                           |
 | Subtree               | tree consisting of a node and its descendants (부분집합 같은 개념)   |                           |
+| **Degree**            | number of children of a node (트리의 속성)                           | F의 경우, I, J, K이므로 3 |
 | Edge                  | a pair of node (u, v) such that u is a parent of v((C, H))           |                           |
 | Path                  | A sequence of nodes such that any two consecutive nodes form an edge | A, B, F, J                |
 | Ordered tree          | a tree with a linear ordering defined for the children of each node  |                           |
+
 
 ### Tree ADT
 
