@@ -49,7 +49,7 @@ now you can type
 - `:set number` : 줄번호 나타내기 (display line numbers)
 - `:40` : "40"번 줄로 이동하기 (go to line "40")
 
-## Excersise
+## Exersise
 
 ### 1) Make a file with `vi`.
 
