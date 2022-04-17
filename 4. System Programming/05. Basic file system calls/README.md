@@ -1,56 +1,85 @@
-# Lecture 6: Basic file system calls: open, read, write
+# Basic file system calls: [`open`](#1-open), [`read`](#2-read), [`write`](#3-write)
 
-## 1. open
+## 1. `open`
+
+- `open` 함수를 사용하면 "/aa/bb"라는 file을 read-write가 가능하도록 open 한다. <br>
+- `open` 함수는 file descriptor라고 부르는 고유 번호를 return 한다.
+  - file descriptor
+    - `0` (standard input)
+    - `1` (standard output)
+    - `2` (standard error)
+  - 아래 예제에서 `x`는 file descriptor를 받는다.
+  - file descriptor의 범위가 0부터 2까지이기 때문에 `x`는 3 미만일 것이다.
+
 ```cpp
 x = open("/aa/bb", O_RDWR, 00777);
 ```
+
 or
+
 ```cpp
 char fname[20];
 strcpy(fname, "/aa/bb");
 x = open(fname, O_RDWR, 00777); // fname contains "/aa/bb"
 ```
 
-Open file "/aa/bb" with read-write capability. A unique number, called a file descriptor, will be returned. In this case x gets the file descriptor. x is greater than or equal to 3 because file descriptor 0 (standard input), 1(standard output), and 2(standard error) are reserved. The opening mode can be
+- The opening mode can be
+  - `O_RDONLY`
+    - open for read only
+  - `O_WRONLY`
+    - open for write only
+  - `O_RDWR`
+    - open for read and write
+  - `O_RDWR | O_CREAT | O_TRUNC`
+    - open for read and write.
+    - 존재하지 않으면, 생성한다.
+    - 새로운 내용을 작성하기 전에 미리 비운다. (empty)
+  - Permission mode `00777`은 기본(default) permission mode를 의미한다.
 
-```
-     O_RDONLY : open for read only
-     O_WRONLY: open for write only
-     O_RDWR: open for read and write
-     O_RDWR | O_CREAT | O_TRUNC: open for read and write. create if not exist already.
-                                 empty the file before writing new content.
-```
+<br>
 
-The permission mode `00777` means default permission mode.
+- "/aa/bb"는 파일의 절대경로(absolute path)이다.
+  - 만약, 경로가 `/`로 시작하지 않는다면 그것은 상대경로(relative path)이다.
+  - 상대경로는 현재 디렉토리에서 탐색을 시작한다.
 
-"/aa/bb" is an absolute path for the file. If the path does not start with "/", it is a relative path. A relative path is searched starting from the current directory.
+<br>
 
-`x = open("d1/f1", O_RDWR, 00777);` will search a file as follows:
+- `x = open("d1/f1", O_RDWR, 00777);` 다음과 같은 순서로 파일을 찾을 것이다.
+  - 현재 디렉토리에서 `d1` 탐색
+  - `d1` 디렉토리에서 `f1` 탐색
 
-- search d1 in the current directory
-- search f1 in directory d1
-
-
-## 2. read
+## 2. `read`
 
 ```cpp
 y = read(x, buf, 10);
 ```
-Read maximum 10 bytes into character array buf from file x starting from the current file position. The file position will move forward by 10. The file position is 0 when it is first opened. The system returns the actual number of bytes read in y. If there is an error while reading the file, -1 is returned. If the file position is at the end of the file, 0 is returned.
 
-## 3. write
+- 위의 `read` 함수는 파일 `x`의 현재 [file position](http://www.gnu.org/software/libc/manual/html_node/File-Position.html)에서 시작해서 최대 `10` bytes를 읽어 character array `buf`에 저장한다.
+- `10`만큼 읽는다면, File position이 `10`만큼 움직인다.
+- 파일이 처음 열렸을 때의 file position은 `0`이다.
+- 시스템은 `y`에 실제로 읽은 바이트 수만큼 반환한다.
+- 만약, 파일을 읽는 도중, 에러가 발생한다면 `-1`을 반환한다.
+- File position이 파일의 끝까지 도달하면 `0`을 반환한다.
+
+## 3. `write`
+
 ```cpp
 y = write(x, buf, 10);
 ```
 
-Write maximum 10 bytes from buf into file x starting from the current file position. The file position will move forward by 10. The actual number of bytes written is returned. -1 is returned if there is an error.
+- 위의 `write` 함수는 `buf`의 현재 file position에서 시작해, 최대 `10` bytes를 file `x`에 write한다.
+- File positiond은 10만큼 움직인다.
+- 실제로 기록한 바이트 수만큼 반환된다.
+- 에러가 발생한다면 `-1`이 return 된다.
 
-We can write a string into a file directly.
+파일에 직접적으로 string을 write 할 수 있다.
+
 ```cpp
 y = write(x, "hello", 5);
 ```
 
-Or through a string variable.
+`string` 형 변수를 통해서도 가능하다.
+
 ```cpp
 char buf[10];
 strcpy(buf, "hello");
@@ -60,20 +89,27 @@ y = write(x, buf, 5);
 ## 4. standard input, standard output, standard error
 
 ```cpp
-y = read(0, buf, 10); // read 10 bytes from the standard input file (keyboard in default)
+y = read(0, buf, 10);   // read 10 bytes from the standard input file (keyboard in default)
 // and store them in buf
-y = write(1, buf, 10); // write 10 bytes from buf in the standard output file (terminal in default)
-y = write(2, buf, 10); // write 10 bytes from buf in the standard error file (terminal in default)
+y = write(1, buf, 10);  // write 10 bytes from buf in the standard output file (terminal in default)
+y = write(2, buf, 10);  // write 10 bytes from buf in the standard error file (terminal in default)
 ```
 
 ## 5. manuals for system call
-```cpp
-   man 2 open
-   man 2 read
-   man 2 write
+
+```bash
+$ man 2 open
 ```
 
-The manual shows which include files should be used for each system call. System calls are located in the section 2, so we indicated the section number 2 in `man` command.
+```bash
+$ man 2 read
+```
+
+```bash
+$ man 2 write
+```
+
+`man`의 mannual에는 각 시스템 호출에 사용해야 하는 파일에 대한 설명이 나와 있다.
 
 ## 6. example:
 
@@ -121,6 +157,7 @@ int main(){
 ```
 
 ### 6-2) Copying 20 bytes from file "f1" to "f2". Check "f2" with "cat f2".
+
 ```cpp
 #include <fcntl.h>
 #include <sys/stat.h>
@@ -189,14 +226,16 @@ help print : show the explanation about print command
 q : quit
 ```
 
-## 8.  error handling
+## 8. error handling
+
 - error: compile-time error, runtime error
-     - compile time error:
-         - ex1.c:10:4: warning -- you can ignore warning
-         - ex1.c:12:8: error -- error is at line number 12. 
-         - Use `vi ex1.c` and go to line number 12 (with ":12") and fix the error
-     - runtime error:
-         - Use `printf` to find the error
+  - compile time error:
+    - ex1.c:10:4: warning -- you can ignore warning
+    - ex1.c:12:8: error -- error is at line number 12.
+    - Use `vi ex1.c` and go to line number 12 (with ":12") and fix the error
+  - runtime error:
+    - Use `printf` to find the error
+
 ```cpp
          x=open("/aa/bb", ….);
          y=open("f2", ….);
@@ -214,7 +253,7 @@ When there is an error, the system calls usually returns -1. To check what was t
      ..........
      x = open(............);
      if (x < 0){ // we have an error
-          perror("error in foo\n"); // will show error message  
+          perror("error in foo\n"); // will show error message
           exit(0); // stop program
      }
 ................
