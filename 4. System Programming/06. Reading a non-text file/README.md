@@ -1,35 +1,46 @@
-# Lecture 7. Reading a non-text file
+# Reading a non-text file
 
 (various file formats : http://en.wikipedia.org/wiki/List_of_file_formats)
 
 ## 1. file type
 
-regular file (type 1): file that contains data
-text file: contains characters which are encoded in Ascii code or Unicode
-non-text file (binary file): contains non-characters.
-directory file (type 2): file that contains information for each file in this directory
-link file (type 7): file that points to another file
-device file (type 3, 4): file that represents some device such as keyboard, printer, mouse, etc.
-socket file (type 5): file that represents network connection
+- regular file (type 1)
+    - 데이터를 포함하고 있는 파일
+- text file
+    - ASCII 코드나 유니코드(Unicode)로 인코딩된 문자(character)들을 포함하고 있는 파일
+- non-text file (binary file)
+    - non-characters를 포함
+- directory file (type 2)
+    - 그 directory의 각 파일에 대한 정보가 들어 있는 파일
+- link file (type 7)
+    - 다른 파일을 가르키는 파일
+- device file (type 3, 4)
+    - 키보드, 프린터, 마우스 등 다른 기기를 나타내는 파일
+- socket file (type 5)
+    - 네트워크 연결을 가르키는 파일
 
 ## 2. binary file
 
-Contains data such as sound (wav, mp3, ..), picture (jpg, gif, ...), instruction (exe, elf, ...), compressed data (zip, gz, ...), etc.
-We need to know the file format to interpret the data.
+- binary file은 아래의 데이터를 포함한다.
+    - 소리 (wav, mp3, ..)
+    - 그림 (jpg, gif, ...)
+    - 명령 (exe, elf, ...)
+    - 압축된 데이터 (zip, gz, ...)
+    - 기타 등등
+
 
 ## 3. little endian, big endian
 
-Multi-byte data is stored either in little endian or in big endian way.
-little endian: high address goes to high byte, low address goes to low byte
-(high-high low-low)
-big endian: high address goes to low byte, low address goes to high byte
-(high-low low-high)
+- Multi-byte data는 little endian이나 big endian 방식으로 저장된다.
+    - little endian: 높은 주소는 높은 바이트로, 낮은 주소는 낮은 바이트로 (high-high low-low)
+    - big endian: 높은 주소는 낮은 바이트로, 낮은 주소는 높은 바이트로 (high-low low-high)
 
 ## 4. WAV file format
 
-A wav file contains sound data.
+wav file은 sound data를 포함한다.
 
-WAV File Specification (FROM http://ccrma.stanford.edu/courses/422/projects/WaveFormat/
+#### WAV File Specification 
+출처 : https://ccrma.stanford.edu/courses/422-winter-2014/projects/WaveFormat/
 
 ```
 The canonical WAVE format starts with the RIFF header:
@@ -79,32 +90,35 @@ The "WAVE" format consists of two subchunks: "fmt " and "data":
 
 ## 5. Reading a non-text file
 
-Use int, short, char data type to read 4, 2, 1 byte binary data respectively.
-Use char array for text data.
+- 4, 2, 1바이트의 binary data를 읽으려면 각각 `int`, `short`, `char` 자료형을 사용한다.
+- 텍스트 데이터에는 char array를 사용합니다.
+
+
+실제 코드는 [여기](https://github.com/oneonlee/Computer-Science/blob/main/4.%20System%20Programming/06.%20Reading%20a%20non-text%20file/codes/2.c)를 참조
 
 ```c
-   char ChunkID[10]; // use char array for text data
-   int ChunkSize; // use "int" for 4 byte data
-   char Format[10];
-   ........
-   short AudioFormat;  // use "short" for 2 byte data
-   ........
+char ChunkID[10];           // use char array for text data
+int ChunkSize;              // use "int" for 4 byte data
+char Format[10];
+........
+short AudioFormat;          // use "short" for 2 byte data
+........
 
-   x=open("./f1.wav", ...........);
-   y=read(x, ChunkID, 4);  // read first 4 bytes into ChunkID[]
-   ChunkID[y]=0;           // to print as a string
-   y=read(x, &ChunkSize, 4); // read next 4 bytes and store at address &ChunkSize
-   y=read(x, Format, 4); // read "WAVE"
-   Format[y]=0;
-   .......
-   y=read(x, &AudioFormat, 2); // read next 2 bytes and store at address &AudioFormat
-   ..........
-   printf("ChunkID:%s\n", ChunkID);
-   printf("ChunkSize:%d\n",ChunkSize);
-   printf("Format:%s\n",Format);
-   .......
-   printf("AudioFormat:%d\n", AudioFormat);
-   .......
+x=open("./f1.wav", ...........);
+y=read(x, ChunkID, 4);      // read first 4 bytes into ChunkID[]
+ChunkID[y]=0;               // to print as a string
+y=read(x, &ChunkSize, 4);   // read next 4 bytes and store at address &ChunkSize
+y=read(x, Format, 4);       // read "WAVE"
+Format[y]=0;
+.......
+y=read(x, &AudioFormat, 2); // read next 2 bytes and store at address &AudioFormat
+..........
+printf("ChunkID:%s\n", ChunkID);
+printf("ChunkSize:%d\n",ChunkSize);
+printf("Format:%s\n",Format);
+.......
+printf("AudioFormat:%d\n", AudioFormat);
+.......
 ```
 
 ## 6. Other file-related system functions
@@ -122,21 +136,14 @@ y=lseek(x, 0, SEEK_END);   // move file pointer to the end of file. return this
 FILE *f2;
 char buf[100];
 ..........
-f2=fopen("./yy","w"); // open ./yy for writing
-fprintf(f2,"%s",buf);   // write the string in buf into f2
+f2=fopen("./yy","w");       // open ./yy for writing
+fprintf(f2,"%s",buf);       // write the string in buf into f2
 ```
 
-## 7. upload/download a file from/to PC
 
-원격접속을 하지 않은 상태에서 아래 코드실행
+## 7. Exercise
 
-```
-scp -p -r 12181879@165.246.38.151:../../linuxer1/swvader03.wav /Users/oneonlee/Desktop/system_programming/lect7
-```
-
-## 8. Homework
-
-### 1) Read swvader03.wav with "xxd". Interpret all fields in the header.
+### 1) Read swvader03.wav with `xxd`. Interpret all fields in the header.
 
 First copy swvader03.wav file from `../../linuxer1` directory into current directory. <br>"`.`" means current directory.
 
