@@ -4,31 +4,38 @@
   - Complexity
   - In-place
   - Stable
+  - Parallel
 
 ## Contents
 
-1. [Bubble Sort](#bubble-sort) <img src="https://latex.codecogs.com/svg.image?O(n^2)" title="https://latex.codecogs.com/svg.image?O(n^2)" />
-2. [Insertion Sort](#insertion-sort) <img src="https://latex.codecogs.com/svg.image?O(n^2)" title="https://latex.codecogs.com/svg.image?O(n^2)" />
-3. [Selection Sort](#selection-sort) <img src="https://latex.codecogs.com/svg.image?O(n^2)" title="https://latex.codecogs.com/svg.image?O(n^2)" />
-4. [Merge Sort](#merge-sort) <img src="https://latex.codecogs.com/svg.image?O(nlogn)" title="https://latex.codecogs.com/svg.image?O(nlogn)" />
-5. [Quick Sort](#quick-sort) <img src="https://latex.codecogs.com/svg.image?O(nlogn)" title="https://latex.codecogs.com/svg.image?O(nlogn)" />
-6. [Shell Sort](#shell-sort)
-7. [Heap Sort](#heap-sort) <img src="https://latex.codecogs.com/svg.image?O(nlogn)" title="https://latex.codecogs.com/svg.image?O(nlogn)" />
-8. [Counting Sort](#counting-sort)
-9. [Radix Sort](#radix-sort) <img src="https://latex.codecogs.com/svg.image?O(cn)" title="https://latex.codecogs.com/svg.image?O(cn)" />
+1. [Bubble Sort](#bubble-sort) : <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n^2)" title="O(n^2)" />
+2. [Insertion Sort](#insertion-sort) : <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n^2)" title="O(n^2)" />
+3. [Selection Sort](#selection-sort) : <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n^2)" title="O(n^2)" />
+4. [Merge Sort](#merge-sort) : <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(nlogn)" title="O(nlogn)" />
+5. [Quick Sort](#quick-sort) : <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(nlogn)" title="O(nlogn)" />
+6. [Shell Sort](#shell-sort) : <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n^2)" title="O(n^2)" /> \~ <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(n&space;\log&space;n)"/> \~ <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(n\log^2n)" title="O(n\log^2n)" />
+7. [Heap Sort](#heap-sort) : <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(nlogn)" title="O(nlogn)" />
+8. [Counting Sort](#counting-sort) : <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n)" title="O(n)" />
+9. [Radix Sort](#radix-sort) : <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(cn)" title="O(cn)" />
+10. [Parallel Sorting Algorithm](#parallel-sorting-algorithm)
+11. [Bitonic Sort](#bitonic-sort) : <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}&space;O&space;(\log^2&space;n)&space;" /> parallel time
+12. [Odd-even transposition Sort](#odd-even-transposition-sort) : <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n)" title="O(n)" /> parallel time
+13. [Odd-even merge Sort](#odd-even-merge-sort) : <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(\log^2n)" title="O(\log^2n)" /> parallel time
 
 <br>
 백문이 불여일견.<br>
 
 도움이 되는 사이트 : [visualgo.net](https://visualgo.net/en/sorting)
 
-| Algorithm      |                                               Time                                                | Stable    | In-place  |                                                                                   Notes |
-| -------------- | :-----------------------------------------------------------------------------------------------: | --------- | --------- | --------------------------------------------------------------------------------------: |
-| Bubble Sort    |                     <img src="https://latex.codecogs.com/svg.image?O(n^2)" />                     | Yes       | Yes       |                                  - Slow (good for small inputs)<br> - Easy to implement |
-| Insertion Sort |                     <img src="https://latex.codecogs.com/svg.image?O(n^2)" />                     | Yes       | Yes       |                                  - Slow (good for small inputs)<br> - Easy to implement |
-| Selection Sort |                     <img src="https://latex.codecogs.com/svg.image?O(n^2)" />                     | No        | Yes       |        - Slow (good for small inputs)<br> - Easy to implement<br> - Un-stable algorithm |
-| Merge Sort     | <img src="https://latex.codecogs.com/svg.image?\inline&space;\bg{black}O(n&space;\log&space;n)"/> | Yes       | No        | - Fast (good for huge inputs)<br> - Sequential data access<br> - Not in-place algorithm |
-| Quick Sort     | <img src="https://latex.codecogs.com/svg.image?\inline&space;\bg{black}O(n&space;\log&space;n)"/> | No or Yes | Yes or No |                            - Fastest (good for large inputs)<br> - In-place, randomized |
+| Algorithm      |                                                          Time                                                           | Stable    | In-place  |                                                                                   Notes |
+| -------------- | :---------------------------------------------------------------------------------------------------------------------: | --------- | --------- | --------------------------------------------------------------------------------------: |
+| Bubble Sort    |                <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n^2)" />                | Yes       | Yes       |                                  - Slow (good for small inputs)<br> - Easy to implement |
+| Insertion Sort |                <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n^2)" />                | Yes       | Yes       |                                  - Slow (good for small inputs)<br> - Easy to implement |
+| Selection Sort |                <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n^2)" />                | No        | Yes       |        - Slow (good for small inputs)<br> - Easy to implement<br> - Un-stable algorithm |
+| Merge Sort     | <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(n&space;\log&space;n)"/> | Yes       | No        | - Fast (good for huge inputs)<br> - Sequential data access<br> - Not in-place algorithm |
+| Quick Sort     | <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(n&space;\log&space;n)"/> | No or Yes | Yes or No |                            - Fastest (good for large inputs)<br> - In-place, randomized |
+
+---
 
 ## Bubble Sort
 
@@ -45,7 +52,7 @@ void exchangesort (int n, keytype S[]) {
 ```
 
 - 내림차순을 오름차순으로 바꾸려면 5번 줄의 `if (S[j] < S[i])`의 부등호 방향을 반대로 바꾸면 된다.
-- 5번 줄의 `if (S[j] < S[i])`에서 `S[j]`와 `S[i]`는 <img src="https://latex.codecogs.com/svg.image?n^2" /> 번 비교된다.
+- 5번 줄의 `if (S[j] < S[i])`에서 `S[j]`와 `S[i]`는 <img height="20" src="https://latex.codecogs.com/png.image?n^2" /> 번 비교된다.
 - 6번 줄의 `exchange` 연산은 아래의 3단계 연산을 거친다.
 
 ```cpp
@@ -59,7 +66,7 @@ b = temp;
 <img width="200" alt="스크린샷 2022-04-15 ᅩ후 9 31 41" src="https://user-images.githubusercontent.com/73745836/163571114-a8acd60b-9b85-40e4-b84b-63d04c974f7e.png">
 
 그러므로 Time Complexity는
-<img src="https://latex.codecogs.com/svg.image?O(n^2)" title="https://latex.codecogs.com/svg.image?O(n^2)" /> 이다.
+<img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n^2)" title="O(n^2)" /> 이다.
 
 ## Insertion Sort
 
@@ -83,8 +90,8 @@ void insertionsort(int n, keytype S[])
 
 - 6번 줄의 `for (i = 2; i < n; i++)`에서 `i`가 2부터 시작하는 이유는 `i`가 1일 때가 초기값이기 때문이다.
   - 하나만 비교했을 때는 그 하나가 당연히 정렬된 상태임
-- 9번 줄의 `while (j > 0 && S[j] > x)`에서 `S[j]`과 `x`는 <img src="https://latex.codecogs.com/svg.image?n^2" /> 번 비교된다.
-- 마찬가지로, 10번 줄 (`S[j+1] = S[j];`)은 <img src="https://latex.codecogs.com/svg.image?n^2" /> 번 할당된다.
+- 9번 줄의 `while (j > 0 && S[j] > x)`에서 `S[j]`과 `x`는 <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}n^2" /> 번 비교된다.
+- 마찬가지로, 10번 줄 (`S[j+1] = S[j];`)은 <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}n^2" /> 번 할당된다.
 
 ### Time Complexity
 
@@ -95,7 +102,7 @@ void insertionsort(int n, keytype S[])
 <img width="200" alt="스크린샷 2022-04-15 ᅩ후 9 56 13" src="https://user-images.githubusercontent.com/73745836/163573320-56eff03b-415c-4f71-aa64-93ee9b9db601.png">
 
 그러므로 Time Complexity는
-<img src="https://latex.codecogs.com/svg.image?O(n^2)" title="https://latex.codecogs.com/svg.image?O(n^2)" /> 이다.
+<img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n^2)" title="O(n^2)" /> 이다.
 
 #### Average Case
 
@@ -104,7 +111,7 @@ void insertionsort(int n, keytype S[])
  <img width="609" alt="스크린샷 2022-04-15 ᅩ후 9 59 10" src="https://user-images.githubusercontent.com/73745836/163573576-41157c69-75e3-4748-973e-43a30580aa28.png">
 
 따라서 평균 비교 횟수는
-<img src="https://latex.codecogs.com/svg.image?\inline&space;\Theta(n^2)&space;" title="\Theta(n^2) " /> 이다.
+<img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\Theta(n^2)&space;" title="\Theta(n^2) " /> 이다.
 
 <img width="663" alt="스크린샷 2022-04-15 ᅩ후 10 01 07" src="https://user-images.githubusercontent.com/73745836/163573757-da374e92-3c01-4624-b2d5-205d5f51f7eb.png">
 
@@ -125,20 +132,20 @@ void selectionsort(int n, keytype S[])
 }
 ```
 
-- 7번 줄의 `for (j = i+1; j <= n; j++)`에서 `j`와 `n`은 <img src="https://latex.codecogs.com/svg.image?n^2" /> 번 비교된다.
-- 10번 줄의 `exchange S[i] and S[smallest];`에서는 할당이 <img src="https://latex.codecogs.com/svg.image?3n" /> 번 이루어진다.
+- 7번 줄의 `for (j = i+1; j <= n; j++)`에서 `j`와 `n`은 <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}n^2" /> 번 비교된다.
+- 10번 줄의 `exchange S[i] and S[smallest];`에서는 할당이 <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}3n" /> 번 이루어진다.
 
 ### Worst Case
 
-<img src="https://latex.codecogs.com/svg.image?O(n^2)" title="https://latex.codecogs.com/svg.image?O(n^2)" />
+<img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n^2)" title="O(n^2)" />
 
 ### n^2 정렬 알고리즘 비교
 
-| 알고리즘       | 비교횟수                                                                                                                                                                                                                                  | 지정횟수                                                                                                                                                                                                                                      | 추가저장소 사용량 |
-| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
-| Bubble Sort    | <img src="https://latex.codecogs.com/svg.image?\inline&space;T(n)&space;=&space;n^2/2" title="T(n) = n^2/2" />                                                                                                                            | <img src="https://latex.codecogs.com/svg.image?\inline&space;W(n)&space;=&space;3n^2/2&space;" title="W(n) = 3n^2/2 " /> <br><img src="https://latex.codecogs.com/svg.image?\inline&space;A(n)&space;=&space;3n^2/4" title="A(n) = 3n^2/4" /> | 제자리정렬        |
-| Insertion Sort | <img src="https://latex.codecogs.com/svg.image?\inline&space;W(n)&space;=&space;n^2/2&space;" title="W(n) = n^2/2 " /> <br><img src="https://latex.codecogs.com/svg.image?\inline&space;A(n)&space;=&space;n^2/4" title="A(n) = n^2/4" /> | <img src="https://latex.codecogs.com/svg.image?\inline&space;W(n)&space;=&space;n^2/2&space;" title="W(n) = n^2/2 " /> <br><img src="https://latex.codecogs.com/svg.image?\inline&space;A(n)&space;=&space;n^2/4" title="A(n) = n^2/4" />     | 제자리정렬        |
-| Selection Sort | <img src="https://latex.codecogs.com/svg.image?\inline&space;T(n)&space;=&space;n^2/2" title="T(n) = n^2/2" />                                                                                                                            | <img src="https://latex.codecogs.com/svg.image?\inline&space;T(n)&space;=&space;3n" title="T(n) = 3n" />                                                                                                                                      | 제자리정렬        |
+| 알고리즘       | 비교횟수                                                                                                                                                                                                                                                                                                                      | 지정횟수                                                                                                                                                                                                                                                                                                                          | 추가저장소 사용량 |
+| -------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------- |
+| Bubble Sort    | <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\dpi{1100}\bg{white}T(n)&space;=&space;n^2/2" title="T(n) = n^2/2" />                                                                                                                                                                      | <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\dpi{1100}\bg{white}W(n)&space;=&space;3n^2/2&space;" title="W(n) = 3n^2/2 " /> <br><img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\dpi{1100}\bg{white}A(n)&space;=&space;3n^2/4" title="A(n) = 3n^2/4" /> | 제자리정렬        |
+| Insertion Sort | <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}\dpi{1100}\inline&space;W(n)&space;=&space;n^2/2&space;" title="W(n) = n^2/2 " /> <br><img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}\dpi{1100}\inline&space;A(n)&space;=&space;n^2/4" title="A(n) = n^2/4" /> | <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\dpi{1100}\bg{white}\inline&space;W(n)&space;=&space;n^2/2&space;" title="W(n) = n^2/2 " /> <br><img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}\dpi{1100}\inline&space;A(n)&space;=&space;n^2/4" title="A(n) = n^2/4" />     | 제자리정렬        |
+| Selection Sort | <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}\dpi{1100}\inline&space;T(n)&space;=&space;n^2/2" title="T(n) = n^2/2" />                                                                                                                                                                      | <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}\dpi{1100}\inline&space;T(n)&space;=&space;3n" title="T(n) = 3n" />                                                                                                                                                                                | 제자리정렬        |
 
 - 삽입정렬은 버블정렬 보다는 항상 최소한 빠르게 수행된다고 할 수 있다.
 - 선택정렬이 버블정렬 보다 빠른가?
@@ -193,7 +200,7 @@ void merge (int h, int m, const keytype U[], const keytype V[], const keytype S[
 - Analysis of Merge-Sort
   - The height `h` of the merge-sort tree is `O(log n)`
     - at each recursive call we divide in half the sequence,
-  - The overall amount or work done at the nodes of depth `i` is `O(n)`
+  - The overall amount or work done at the nodes of depth `i` is <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n)" title="O(n)" />
     - we partition and merge `2^i` sequences of size `n/2^i`
     - we make 2^(i+1)` recursive calls
   - Thus, the total running time of merge-sort is `O(n log n)`
@@ -204,9 +211,14 @@ void merge (int h, int m, const keytype U[], const keytype V[], const keytype S[
   - 입력을 저장하는데 필요한 만큼 저장장소를 사용하지 않고 정렬하는 알고리즘
   - mergesort 알고리즘은 in-place sort 알고리즘이 아니다.
     - 왜냐하면 입력인 배열 S 이외에 U와 V를 추가로 만들어서 사용하기 때문이다.
-- 그러면 얼마만큼의 추가적인 저장장소가 필요할까? - mergesort를 재귀호출할 때마다 크기가 S의 반이 되는 U와 V가 추가적으로 필요하다. - merge 알고리즘에서는 U와 V가 주소로 전달이 되어 그냥 사용되므로 추가적인 저장장소를 만들지 않는다. 따라서 mergesort를 재귀호출할 때마다 얼마만큼의 추가적인 저장장소가 만들어져야 하는지를 계산해 보면 된다. - 처음 S의 크기가 n이면 추가적으로 필요한 U와 V의 저장장소 크기의 합은 n이 된다. 다음 재귀호출에는 n의 추가
-  적으로 필요한 총 저장장소의 크기는 <img src="https://latex.codecogs.com/svg.image?\inline&space;\bg{white}n&space;&plus;&space;\frac{n}{2}&space;&plus;&space;\frac{n}{4}&space;&plus;&space;\cdots&space;&space;=&space;2n" title="n + \frac{n}{2} + \frac{n}{4} + \cdots = 2n" /> 이다. - 결론적으로 이 알고리즘의 공간복잡도는 <img src="https://latex.codecogs.com/svg.image?\inline&space;\bg{black}2n\in&space;\Theta&space;(n)" title="2n\in \Theta (n)" />이라고 할 수 있다.
-- 추가적으로 필요한 저장장소가 n이 되도록, 즉, 공간복잡도가 n이 되도록 알고리즘을 향상시킬 수 있다 (HOW?). 그러나 합병정렬 알고리즘이 제자리정렬 알고리즘이 될 수는 없다.
+- 그러면 얼마만큼의 추가적인 저장장소가 필요할까?
+  - mergesort를 재귀호출할 때마다 크기가 S의 반이 되는 U와 V가 추가적으로 필요하다.
+  - merge 알고리즘에서는 U와 V가 주소로 전달이 되어 그냥 사용되므로 추가적인 저장장소를 만들지 않는다. <br>따라서 mergesort를 재귀호출할 때마다 얼마만큼의 추가적인 저장장소가 만들어져야 하는지를 계산해 보면 된다.
+  - 처음 S의 크기가 n이면 추가적으로 필요한 U와 V의 저장장소 크기의 합은 n이 된다. 다음 재귀호출에는 n의 추가
+    적으로 필요한 총 저장장소의 크기는 <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}n&space;&plus;&space;\frac{n}{2}&space;&plus;&space;\frac{n}{4}&space;&plus;&space;\cdots&space;&space;=&space;2n" title="n + \frac{n}{2} + \frac{n}{4} + \cdots = 2n" /> 이다.
+- 결론적으로 이 알고리즘의 공간복잡도는 <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}2n\in&space;\Theta&space;(n)" title="2n\in \Theta (n)" />이라고 할 수 있다.
+- 추가적으로 필요한 저장장소가 n이 되도록, 즉, 공간복잡도가 n이 되도록 알고리즘을 향상시킬 수 있다 (HOW?).
+- 그러나 합병정렬 알고리즘이 제자리정렬 알고리즘이 될 수는 없다.
 
 ## Quick Sort
 
@@ -253,7 +265,7 @@ Algorithm inPlaceQuickSort(S, a, b)
 ### Expected Running Time
 
 - The expected height of the quick-sort tree is `O(log n)`
-- The amount or work done at the nodes of the same depth is `O(n)`
+- The amount or work done at the nodes of the same depth is <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n)" title="O(n)" />
 - Thus, the expected running time of quick-sort is `O(n log n)`
 
 ### 성능 향상 방법
@@ -374,7 +386,7 @@ void QuickSort(int a[], int l, int r)
   - 홀수, 짝수가 반복되는 것이 좋음
   - 예) 증가식: `h = 3*h + 1`, 감소식: `h = h/3`
 - 특징
-  - 순열 h가 1, 4, 13, 40, ...일때, 쉘 정렬의 비교 횟수는 <img src="https://latex.codecogs.com/svg.image?\inline&space;\bg{black}N^{3/2}" title="N^{3/2}" /> 을 넘지 않음
+  - 순열 h가 1, 4, 13, 40, ...일때, 쉘 정렬의 비교 횟수는 <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}N^{3/2}" title="N^{3/2}" /> 을 넘지 않음
   - 안정적인 제자리 정렬
 
 ```cpp
@@ -396,9 +408,9 @@ end ShellSort()
 
 ### Analysis
 
-- <img src="https://latex.codecogs.com/svg.image?O(n^2)" title="https://latex.codecogs.com/svg.image?O(n^2)" /> (worst known worst case gap sequence)
-- <img src="https://latex.codecogs.com/svg.image?O(n\log n)" title="https://latex.codecogs.com/svg.image?O(n\logn)" /> (most gap sequences)
-- <img src="https://latex.codecogs.com/svg.image?O(n\log^2n)" title="https://latex.codecogs.com/svg.image?O(n\log^2n)" /> (best known worst case gap sequence)
+- <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n^2)" title="O(n^2)" /> (worst known worst case gap sequence)
+- <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(n&space;\log&space;n)"/> (most gap sequences)
+- <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(n\log^2n)" title="O(n\log^2n)" /> (best known worst case gap sequence)
 
 ## Heap Sort
 
@@ -417,7 +429,7 @@ end ShellSort()
 - 참고 : 히프 - 우선순위 큐의 일종
 
   - 히프 구조
-    - <img width="588" alt="스크린샷 2022-04-16 오후 11 27 19" src="https://user-images.githubusercontent.com/73745836/163678888-00dd4c47-27fa-4c1d-b78e-ac807cdf2320.png">
+    - <img width="588" alt="스크린샷 2022-04-16 - ᅩ후 11 27 19" src="https://user-images.githubusercontent.com/73745836/163678888-00dd4c47-27fa-4c1d-b78e-ac807cdf2320.png">
   - 히프는 완전 이진 트리(complete binary tree) 이며 중복된 값을 허용함에 유의한다.
     - 이진 탐색 트리에서는 중복된 값을 허용하지 않았다.
 
@@ -470,7 +482,7 @@ end heapify()
 
 - 계수 정렬
 - 장점
-  - 시간 복잡도가 `O(n)`이다.
+  - 시간 복잡도가 <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n)" title="O(n)" />이다.
   - 비교 기반 정렬 알고리즘에 비해 빠르다.
 - 단점
   - N에 비례하는 추가 기억장소가 필요하기 때문에 제자리 정렬은 아니다.
@@ -483,12 +495,12 @@ end heapify()
 ## Radix Sort
 
 - 전체 키를 여러 자리로 나누어 각 자리마다 계수 정렬과 같은 안정적 정렬 알고리즘을 적용하여 정렬하는 방법
-- `d` 자리수 숫자들에 대하여 계수 정렬로 정렬 (자릿수만큼 뺑뺑이를 돈다.) - 각 자리수마다 `O(N)` 시간이 걸리므로 전체로는 `O(dN)` 시간이 걸리는데, `d`
-  를 상수로 취급할 수 있다면 `O(N)` 시간이 걸리게 됨
+- `d` 자리수 숫자들에 대하여 계수 정렬로 정렬 (자릿수만큼 뺑뺑이를 돈다.) - 각 자리수마다 <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n)" title="O(n)" /> 시간이 걸리므로 전체로는 `O(dN)` 시간이 걸리는데, `d`
+  를 상수로 취급할 수 있다면 <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n)" title="O(n)" /> 시간이 걸리게 됨
 - 전체 정렬 데이터 개수만큼의 기억 장소와 진법 크기만큼의 기억 장소가 추가로 필요함
 - 키가 `m`자리 숫자로 되어 있는 경우 `m`번의 패스를 반복 수행
 - `N` 개의 원소에 대해 이 연산의 시간 복잡도는 `Ο(N)`
-- 사용 예 : 학번 및 사번 같은 고유번호, 주민등록번호등
+- 사용 예 : 학번 및 사번 같이 숫자로 이루어진 고유번호, 주민등록번호 등
 
 ```cpp
 RadixSort(a[], n)
@@ -509,3 +521,107 @@ RadixSort(a[], n)
 }
 end RadixSort()
 ```
+
+## Parallel Sorting Algorithm
+
+| CPU                                            | GPU                                                            |
+| ---------------------------------------------- | -------------------------------------------------------------- |
+| - 범용 컴퓨팅                                  | - Graphic 파이프라인 처리                                      |
+| - 멀티코어 (1~8)                               | - 멀티코어 (수백 ~ 수만)                                       |
+| - Out-of-order control (Sophisticated control) | - In-order processing (Simple control)                         |
+| - Fancy Branch predictor                       | - High bandwidth data access                                   |
+| - Few Arithmetic Logic Units (ALU)             | - A lot of Arithmetic Logic Units (ALU)                        |
+| - Powerful ALU                                 | - Energy efficient ALUs                                        |
+| - Reduced operation latency                    | - Many, long latency but heavily pipelined for high throughput |
+| - For sequential parts where latency matters   | - For parallel parts where throughput wins                     |
+| - Big cache                                    | - Small cache                                                  |
+
+### Parallelism
+
+- Thread Divergence
+  - different threads in the same warp (scheduling units in GPU, 32 threads) taking different conditional branches
+- Warp Serialization
+  - different threads in the same warp competing for the same bank of shared memory
+- **Memory Coalescing**
+  - different threads in the same warp accessing different cache lines
+- Partition Camping
+  - unbalanced access to memory partitions
+- Occupancy
+  - create a massive number of threads
+- Register Pressure
+  - reuse data in registers
+- Memory Pressure
+  - reuse data in shared memory
+
+#### 병렬성의 비유
+
+<img height="250" src="https://image2.daisomall.co.kr/data/daiso_data/images/product/00/04/10/52/19/b_0004105219.gif"/>
+
+30인 31각을 한다고 상상해보자.<br>
+1명이 삐끗하면 전부 넘어질 것이다.
+
+## Bitonic Sort
+
+- Bubble Sort 기반의 Parallel Sorting Algorithm으로, Bi-tone 즉, 2개의 톤을 의미한다.
+
+  - 아래 사진을 보면 방향이 위 아래 2개 즉, 톤이 2개이다.
+  - ![](https://xilinx.github.io/Vitis_Libraries/database/2019.2/_images/bitonic_sort_architecture.png)
+
+- [Sorting Network](https://en.wikipedia.org/wiki/Sorting_network)(정렬망)을 미리 정의해야 사용할 수 있다.
+
+> In computer science, **comparator networks** are abstract devices built up of a fixed number of "wires", carrying values, and comparator modules that connect pairs of wires, swapping the values on the wires if they are not in a desired order. <br>Such networks are typically designed to perform sorting on fixed numbers of values, in which case they are called **sorting networks**.<br> <br>
+> "Sorting network" From Wikipedia
+
+<img src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/9b/SimpleSortingNetworkFullOperation.svg/2880px-SimpleSortingNetworkFullOperation.svg.png" />
+
+- 완벽하게 병렬은 아니지만, 특정 시점에서는 교환이 동시에 일어나므로, 병렬이라고 할 수 있다.
+
+<br>
+
+- Analysis
+  - <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}&space;O&space;(n\log^2&space;n)&space;" title="O (n\log^2 n) " /> comparators (비교횟수)
+  - <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}&space;O&space;(\log^2&space;n)&space;" /> parallel time
+- Space complexity
+  - <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}&space;O&space;(n\log^2&space;n)&space;" title="O (n\log^2 n) " />
+
+## Odd-even Sort
+
+### Odd-even transposition Sort
+
+- Odd-Even Transposition Sort는 Bubble Sort 기반의 parallel sorting algorithm이다.
+  - a.k.a. Brick Sort, Parity Sort
+
+![](https://i.stack.imgur.com/LZJKu.jpg)
+
+- The Odd-Even Transition Sorting Network for Keys
+
+  ![](https://developer.nvidia.com/sites/all/modules/custom/gpugems/books/GPUGems2/elementLinks/46_sorting_01.jpg)
+
+- Analysis
+  - <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n)" title="O(n)" /> parallel time
+
+### Odd-even merge Sort
+
+- The Odd-Even Merge Sorting Network for Keys
+
+  ![](https://developer.nvidia.com/sites/all/modules/custom/gpugems/books/GPUGems2/elementLinks/46_sorting_02.jpg)
+
+- Analysis
+
+  - <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(\log^2n)" title="O(\log^2n)" /> parallel time
+    - Worst-case performance - <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(\log^2n)" title="O(\log^2n)" /> parallel time
+    - Best-case performance - <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(\log^2n)" title="O(\log^2n)" /> parallel time
+    - Average performance - <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(\log^2n)" title="O(\log^2n)" /> parallel time
+    - Worst-case space complexity - <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(n\log^2n)" title="O(n\log^2n)" /> non-parallel time
+
+<br>
+
+- Faster than other sorting networks that have a complexity of <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\inline&space;\bg{white}O(n\log^2n)" title="O(n\log^2n)" />, e.g. bitonic sort and shellsort
+
+| n    | odd-even<br>mergesort | bitonic sort | shellsort |
+| ---- | --------------------- | ------------ | --------- |
+| 4    | 5                     | 6            | 6         |
+| 16   | 63                    | 80           | 83        |
+| 64   | 543                   | 672          | 724       |
+| 256  | 3839                  | 4608         | 5106      |
+| 1024 | 24063                 | 28160        | 31915     |
