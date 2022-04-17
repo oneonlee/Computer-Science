@@ -1,40 +1,103 @@
 # 5. Review on String
 
-- string definition, char constant, string constant, int vs string,
-- string functions: strlen, strcpy, strcmp, strtok, sprintf, atoi
-- string header file: string.h
+- string definition, `char` constant, `string` constant, `int` vs `string`,
+- string functions: `strlen`, `strcpy`, `strcmp`, `strtok`, `sprintf`, `atoi`
+- string header file: `string.h`
+
+<br>
+
+## Contents
+
+- [1. basics](#1-basics)
+- [2. A string is a character array ending with 0.](#2-a-string-is-a-character-array-ending-with-0)
+- [3. `int`, `char`, `string`의 정의, 저장, 읽기, 출력, 비교](#3-int-char-string의-정의-저장-읽기-출력-비교)
+- [4. `strtok`](#4--strtok-)
+- [5. char pointer array](#5-char-pointer-array)
+- [6. Exercise](#6-exercise)
+
+---
 
 ## 1. basics
 
-- 1. A string is a character array ending with 0. Remember there is a hidden 0 at the end of a string. Thus "hello" occupies 6 bytes not 5 bytes.
+### `string`의 정의
 
-- 2. char constant is replaced by the corresponding ascii number during compile time.<br>
-     `x = 'a';`<br>
-     The compiler changes above to<br>
-     `x = 97;` // 97 is the ascii number of 'a'
+- `string`은 배열의 끝이 `0`으로 끝나는 character array이다. ([자세한 설명](#2-a-string-is-a-character-array-ending-with-0))
+- `string`의 끝에는 항상 보이지 않는 `0`이 숨겨져 있다는 것을 기억해야 한다.
+- 그러므로 "hello" 5 bytes가 아니라 **6 bytes**를 차지하고 있다.
 
-- 3. string constant is replaced by the address where it is stored. (All string constant used in a program are stored in "string area" in the memory by the compiler.)<br>
-     `char * x= "hello";`<br>
-     The compiler changes above to (if "hello" is stored at 0x400640)<br>
-     `char * x = 0x400640; `
+### `char` constant (문자 상수)
 
-- 4. Use `strcpy` to copy or store a string, `strlen` to compute string length, `strcmp` to compare two strings, and `strtok` to extract words from a sentence.
+- `char` constant (문자 상수)는 compile time 동안 ascii number로 대체된다.
 
-- 5. Understand the difference below:<br>
+```c
+x = 'a';
+// The compiler changes above to
+x = 97; // 97 is the ascii number of 'a'
+```
 
-  - a) `char x[10];` // x is 10 bytes where we can store char's<br>
-    `strcpy(x, "hello");` // we store 6 bytes ('h','e','l','l','o',0) into x array
-  - b) `char *y;` // y is 4 bytes where we can store an address<br>
-    y = "hello"; // we store address 0x400640 in x (assuming this is the address of "hello")
-  - In a), we have two copies of "hello", one in string area and the other in x.
-  - In b) we have only one copy of "hello" (in the string area of the memory).
+### `string` constant (문자열 상수)
 
-- 6. Use `malloc` (in C) or `new` (in C++) to allocate space to a string pointer. Remember you can't store data in pointer variable until you allocate memory space.<br>
-     `char *x;`<br>
-     `strcpy(x, "hello");` // this is an error. we need data space to copy "hello", but x has no space for data. x has space only for address.<br>
-     <br>
-     `x=(char *)malloc(10);` // allocate space first and store the address of it in x
-     `strcpy(x, "hello");` // and then store data. "hello" is stored in the location pointed by x
+- `string` constant (문자열 상수)는 compile time 동안 저장된 주소로 대체된다. (replaced by the address where it is stored.)
+- 프로그램에서 사용되는 모든 `string` constant는 컴파일러에 의해 메모리의 "string area"(문자열 영역)에 저장된다.
+
+```c
+char * x= "hello";
+// The compiler changes above to (if "hello" is stored at 0x400640)
+char * x = 0x400640;
+```
+
+### string functions
+
+- `strcpy`
+  - string을 복사(copy) 혹은 저장(store)하기 위해 사용
+- `strlen`
+  - string의 길이(length)를 계산하기 위해 사용
+- `strcmp`
+  - cmp는 "compare"의 줄임말로서, 두 개의 strings를 비교(compare)하기 위해 사용
+- `strtok`
+  - tok는 "token"의 줄임말로서, 문장으로부터 단어들(토큰, token)을 뽑아내기 위해 사용
+
+### Understand the difference below:
+
+#### a)
+
+```c
+char x[10];         // x is 10 bytes where we can store char's
+strcpy(x, "hello"); // we store 6 bytes ('h','e','l','l','o',0) into x array
+```
+
+#### b)
+
+```c
+char *y;        // y is 4 bytes where we can store an address
+y = "hello";    // we store address 0x400640 in x (assuming this is the address of "hello")
+```
+
+#### 차이점
+
+- "[a\)](#a)"에서 "hello"가 복사된 것이 2개 있다.
+  - 하나는 string area, 다른 하나는 x
+- "[b)](#b)"에서 "hello"가 복사된 것이 1개 밖에 없다.
+  - string area of the memory
+
+### `malloc` or `new`
+
+- 문자열 포인터에 공간을 할당하려면 C언어의 경우 `malloc`, C++은 `new`를 사용한다.
+- 메모리 공간을 할당할 때까지 포인터 변수에 데이터를 저장할 수 없다.
+
+```c
+char *x;
+strcpy(x, "hello");     // this is an error.
+                        // we need data space to copy "hello",
+                        // but x has no space for data.
+                        // x has space only for address.
+```
+
+```c
+x=(char *)malloc(10);   // allocate space first and store the address of it in x
+strcpy(x, "hello");     // and then store data.
+                        // "hello" is stored in the location pointed by x
+```
 
 ## 2. A string is a character array ending with 0.
 
@@ -45,7 +108,9 @@ for(i=0;i<5;i++){
 }
 ```
 
-In above, "a" is not a string. It is a regular character array with 5 rooms all filled with 'q'.
+- 위에서 "a"는 string이 아니다.
+- 5개의 공간이 모두 'q'로 가득 차있는 regular character array일 뿐이다.
+
 <br>
 
 ```c
@@ -56,56 +121,65 @@ for(i=0;i<3;i++){
 b[3]=0;
 ```
 
-In above, "b" is a string with length 3 (three characters in this string).
+- 위에서 "b"는 길이가 "3"인 string이다.
+- 이 string에는 3개의 character들이 있다.
 
-A string can be displayed with `printf`.
+<br>
 
-`printf("%s", b);`
+### 문자열의 출력
 
-`%s` means "b" is an address of a string, go to that address, and print all characters starting at that address until a zero is seen.
+#### string은 `printf`를 통해 출력할 수 있다.
 
-A regular character array needs a loop to display.
+```c
+printf("%s", b);
+```
+
+- `%s`는 "b"가 문자열의 주소임을 의미하며, 해당 주소로 이동한 후 0이 표시될 때까지 해당 주소에서 시작하는 모든 문자를 인쇄한다.
+
+<br>
+
+#### regular character array를 출력하려면 반복문을 사용해야 한다.
 
 ```c
 for(i=0;i<5;i++)
    printf("%c",a[i]);
 ```
 
-If we use `printf("%s", a);` the computer will think "a" is an address of a string, go to that address and print all characters starting at that address until a zero is seen. If we don't have a zero in the memory after "a", the computer will never stop.
+- 만약, `printf("%s", a);`를 사용한다면, 컴퓨터는 "a"가 문자열의 주소라고 생각하고 그 주소로 가서 0이 보일 때까지 그 주소에서 시작하는 모든 문자를 인쇄할 것이다.
+  - 만약, "a" 뒤에 메모리에 0이 없으면, 컴퓨터는 멈추지 않을 것이다.
 
-## 3. int, char, string: define, store data, read data, print, compare
-
-### 1) int, char, string
+## 3. `int`, `char`, `string`의 정의, 저장, 읽기, 출력, 비교
 
 ```c
-int  x;            // x is a room for an integer
-x = 10;           // we can store an integer in x
-scanf("%d", &x);  // or we can read an integer into x
-printf("%d", x);   // print an integer
-if (x==10){       // check the value of x
+int x;              // x is a room for an integer
+x = 10;             // we can store an integer in x
+scanf("%d", &x);    // or we can read an integer into x
+printf("%d", x);    // print an integer
+if (x==10){         // check the value of x
    ......
 }
 
-char y;          // y is a room for a character
-y = ‘t';          // we can store a character in y
-scanf("%c", &y); // or we can read a character into y
-printf("%c", y);  // print a character
-if (y=='t'){      // check the value of y
+char y;             // y is a room for a character
+y = 't';            // we can store a character in y
+scanf("%c", &y);    // or we can read a character into y
+printf("%c", y);    // print a character
+if (y=='t'){        // check the value of y
    ......
 }
 
-char z[50];         // z is a 50-room space for a string
-strcpy(z, "korea");  // we have to use strcpy() to store a string in z
-scanf("%s", z);      // or we can read a string into z
-printf("%s", z);      // print a string
+char z[50];             // z is a 50-room space for a string
+strcpy(z, "korea");     // we have to use strcpy() to store a string in z
+scanf("%s", z);         // or we can read a string into z
+printf("%s", z);        // print a string
 int k;
-k=strcmp(z, "korea");  // if equal, strcmp returns 0; otherwise strcmp returns non-zero
-if (k==0){             // check the value of z
+k=strcmp(z, "korea");   // if equal, strcmp returns 0;
+                        // otherwise strcmp returns non-zero
+if (k==0){              // check the value of z
    ........
 }
 ```
 
-A string is actually a character array ending with zero.
+문자열은 사실상 0으로 끝나는 character array이다.
 
 ```c
 for(i=0;;i++){
@@ -116,41 +190,42 @@ for(i=0;;i++){
 }
 ```
 
-We can print the length of a string using `strlen()`.
+`strlen()`을 사용하면 string의 length를 출력할 수 있다.
 
 ```c
 printf("the length of this string is %d\n", strlen(z));
 ```
 
-## 4. strtok
+## 4. `strtok`
 
-`strtok` can split a sentence into a list of words.
-
-`strtok(buf, " ");` will find the first word in buf and insert 0 after it.
-
-`strtok(NULL, " ");` will find the next word in buf and insert 0 after it.
+- `strtok`은 문장을 단어들의 배열로 split 해준다.
+- `strtok(buf, " ");`은 "buf"에서 첫 번째 단어를 찾고 그 뒤에 `0`을 삽입한다.
+  `strtok(NULL, " ");`은 "buf"에서 그 다음 단어를 찾고 그 뒤에 `0`을 삽입한다.
 
 ```c
 char buf[50];
 strcpy(buf, "ab c def gh"); //buf contains (a, b, space, c, space, d, e, f, space, g, h, 0)
 char *temp;
-temp=strtok(buf, " ");  // buf is now (a, b, 0, c, space, d, e, f, space, g, h, 0)
-                      // and temp has the address of buf[0].
-temp=strtok(NULL, " "); // buf is now (a, b, 0, c, 0, d, e, f, space, g, h, 0)
-                       // temp has the address of buf[3]
-temp=strtok(NULL, " "); // buf is now (a, b, 0, c, 0, d, e, f, 0, g, h, 0)
-                        // temp has the address of buf[5]
+temp=strtok(buf, " ");      // buf is now (a, b, 0, c, space, d, e, f, space, g, h, 0)
+                            // and temp has the address of buf[0].
+temp=strtok(NULL, " ");     // buf is now (a, b, 0, c, 0, d, e, f, space, g, h, 0)
+                            // temp has the address of buf[3]
+temp=strtok(NULL, " ");     // buf is now (a, b, 0, c, 0, d, e, f, 0, g, h, 0)
+                            // temp has the address of buf[5]
+```
 
 example code:
+
+```cpp
 char buf[256];
 char *token;
 printf("enter a sentence\n");
-fgets(buf, 255, stdin);   // read a line (maximum size 255)
-buf[strlen(buf)-1]=0;    // remove enter key
-token = strtok(buf, " "); // get the first token
+fgets(buf, 255, stdin);         // read a line (maximum size 255)
+buf[strlen(buf)-1]=0;           // remove enter key
+token = strtok(buf, " ");       // get the first token
 for(;;){
    printf("%s\n", token);
-   token = strtok(NULL, " "); // get the next token
+   token = strtok(NULL, " ");   // get the next token
    if (token==NULL) break;
 }
 ```
@@ -159,13 +234,13 @@ for(;;){
 
 ```c
 char * x[10];
-x[0]="hi"; // store address of "hi" in x[0]
-strcpy(x[1],"bye"); // this is an error
-x[1]=(char *)malloc(10); // allocate space first
-strcpy(x[1], "bye");     // then store data
+x[0]="hi";                  // store address of "hi" in x[0]
+strcpy(x[1],"bye");         // this is an error
+x[1]=(char *)malloc(10);    // allocate space first
+strcpy(x[1], "bye");        // then store data
 ```
 
-## 6. Practice
+## 6. Exercise
 
 ### 1) [A char constant is an ascii number. A string constant is an address where it is stored in the string area.] Explain the result for following code.
 
