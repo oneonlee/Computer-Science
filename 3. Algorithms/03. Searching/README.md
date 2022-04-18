@@ -24,6 +24,8 @@
 ## Trees
 
 - Tree Terminology
+
+
   <img width="265" alt="스크린샷 2021-12-10 - ᅩ후 2 37 10" src="https://user-images.githubusercontent.com/73745836/145522856-33feaab6-4710-4bac-9d1f-5e9de31df1a1.png">
 
 | Terminology           | Explain                                                              | Example                   |
@@ -43,9 +45,8 @@
 | Path                  | A sequence of nodes such that any two consecutive nodes form an edge | A, B, F, J                |
 | Ordered tree          | a tree with a linear ordering defined for the children of each node  |                           |
 
--
 
-### Preorder Traversal (P-L-R)
+### 1) Preorder Traversal (P-L-R)
 
 - A traversal visits the nodes of a tree in a systematic manner
 - search 랑은 다르다. (모든 node들을 찾아가는 규칙)
@@ -62,7 +63,7 @@ Algorithm preOrder(T,p)
     preOrder(T,q)
 ```
 
-### Postorder Traversal (L-P-R)
+### 2) Postorder Traversal (L-P-R)
 
 <img width="754" alt="스크린샷 2021-12-12 - ᅩ후 8 57 09" src="https://user-images.githubusercontent.com/73745836/145711193-0dc68ac2-e28d-4ec2-bd81-1633df5aea22.png">
 
@@ -76,7 +77,7 @@ Algorithm postOrder(T,p)
   visit(p)
 ```
 
-### In-order Traversal
+### 3) In-order Traversal
 
 - In an inorder traversal, a node is visited after its left subtree and before its right subtree
 - Application: draw a binary tree
@@ -95,7 +96,7 @@ Algorithm inOrder(T,p)
 
 <img width="803" alt="스크린샷 2021-12-12 - ᅩ후 8 51 32" src="https://user-images.githubusercontent.com/73745836/145711020-5a426b2c-f099-4c24-896e-b0f40f0cc56d.png">
 
-### Euler Tour Traversal
+### 4) Euler Tour Traversal
 
 - Generic traversal of a binary tree
 - Includes as special cases the preorder, postorder and inorder traversals
