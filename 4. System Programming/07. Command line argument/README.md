@@ -5,15 +5,15 @@
 ex1.c:
 
 ```c
-int main(int *x, char *y[]){
+int main(int argc, char *argv[]){
    .............
 }
 ```
 
 The system will pass
 
-- `x`: number of command line arguments
-- `y`: command line argument
+- `argc`: number of command line arguments
+- `argv`: command line argument
 
 For example,
 
@@ -25,11 +25,11 @@ will pass **4** command line arguments: `./ex1`, `x1`, `x2`, `x3`.
 
 Therefore, the system will pass
 
-- `x` <-- 4 (number of command line arguments)
-- `y[0]` <-- `./ex1` (first command line argument)
-- `y[1]` <-- `x1` (second command line argument)
-- `y[2]` <-- `x2` (third command line argument)
-- `y[3]` <-- `x3` (fourth command line argument)
+- `argc` <-- 4 (number of command line arguments)
+- `argv[0]` <-- `./ex1` (first command line argument)
+- `argv[1]` <-- `x1` (second command line argument)
+- `argv[2]` <-- `x2` (third command line argument)
+- `argv[3]` <-- `x3` (fourth command line argument)
 
 ## 2. Exercise
 
@@ -703,3 +703,71 @@ Use functions wisely.
 ![](img/img23.png)
 ![](img/img24.png)
 ![](img/img25.png)
+
+---
+
+## 8. Extra Practice
+
+### 1. Write a program that modifies any given wave file such that it repeats the first half of the sound.
+
+```bash
+$ ./yesmyyesmy swvader.wav
+```
+
+The above should modifies "swvader.wav" such that it contains "yes my yes my" sound instead of "yes my master".
+
+See [yesyesmy.c](./codes/yesmyyesmy.c) (Ref "[5.c](../06.%20Reading%20a%20non-text%20file/codes/5.c)" of [Reading a non-text file](../06.%20Reading%20a%20non-text%20file/README.md))
+
+### 2. Write a program that reverses the lines of a file.
+
+```bash
+$ cat f1
+first
+second
+third
+fourth
+fifth
+$ ./reverse_cp f1 f2
+$ cat f2
+fifth
+fourth
+third
+second
+first
+```
+
+See [reverse_cp.c](./codes/reverse_cp.c)
+
+### 3. Write a program that reads a file and change all space characters to 'a'.
+
+For example if "f1" is:
+
+```text
+ h  ll o
+```
+
+```bash
+$ ./sol01 f1
+$ cat f1
+ahaallao
+```
+
+See [Sol. 3](./codes/sol3.c)
+
+### 4. Modify your code in Problem 3 such that it can change a given character to another given character in a file.
+
+For example if "f1" is:
+
+```text
+h ll o hi
+```
+
+The following will change 'h' to 'b' in f1 file.
+
+```bash
+$ ./sol02 f1 h b
+$ cat f1
+b ll o bi
+```
+
+See [Sol. 4](./codes/sol4.c)

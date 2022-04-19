@@ -501,3 +501,28 @@ $ ./ex7-1 | grep -c "iteration"
 가장 말단의 자식만 `printf`를 할 수 있지만, 가장 말단의 자식 프로세스가 아니더라도 `fork()`를 통해 새로운 프로세스를 계속 생성할 수 있다.
 
 이는 이분법으로 증식하는 세포 같이 생각할 수 있다. 5회 반복 시 31(= 2^0+2^1+2^2+2^3+2^4)개의 자식 프로세스가 생성되며, 따라서 31개의 자식 프로세스로부터 310번 `printf`가 호출될 것이다.
+
+---
+
+## 4. Extra practice
+
+### 1. Write a program that creates a child. The parent and child both print their PID's, but make sure the child always runs first.
+
+```bash
+$ ./child_first
+child: 19019
+parent: 19018
+```
+
+See [child_first.c](./codes/child_first.c) (Ref [Exercise 3](#3-try-below-"ex2c"-which-hello-is-displayed-by-the-parent-and-which-hello-is-by-the-child))
+
+### 2. Write program that creates 3 children and let them print their PID's.
+
+```bash
+$ ./pid_of_children
+Child(0)'s PID: 28899
+Child(1)'s PID: 28900
+Child(2)'s PID: 28901
+```
+
+See [pid_of_children.c](./codes/pid_of_children.c)

@@ -5,41 +5,41 @@
 ## 1. file type
 
 - regular file (type 1)
-    - 데이터를 포함하고 있는 파일
+  - 데이터를 포함하고 있는 파일
 - text file
-    - ASCII 코드나 유니코드(Unicode)로 인코딩된 문자(character)들을 포함하고 있는 파일
+  - ASCII 코드나 유니코드(Unicode)로 인코딩된 문자(character)들을 포함하고 있는 파일
 - non-text file (binary file)
-    - non-characters를 포함
+  - non-characters를 포함
 - directory file (type 2)
-    - 그 directory의 각 파일에 대한 정보가 들어 있는 파일
+  - 그 directory의 각 파일에 대한 정보가 들어 있는 파일
 - link file (type 7)
-    - 다른 파일을 가르키는 파일
+  - 다른 파일을 가르키는 파일
 - device file (type 3, 4)
-    - 키보드, 프린터, 마우스 등 다른 기기를 나타내는 파일
+  - 키보드, 프린터, 마우스 등 다른 기기를 나타내는 파일
 - socket file (type 5)
-    - 네트워크 연결을 가르키는 파일
+  - 네트워크 연결을 가르키는 파일
 
 ## 2. binary file
 
 - binary file은 아래의 데이터를 포함한다.
-    - 소리 (wav, mp3, ..)
-    - 그림 (jpg, gif, ...)
-    - 명령 (exe, elf, ...)
-    - 압축된 데이터 (zip, gz, ...)
-    - 기타 등등
-
+  - 소리 (wav, mp3, ..)
+  - 그림 (jpg, gif, ...)
+  - 명령 (exe, elf, ...)
+  - 압축된 데이터 (zip, gz, ...)
+  - 기타 등등
 
 ## 3. little endian, big endian
 
 - Multi-byte data는 little endian이나 big endian 방식으로 저장된다.
-    - little endian: 높은 주소는 높은 바이트로, 낮은 주소는 낮은 바이트로 (high-high low-low)
-    - big endian: 높은 주소는 낮은 바이트로, 낮은 주소는 높은 바이트로 (high-low low-high)
+  - little endian: 높은 주소는 높은 바이트로, 낮은 주소는 낮은 바이트로 (high-high low-low)
+  - big endian: 높은 주소는 낮은 바이트로, 낮은 주소는 높은 바이트로 (high-low low-high)
 
 ## 4. WAV file format
 
 wav file은 sound data를 포함한다.
 
-#### WAV File Specification 
+#### WAV File Specification
+
 출처 : https://ccrma.stanford.edu/courses/422-winter-2014/projects/WaveFormat/
 
 ```
@@ -93,7 +93,6 @@ The "WAVE" format consists of two subchunks: "fmt " and "data":
 - 4, 2, 1바이트의 binary data를 읽으려면 각각 `int`, `short`, `char` 자료형을 사용한다.
 - 텍스트 데이터에는 char array를 사용합니다.
 
-
 실제 코드는 [여기](https://github.com/oneonlee/Computer-Science/blob/main/4.%20System%20Programming/06.%20Reading%20a%20non-text%20file/codes/2.c)를 참조
 
 ```c
@@ -139,7 +138,6 @@ char buf[100];
 f2=fopen("./yy","w");       // open ./yy for writing
 fprintf(f2,"%s",buf);       // write the string in buf into f2
 ```
-
 
 ## 7. Exercise
 

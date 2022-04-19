@@ -111,7 +111,7 @@ $ man 2 write
 
 `man`의 mannual에는 각 시스템 호출에 사용해야 하는 파일에 대한 설명이 나와 있다.
 
-## 6. example:
+## 6. Exercise
 
 ### 6-0) Reading 20 bytes from file "f1" and display them in the terminal using printf.
 
@@ -532,3 +532,25 @@ printf("src file:%s dest file:%s\n", temp1[0], temp2[0]);
 ```
 
 ![](img/img33.png)
+
+---
+
+## 7. Extra Practice
+
+### 1. Write a program that adds up the ascii number of a text file and print it.
+
+If "f1" has
+
+```text
+ab
+c
+```
+
+then, the output should be `61+62+a+63+a=13a` in hexadecimal number as follows.
+
+```bash
+$ ./hexa_sum f1
+sum: 13a
+```
+
+See [hexa_sum.c](./codes/hexa_sum.c) (Ref [myxxd 11.c](#11-write-myxxd-that-displays-the-contents-of-a-user-input-file-in-the-terminal-in-hexadecimal-numbers-give-a-text-file-and-a-non-text-file-to-myxxd-and-explain-the-difference-you-need-to-use-printf"x-"-bufi-to-display-a-byte-in-a-hexadecimal-number-also-declare-the-buffer-as-an-array-of-unsigned-char-compare-the-result-from-the-result-of-xxd) and [code](<./codes/11v2_(myxxd).c>))
