@@ -290,12 +290,11 @@ protected:
   - we remove node `w` and its left child `z` (which must be a leaf) by means of operation `removeAboveExternal(z)`
 
 #### Example: Removal
+##### `erase(3)`
+<img width="260" alt="스크린샷 2021-12-14 - ᅩ후 6 15 50" src="https://user-images.githubusercontent.com/73745836/145968955-7af45d5d-270d-4856-87e9-b0b32ef9dbb3.png">
 
-- `erase(3)`
-  <img width="260" alt="스크린샷 2021-12-14 - ᅩ후 6 15 50" src="https://user-images.githubusercontent.com/73745836/145968955-7af45d5d-270d-4856-87e9-b0b32ef9dbb3.png">
-
-- Removing an entry with key `65`
-  <img width="559" alt="스크린샷 2021-12-14 - ᅩ후 6 17 30" src="https://user-images.githubusercontent.com/73745836/145969235-935381fb-7107-41e3-8a7c-274226739c29.png">
+##### Removing an entry with key `65`
+<img width="559" alt="스크린샷 2021-12-14 - ᅩ후 6 17 30" src="https://user-images.githubusercontent.com/73745836/145969235-935381fb-7107-41e3-8a7c-274226739c29.png">
 
 ### Performance
 
