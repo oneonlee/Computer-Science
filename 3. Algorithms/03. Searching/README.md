@@ -276,10 +276,10 @@ protected:
 
 #### Example: Removal
 
-- `erase(4)`
+##### `erase(4)`
   <img width="267" alt="스크린샷 2021-12-14 - ᅩ후 5 57 47" src="https://user-images.githubusercontent.com/73745836/145966063-066272b4-8a50-4984-b1aa-1b9426f62aa1.png">
 
-- Removing an entry with key `32`
+##### Removing an entry with key `32`
   <img width="545" alt="스크린샷 2021-12-14 - ᅩ후 5 58 38" src="https://user-images.githubusercontent.com/73745836/145966197-0fc34dd6-01d2-4e3f-8d8f-cfed8ef9a6ba.png">
 
 ### Removal (cont.)
