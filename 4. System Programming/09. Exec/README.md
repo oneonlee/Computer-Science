@@ -1,19 +1,21 @@
-# Exec
+# `exec`
 
-## 1. exec : execve, execl, execlp, ....
+## 1. `exec` : `execve`, `execl`, `execlp`, ....
 
-A program calls `exec` to transform itself to another.
+`exec` 함수는 인자로 받은 다른 프로그램을 자신을 호출한 프로세스의 메모리에 덮어쓴다. 따라서 프로세스가 수행 중이던 기존 프로그램은 중지되어 없어지고, 새로 덮어쓴 프로그램이 실행된다. exec 함수군을 호출한 프로세스 자체가 바뀌므로, exec 함수를 호출해 성공하면 리턴값이 없습니다. 
+비슷한 기능을 하는 `fork`는 프로세스를 **복제**하고, `exec`은 프로세스를 **대체**한다.
 
-1. algorithm of `exec`
-   - remove old body
-   - load new body
-   - adjust process descriptor
-2. function prototype of `execve`
+### 1. `exec`의 알고리즘
+1. remove old body
+2. load new body
+3. adjust process descriptor
+
+### 2. function prototype of `execve`
 
 ```c
-    y=execve(fname, argv, envp); // change to fname with additional arguments specified in
-    // argv[] and additional environment variables specified in
-    // envp[]. returns -1 if error.
+    y=execve(fname, argv, envp); // change to fname with additional arguments specified in argv[]
+                                 // and additional environment variables specified in  envp[].
+                                 // returns -1 if error.
     y=execve("/aa/bb", k, 0); // change to /aa/bb with additional arguments in k
 ```
 
@@ -154,3 +156,4 @@ $ myexec
 ```
 
 ![](img/13.png)
+
