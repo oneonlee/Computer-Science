@@ -9,11 +9,10 @@
   - [라빈-카프 알고리즘](#라빈-카프-알고리즘)
 - [패턴 매칭 알고리즘](#패턴-매칭-알고리즘)
 - [화일 압축 알고리즘](#화일-압축-알고리즘)
-  - [런-길이 인코딩](#런-길이-인코딩)
-  - [가변-길이 인코딩](#가변-길이-인코딩)
+  - [허프만 인코딩](#허프만-인코딩-huffman-encoding)
 - [암호화 알고리즘](#암호화-알고리즘)
-  - [단순한 기법](#단순한-기법)
   - [공개 키 암호화 시스템](#공개-키-암호화-시스템)
+    - [RSA 알고리즘](#rsarivest-shamir-adleman-알고리즘)
 
 ---
 
@@ -173,16 +172,150 @@ end MisChar()
 
 ### 라빈-카프 알고리즘
 
+- 스트링을 숫자값으로 바꾼 다음 **해시** 값을 계산하여 매칭하는 알고리즘
+- 최악의 시간 복잡고는 `O(MN)`이지만 평균적으로는 선형에 가까운 빠른 속도를 가지는 알고리즘
+
 ## 패턴 매칭 알고리즘
+
+### 패턴 매칭 (pattern matching)
+
+- 텍스트 스트링에서 원하는 문자 패턴을 찾아 내는 것
+- 패턴 기술
+  - 1. 접합 (concatenation)
+    - 패턴에서 인접해 있는 두 문자가 텍스트에서 나타나면 매치
+  - 2. 논리합 (or)
+    - 두 개의 문자 중 하나가 텍스트에 나타나면 매치
+  - 3. 폐포 (closure)
+    - 특정한 문자가 0개 이상 나타나면 매치
+
+![IMG_AB632FFAE60A-1](https://user-images.githubusercontent.com/73745836/171319390-55c0b77f-7e32-4936-bebf-da8b1ba2ef7d.jpeg)
+
+### 정규식 (regular expression)
+
+- 특정한 규칙을 가진 문자열의 집합을 표현하는데 사용하는 형식 언어
+- 세 가지 기본 연산들로 이루어진 심볼들의 스트링
+  - 심볼 (symbol)
+    - `*` : 괄호 안에 있는 문자들이 **0번 이상** 나타남
+    - `?` : 어떤 문자와도 매치됨
+    - `+` : 또는 (or) 연산
+- 예
+  - `?*(ie+ei)?*` : `ie` 또는 `ei`를 가지고 있는 모든 단어
+  - `(1+01)*(0+1)` : 연속적으로 두 개의 `0`이 나오지 않는 `0`과 `1`로 이루어진 모든 스트링
+
+### 패턴 매칭 장치 (pattern matching machine)
+
+- 패턴 매칭에 사용되는 장치 패턴
+- 결정적(deterministic) 장치
+  - 각각의 상태 전이가 다음 입력 문자에 의해 완전하게 결정되는 것
+  - 예 : [KMP 알고리즘을 위한 유한 상태 장치](#패턴이-내장된-kmp-알고리즘)
+- 비결정적(nondeterministic) 장치
+  - 패턴을 매치하기 위해 하나 이상의 방법이 있을 경우, 장치가 올바른 것을 찾아 나가는 것
+  - 텍스트 스트링에서, `(A*B+AC)D`와 같은 정규식을 찾는 경우 사용되며, 유일한 시작 상태와 종료 상태를 가진다.
+
+#### 패턴 매칭 장치 구현
+
+- 장치를 구현하는데 가장 적합한 자료구조 : **Deque[데크]** (Double-Ended Queue)
+  - 스택과 큐의 특징을 조합
+  - 양방향에서 항목을 추가하는 것이 가능
+  - 입력은 양방향에서 가능
+  - 삭제는 데크의 처음에서만 가능한 '출력-제한 데크 (output-restricted deque)' 사용
+
+![IMG_EBC632E2A670-1](https://user-images.githubusercontent.com/73745836/171321018-3a604596-b32f-447a-8441-fa7e3243dfad.jpeg)
+
+#### 동작 과정
+
+- 개요
+  - 1. 문자가 매치됨 → 새로운 상태를 데크의 끝에 삽입 (`insertLast`)
+  - 2. 상태가 비어 있음 → 두 개의 가능한 상태를 데크의 처음에 삽입 (`insertionFirst`)
+  - 3. `scan`을 만남 → 입력 스트링에 대한 포인터를 다음 문자로 이동
+- 종료 조건
+  - 입력의 끝까지 갔을 때 (매치되지 않음)
+  - 상태 0을 만남 (매치됨)
+  - 데크에 `scan` 마크 하나만 남음 (매치되지 않음)
+
+![IMG_1F94A93207FC-1](https://user-images.githubusercontent.com/73745836/171323280-63ef8485-dd51-483a-8c14-61671bfe78d8.jpeg)
 
 ## 화일 압축 알고리즘
 
-### 런-길이 인코딩
+### 허프만 인코딩 (Huffman encoding)
 
-### 가변-길이 인코딩
+with Priority Queue
+
+![](https://postfiles.pstatic.net/MjAxODExMTlfNzUg/MDAxNTQyNjEzMjYxNTE4.WakY5a4l6QM1nxY7Ug6BzTJklxP62-PMhOKoZn-_JQEg.EKLAThhp4wXjo2qjr4Zd1x7fB09nVFrycwyz0q9X5mkg.PNG.stizms/%ED%97%88%ED%94%84%EB%A7%8C_%ED%8A%B8%EB%A6%AC.png?type=w966)
+
+**알고리즘**
+
+1. 모든 노드를 PQ에 `insert`한다.
+2. freq가 가장 작은 두 노드를 PQ에서 빼온다.
+3. 그 두 노드를 하나의 노드로 묶는다.
+4. 하나로 묶은 노드를 다시 PQ에 넣는다.
+5. 2번 ~ 4번의 과정을 계속 반복한다.
 
 ## 암호화 알고리즘
 
-### 단순한 기법
-
 ### 공개 키 암호화 시스템
+
+#### RSA(Rivest-Shamir-Adleman) 알고리즘
+
+- 1. 서로 다른 두 개의 큰 **소수** `p`, `q` 선택 (100자리)
+  - `p*q → r`
+- 2. 하나의 큰 숫자 `e` 선택 (**공개 암호화 키**)
+  - `p-1`, `q-1`과 각각 **서로소**이어야 함
+  - `p`, `q`보다 **큰** 어떤 **소수**이어햐 함
+- 3. **비밀 해독키** `d` 계산
+  - `(e*d) % {(p-1)*(q-1)} == 1`을 만족하는 `d` 찾기
+  - 표기법 : `d*e = 1 modulo (p-1)*(q-1)`
+    - `mod` 연산에 대한 표기법 [참고](https://codingram.tistory.com/26)
+- 4. 정수 `r`과 `e`는 **공개**하고, `d`는 **비밀**로 유지
+- 5. 평문 `P`로부터 암호문 `C = P^e modulo r` 계산
+- 6. 암호문 `C`로부터 평문 `P = C^d modulo r` 계산
+
+```python
+>>> p = 3
+>>> q = 5
+>>> r = p*q
+>>> r
+15
+>>> (p-1)*(q-1)
+8
+>>>
+>>> # let e be 11 (prime greater than both p, q)
+>>> e = 11
+>>>
+>>> # find d
+>>> # d*e = 1 modulo (p-1)*(q-1)
+>>> # d*11 = 1 modulo 8
+>>> # so, d = 3
+>>> d = 3
+>>>
+>>> ## Encryption ###
+>>> # let P = 13 (Plain text)
+>>> P = 13
+>>> # C = P^e modulo r
+>>> # C = P**e % r
+>>> # C = 13*11 % 15
+>>> C = P**e % r
+>>> C
+7
+>>>
+>>> ### Decryption ###
+>>> # P = C^d modulo r
+>>> # P = C**d % r
+>>> # P = 7**3 % 15
+>>> P = C**d % r
+>>> P
+13
+```
+
+**발송인 S가 수신인 R에게 메시지 P 전송** <br>
+발송인 S : <br>
+<img src="https://latex.codecogs.com/svg.image?E_R\left&space;(&space;D_S\left&space;(&space;P&space;\right&space;)&space;\right&space;)&space;=&space;C" title="https://latex.codecogs.com/svg.image?E_R\left ( D_S\left ( P \right ) \right ) = C" />
+
+수신인 R : <br>
+<img src="https://latex.codecogs.com/svg.image?\begin{align*}&space;E_S\left&space;(&space;D_R\left&space;(&space;C&space;\right&space;)&space;\right&space;)&space;&=&space;E_S\left&space;(&space;D_R\left&space;(E_R\left&space;(&space;D_S\left&space;(&space;P&space;\right&space;)&space;\right&space;)\right&space;)&space;\right&space;)&space;\\&space;&=&space;E_S\left&space;(&space;D_S\left&space;(&space;P&space;\right&space;)&space;\right&space;)&space;\\&space;&=&space;P\end{align*}" title="https://latex.codecogs.com/svg.image?\begin{align*} E_S\left ( D_R\left ( C \right ) \right ) &= E_S\left ( D_R\left (E_R\left ( D_S\left ( P \right ) \right )\right ) \right ) \\ &= E_S\left ( D_S\left ( P \right ) \right ) \\ &= P\end{align*}" />
+
+> S가 메시지 P를 전송하였다는 것을 확인할 수 있음
+
+```
+
+```
