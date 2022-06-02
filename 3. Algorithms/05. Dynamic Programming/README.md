@@ -9,6 +9,7 @@
   - [무작정 알고리즘 (brute-force algorithm)](#무작정-알고리즘-brute-force-algorithm)
   - [Floyd 알고리즘 I](#floyd-알고리즘-i)
   - [Floyd 알고리즘 II](#floyd-알고리즘-ii)
+- [0-1 Knapsack Problem](#0-1-knapsack-problem)
 
 ## 스트링 편집거리 (Levenshtein Distance)
 
