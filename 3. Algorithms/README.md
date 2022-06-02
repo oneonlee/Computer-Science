@@ -4,7 +4,7 @@
 - [02. Sorting](02.%20Sorting)
 - [03. Searching](03.%20Searching)
 - [04. String Process Algorithm](04.%20String%20Process%20Algorithm)
-- [05. DP (Dynamic Programming)](05.%20DP)
+- [05. DP (Dynamic Programming)](05.%20Dynamic%20Programming)
 - [06. Graph Algorithm](06.%20Graph%20Algorithm)
 - [07. NP (Nondeterministic Polynomial-time)]()
 - [08. Genetic Algorithm]()
