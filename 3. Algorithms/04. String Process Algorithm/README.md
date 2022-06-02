@@ -219,8 +219,7 @@ end MisChar()
   - 양방향에서 항목을 추가하는 것이 가능
   - 입력은 양방향에서 가능
   - 삭제는 데크의 처음에서만 가능한 '출력-제한 데크 (output-restricted deque)' 사용
-
-![IMG_EBC632E2A670-1](https://user-images.githubusercontent.com/73745836/171321018-3a604596-b32f-447a-8441-fa7e3243dfad.jpeg)
+  - <img src="https://user-images.githubusercontent.com/73745836/171321018-3a604596-b32f-447a-8441-fa7e3243dfad.jpeg" width = 30%/>
 
 #### 동작 과정
 
@@ -233,7 +232,7 @@ end MisChar()
   - 상태 0을 만남 (매치됨)
   - 데크에 `scan` 마크 하나만 남음 (매치되지 않음)
 
-![IMG_1F94A93207FC-1](https://user-images.githubusercontent.com/73745836/171323280-63ef8485-dd51-483a-8c14-61671bfe78d8.jpeg)
+<img src="https://user-images.githubusercontent.com/73745836/171323280-63ef8485-dd51-483a-8c14-61671bfe78d8.jpeg" width = 60%/>
 
 ## 화일 압축 알고리즘
 
@@ -243,7 +242,7 @@ with Priority Queue
 
 ![](https://postfiles.pstatic.net/MjAxODExMTlfNzUg/MDAxNTQyNjEzMjYxNTE4.WakY5a4l6QM1nxY7Ug6BzTJklxP62-PMhOKoZn-_JQEg.EKLAThhp4wXjo2qjr4Zd1x7fB09nVFrycwyz0q9X5mkg.PNG.stizms/%ED%97%88%ED%94%84%EB%A7%8C_%ED%8A%B8%EB%A6%AC.png?type=w966)
 
-**알고리즘**
+#### 알고리즘
 
 1. 모든 노드를 PQ에 `insert`한다.
 2. freq가 가장 작은 두 노드를 PQ에서 빼온다.
@@ -307,15 +306,12 @@ with Priority Queue
 13
 ```
 
-**발송인 S가 수신인 R에게 메시지 P 전송** <br>
+#### 발송인 S가 수신인 R에게 메시지 P 전송
+
 발송인 S : <br>
 <img src="https://latex.codecogs.com/svg.image?E_R\left&space;(&space;D_S\left&space;(&space;P&space;\right&space;)&space;\right&space;)&space;=&space;C" title="https://latex.codecogs.com/svg.image?E_R\left ( D_S\left ( P \right ) \right ) = C" />
 
 수신인 R : <br>
 <img src="https://latex.codecogs.com/svg.image?\begin{align*}&space;E_S\left&space;(&space;D_R\left&space;(&space;C&space;\right&space;)&space;\right&space;)&space;&=&space;E_S\left&space;(&space;D_R\left&space;(E_R\left&space;(&space;D_S\left&space;(&space;P&space;\right&space;)&space;\right&space;)\right&space;)&space;\right&space;)&space;\\&space;&=&space;E_S\left&space;(&space;D_S\left&space;(&space;P&space;\right&space;)&space;\right&space;)&space;\\&space;&=&space;P\end{align*}" title="https://latex.codecogs.com/svg.image?\begin{align*} E_S\left ( D_R\left ( C \right ) \right ) &= E_S\left ( D_R\left (E_R\left ( D_S\left ( P \right ) \right )\right ) \right ) \\ &= E_S\left ( D_S\left ( P \right ) \right ) \\ &= P\end{align*}" />
 
-> S가 메시지 P를 전송하였다는 것을 확인할 수 있음
-
-```
-
-```
+> S가 메시지 P를 전송하였다는 것을 확인할 수 있음!
