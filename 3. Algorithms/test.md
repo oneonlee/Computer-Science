@@ -43,7 +43,7 @@
 
 # 9. Graph - DFS/BFS
 
-1. 동일한 Tree를 각각 DFS/BFS로 방문하기
+1. [동일한 Tree를 각각 DFS/BFS로 방문하기](06.%20Graph/README.md#graph-traversal)
    - 순서 출력
 2. 인접리스트의 그래프 G를 DFS/BFS로 방문하는 과정 보이기
 3. 알고리즘
