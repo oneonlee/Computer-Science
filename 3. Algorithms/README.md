@@ -6,5 +6,6 @@
 - [04. String Process Algorithm](04.%20String%20Process%20Algorithm)
 - [05. DP (Dynamic Programming)](05.%20Dynamic%20Programming)
 - [06. Graph Algorithm](06.%20Graph%20Algorithm)
-- [07. NP (Nondeterministic Polynomial-time)]()
-- [08. Genetic Algorithm]()
+- [07. Backtracking, Branch & Bound](07.%20Backtracking%2C%20Branch%20%25%20Bound)
+- [08. NP (Nondeterministic Polynomial-time)]()
+- [09. Genetic Algorithm]()
