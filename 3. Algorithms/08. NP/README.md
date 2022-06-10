@@ -33,8 +33,8 @@
 만일,
 
 - (1) 문제 B가 NP에 속하고
-- (2) NP에 속해 있는 **모든 다른 문제** A에 대해 `A ≤ ₚB`이면 B는 NP-complet이다. (NP-complete의 정의)
-  - (2) 또는 잘 알려진 NP-complete 문제 A에 대해 `A ≤ ₚB`이면 B는 NP-complet이다. (Cook의 정리)
+- (2) NP에 속해 있는 **모든 다른 문제** A에 대해 `A ≤ ₚB`이면 B는 NP-complete이다. (NP-complete의 정의)
+  - (2) 또는 잘 알려진 NP-complete 문제 A에 대해 `A ≤ ₚB`이면 B는 NP-complete이다. (Cook의 정리)
 
 #### Polynomial-Time Reduction (다항식 시간 변환)
 
