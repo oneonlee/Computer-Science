@@ -1,0 +1,44 @@
+<html>
+<body>
+<pre>
+<h1>Build Log</h1>
+<h3>
+--------------------Configuration: tsp - Win32 Debug--------------------
+</h3>
+<h3>Command Lines</h3>
+Creating command line "rc.exe /l 0x809 /fo"Debug/Script1.res" /d "_DEBUG" "E:\My Documents\강의관련\2008_1\알고리즘_2008_1(IO319)\Improved TSP\Script1.rc"" 
+Creating temporary file "C:\DOCUME~1\wichoi\LOCALS~1\Temp\RSP1AD.tmp" with contents
+[
+/nologo /MLd /W3 /Gm /GX /ZI /Od /D "WIN32" /D "_DEBUG" /D "_WINDOWS" /D "_MBCS" /Fp"Debug/tsp.pch" /YX /Fo"Debug/" /Fd"Debug/" /FD /GZ /c 
+"E:\My Documents\강의관련\2008_1\알고리즘_2008_1(IO319)\Improved TSP\CmapTSP.cpp"
+"E:\My Documents\강의관련\2008_1\알고리즘_2008_1(IO319)\Improved TSP\gaTSP.cpp"
+"E:\My Documents\강의관련\2008_1\알고리즘_2008_1(IO319)\Improved TSP\main.cpp"
+"E:\My Documents\강의관련\2008_1\알고리즘_2008_1(IO319)\Improved TSP\utils.cpp"
+]
+Creating command line "cl.exe @C:\DOCUME~1\wichoi\LOCALS~1\Temp\RSP1AD.tmp" 
+Creating temporary file "C:\DOCUME~1\wichoi\LOCALS~1\Temp\RSP1AE.tmp" with contents
+[
+kernel32.lib user32.lib gdi32.lib winspool.lib comdlg32.lib advapi32.lib shell32.lib ole32.lib oleaut32.lib uuid.lib odbc32.lib odbccp32.lib /nologo /subsystem:windows /incremental:yes /pdb:"Debug/tsp.pdb" /debug /machine:I386 /out:"Debug/tsp.exe" /pdbtype:sept 
+".\Debug\CmapTSP.obj"
+".\Debug\gaTSP.obj"
+".\Debug\main.obj"
+".\Debug\utils.obj"
+".\Debug\Script1.res"
+]
+Creating command line "link.exe @C:\DOCUME~1\wichoi\LOCALS~1\Temp\RSP1AE.tmp"
+<h3>Output Window</h3>
+Compiling resources...
+Compiling...
+CmapTSP.cpp
+gaTSP.cpp
+main.cpp
+utils.cpp
+Linking...
+
+
+
+<h3>Results</h3>
+tsp.exe - 0 error(s), 0 warning(s)
+</pre>
+</body>
+</html>
