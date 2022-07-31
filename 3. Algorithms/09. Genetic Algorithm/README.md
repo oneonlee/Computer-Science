@@ -92,3 +92,15 @@ Crossover 기법과 Mutation 기법을 구현하기 위해 하나의 `crossover_
 이를 그래프로 나타내면 아래와 같다.
 
 ![](img/ex3.png)
+
+## 4. 참고 자료
+- [GitHub leonlee021/Optimal-Travelling-Route-Finder](https://github.com/leonlee021/Optimal-Travelling-Route-Finder)
+- [YouTube [경전TV][머신러닝] 유전 알고리듬: 진화시켜서 문제 풀기 Part 2 (Genetic Algorithm: Problem Solving by Evolution) w/ Python](https://www.youtube.com/watch?v=ijbAU_F-uvI)
+- [네이버 블로그 게임학과 - 유전 알고리즘 (Genetic Algorithm)](https://m.blog.naver.com/jerrypoiu/221281257452)
+- [백준 2098번: 외판원 순회](https://www.acmicpc.net/problem/2098)
+- [티스토리 블로그 AndroidTeacher - [백준] 2098 외판원 순회 (Python 파이썬)](https://hongcoding.tistory.com/83)
+- [티스토리 블로그 py - 유전 알고리즘(Generic Algorithm in Python) 파이썬으로 풀기](https://koreapy.tistory.com/663)
+- [SUNGHWAN PARK - TSP 알고리즘 1: 문제 소개 및 완전탐색 구현](https://shoark7.github.io/programming/algorithm/introduction-to-tsp-and-solve-with-exhasutive-search)
+- [Visualization of Traveling Salesman Problem Using Genetic Algorithms](http://parano.github.io/GeneticAlgorithm-TSP/)
+- [GitHub AI-Team7/AI-Project1](https://github.com/AI-Team7/AI-Project1)
+- [GitHub bbangmaru/Project1_team4](https://github.com/bbangmaru/Project1_team4)
