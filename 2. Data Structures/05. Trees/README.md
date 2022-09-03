@@ -18,7 +18,7 @@ An abstract model of a hierarchical structure
 | Terminology           | Explain                                                              | Example                   |
 | --------------------- | -------------------------------------------------------------------- | ------------------------- |
 | Root                  | node without parent                                                  | A                         |
-| Child                 | if node u is the parent of node v, v is a child of u                 | A                         |
+| Child                 | if node u is the parent of node v, v is a child of u                 | except A                         |
 | Internal node         | node with at least one child                                         | A, B, C, F                |
 | External node (=Leaf) | node without children                                                | E, I, J, K, G, H, D       |
 | Ancestors of a node   | parent, grandparent, great-grandparent, etc.                         |                           |
