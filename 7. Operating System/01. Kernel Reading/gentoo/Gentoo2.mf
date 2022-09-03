@@ -1,0 +1,2 @@
+SHA1 (Gentoo2.ovf)= 9aecf2c15240737950d22d14b96de542727b02a7
+SHA1 (Gentoo.vmdk)= 50570cb536da16f7d2bde14f006e8f969deed49b
