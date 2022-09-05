@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <title>데이터베이스 실습</title>
+</head>
+
+<body>
+    <h1>Create An Account</h1>
+    <form id="user">
+        <div>
+            <label for="firstname">First name</label>
+            <input id="firstname" type="text" required placeholder="First name">
+        </div>
+        <div>
+            <label for="lastname">Last name</label>
+            <input id="lastname" type="text" placeholder="Last name">
+        </div>
+        <div>
+            <label for="mail">Email</label>
+            <input id="mail" type="email" placeholder="Email">
+        </div>
+        </div>
+        <div>
+            <label for="userid">Username</label>
+            <input id="userid" type="text" placeholder="Username">
+        </div>
+        <div>
+            <label for="pw">Password</label>
+            <input id="pw" type="password" minlength="10" placeholder="Password">
+        </div>
+        <div>
+            <label for="date">Birth date</label>
+            <input id="date" type="date" placeholder="Username">
+        </div>
+        <div>
+            <label for="slide">How happy are you?</label>
+            <input id="slide" type="range" list="tickmarks">
+            <datalist id="tickmarks">
+                <option value="0"></option>
+                <option value="10"></option>
+                <option value="20"></option>
+                <option value="30"></option>
+                <option value="40"></option>
+                <option value="50"></option>
+            </datalist>
+        </div>
+        <div>
+            <label for="color">What is your fav.color?</label>
+            <input id="color" type="color">
+        </div>
+        <input type="submit" value="Create Account">
+    </form>
+    <div id="form-result">
+        <span></span>
+    </div>
+    <script type="text/javascript" src="create_account.js"></script>
+</body>
+
+</html>

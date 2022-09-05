@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8" />
+    <title>Form Practice 2</title>
+</head>
+
+<body>
+    <form method="get" action="#" accept-charset="utf-8" name="person_info">
+        <fieldset style="width: 250">
+            <legend>개인 정보 입력</legend>
+            지역선택 (size, multiple 속성 추가)<br />
+            <select name="region-1" size="3" ltiple>
+                <option value="seongnam-si">성남시</option>
+                <option value="suwon-si">수원시</option>
+                <option value="yongin-si">용인시</option>
+                <option value="anyang-si">안양시</option>
+                <option value="gwacheon-si">과천시</option>
+                <option value="hanam-si">하남시</option>
+            </select>
+            <br /><br />
+            지역선택 (optgroup 태그 포함))<br />
+            <select name="region-1">
+                <optgroup label="서울">
+                    <option value="songpa-gu">송파구</option>
+                    <option value="gangnam-gu">강남구</option>
+                    <option value="seocho-gu">서초구</option>
+                    <option value="junggu-gu">중구</option>
+                </optgroup>
+                <optgroup label="경기도">
+                    <option value="seongnam-si">성남시</option>
+                    <option value="suwon-si">수원시</option>
+                    <option value="yongin-si">용인시</option>
+                    <option value="anyang-si">안양시</option>
+                </optgroup>
+            </select>
+            <br /><br />
+            <input type="submit" value="submit" /><br /><br />
+            <input type="reset" value="rest" /><br /><br />
+        </fieldset>
+    </form>
+</body>
+
+</html>
