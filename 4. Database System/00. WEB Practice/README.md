@@ -1,6 +1,6 @@
 # HTML, CSS, JavaScript
 
-- [HTML](#html-tag)
+- [HTML](#html)
 - [CSS](#css)
 - [JavaScript](#javascript)
 
