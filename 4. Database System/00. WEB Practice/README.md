@@ -1,6 +1,12 @@
-# HTML, CSS, JS
+# HTML, CSS, JavaScript
 
-## HTML TAG
+- [HTML](#html-tag)
+- [CSS](#css)
+- [JavaScript](#javascript)
+
+## HTML
+
+### HTML TAG
 
 - `<!DOCTYPE html>`
   - HTML5의 문서형식 정의, 대소문자를 구별하지 않음
@@ -57,9 +63,18 @@
 - `<div>`
   - 공간을 분할하는 태그로 의미론적으로 어떠한 의미도 가지고 있지 않지만 가장 많이 사용하는 태그 중 하나
 
-## Layout
+### Layout
 
 ![](img/HTML%20Semantic%20Element.png)
+
+### HTML form
+
+- 기본적인 form 태그 속성
+  - method : 폼을 서버에 전송할 http 메소드를 지정 (GET, POST, DELETE등등)
+  - action : 폼을 전송할 서버 쪽 스크립트 파일을 지정
+  - name : 폼을 식별하기 위한 이름을 지정
+  - accept-charset : 폼 전송에 사용할 문자 인코딩을 지정
+  - target : action에서 지정한 스크립트 파일을 현재 창이 아닌 다른 위치에 열도록 지정
 
 ## CSS
 
@@ -117,15 +132,6 @@ CSS(Cascading Style Sheets)는 HTML의 각 요소(Element)의 style(design, layo
   rel="stylesheet"
 />
 ```
-
-## HTML form
-
-- 기본적인 form 태그 속성
-  - method : 폼을 서버에 전송할 http 메소드를 지정 (GET, POST, DELETE등등)
-  - action : 폼을 전송할 서버 쪽 스크립트 파일을 지정
-  - name : 폼을 식별하기 위한 이름을 지정
-  - accept-charset : 폼 전송에 사용할 문자 인코딩을 지정
-  - target : action에서 지정한 스크립트 파일을 현재 창이 아닌 다른 위치에 열도록 지정
 
 ## JavaScript
 
