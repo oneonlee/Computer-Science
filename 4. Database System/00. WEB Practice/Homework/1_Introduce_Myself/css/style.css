@@ -3,21 +3,29 @@ body {
     padding: 0px;
 }
 
+
 header {
     width: 100%;
     background-color: #005766;
     height: 200px;
+    text-align: center;
 }
 
-header>div {
+/* header>div{
     float: left;
+} */
+header #cat1 {
+    float: left;
+}
+header #cat2 {
+    float: right;
 }
 
 header h1,
 header p {
     color: white;
-    text-align: center;
     margin: 30px;
+    display: inline-block;
 }
 
 header img {
