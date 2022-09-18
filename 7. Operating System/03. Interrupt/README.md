@@ -261,6 +261,8 @@ $ vi drivers/input/keyboard/atkbd.c
 
 ### 5) Define a function `mydelay` in `init/main.c` which whenever called will stop the booting process until you hit 's'. Call this function after `do_basic_setup()` function call in `kernel_init()` in order to make the kernel stop and wait for 's' during the booting process. You need to modify `atkbd.c` such that it changes `exit_mydelay` to 1 when the user presses 's'.
 
+<br>
+
 `init/main.c` :
 
 ```c
@@ -317,6 +319,10 @@ static irqreturn_t atkbd_interrupt(....){
 
 #### 5-1) Add mydelay before `do_basic_setup()`. What happens and why?
 
+<br>
+
+`init/main.c` :
+
 ```c
 void kernel_init(){
     ...............
@@ -327,9 +333,114 @@ void kernel_init(){
 }
 ```
 
+![](img/5-1.png)
+
+이후, 컴파일하고 재부팅하여 새로운 리눅스 커널을 적용하였다.
+
+부팅하면 `mydelay()` 함수가 실행되어 아래와 같은 메세지를 볼 수 있다.
+
+![](img/5-1-before.png)
+
+하지만, `do_basic_setup()` 함수가 실행되기 전에는 키보드 입력이 불가하여 's'를 입력할 수 없었고, 이후의 부팅 과정을 이어서 실행할 수 없었다.
+
 ### 6) Which function call in `atkbd_interrupt()` actually displays the pressed key in the monitor?
 
+<br>
+
+`drivers/input/keyboard/atkbd.c`:
+![](img/3-atkbd.png)
+
+키보드로 입력한 key를 찾는 [Prob 3)](#3-change-the-kernel-such-that-it-prints-x-pressed-for-each-key-pressing-where-x-is-the-scan-code-of-the-key-after-you-change-the-kernel-and-reboot-it-do-followings-to-see-the-effect-of-your-changing)에서 `drivers/input/keyboard/atkbd.c`에 `printk("%x pressed\n", code);`를 추가한 것으로 미루어보아, <br>
+키를 화면에 출력하는 함수는 `code` 변수를 인자로 가져야할 것이라고 유추할 수 있다.
+
+그래서 대입, 비교, 조건문에 쓰인 `code` 변수를 제외하고 관련된 함수들을 아래와 같이 모두 찾아보았다.
+
+![](img/6-keycode.png)
+
+또한 `code`를 이용하여 `keycode`라는 변수를 만들어 이용하기 때문에 `keycode` 변수를 인자로 갖는 함수도 찾아보았다.
+
+![](img/6-input_event.png)
+![](img/6-input_event2.png)
+![](img/6-input_event3.png)
+![](img/6-input_event4.png)
+
+`input_event` 함수와 `input_report_key` 함수를 찾아보면 해답이 나올 것으로 보인다.
+
+![](img/6-grep.png)
+
+`include/linux/input.h`:
+![](img/6-input_report_key.png)
+
+`input_report_key` 함수 역시 `input_event` 함수를 활용한다는 것을 알 수 있다.
+
+![](img/6-grep2.png)
+
+`drivers/input/input.c`:
+
+![](img/6-input.png)
+`input_handle_event`가 event를 처리하는 함수라 추측하고 해당 파일 내에서 함수의 정의를 찾아보았다.
+
+![](img/6-input_handle_event.png)
+![](img/6-input_handle_event2.png)
+
+해당 함수의 마지막줄에서 `input_pass_event` 함수에 `code` 변수를 인자로 넘기며 호출한다.
+
+![](img/6-input_pass_event.png)
+`input_pass_event` 함수의 정의를 보면, 해당 함수에서 `handler` 구조체의 `event`를 호출하는 것으로 보아, `atkbd_interrupt()` 내에서 `input_event`가 키를 모니터에 띄운다고 예상할 수 있다.
+
 #### 6-1) What are the interrupt numbers for divide-by-zero exception, keyboard interrupt, and "read" system call? Where is ISR1 and ISR2 for each of them (write the exact code location)? Show their code, too.
+
+|                          | Interrupt Number | ISR1         | ISR2            |
+| ------------------------ | ---------------- | ------------ | --------------- |
+| divide-by-zero exception | 0                | divide_error | do_divide_error |
+| keyboard interrupt       | 33               | interrupt[1] | atkbd_interrupt |
+| read system call         | 128              | system_call  | sys_read        |
+
+|                       | location                         |
+| --------------------- | -------------------------------- |
+| ISR1                  | `arch/x86/kernel/entry_32.S`     |
+| ISR2(do_divide_error) | `arch/x86/kernel/traps_32.c`     |
+| ISR2(atkbd_interrupt) | `drivers/input/keyboard/atkbd.c` |
+| ISR2(sys_read)        | `fs/read_write.c`                |
+
+##### ISR1
+
+divide-by-zero exception의 ISR1(divide_error)를 확인해보자.<br>
+`arch/x86/kernel/entry_32.S`:
+![](img/6-1-do_divide_error.png)
+
+<br>
+
+keyboard interrupt의 ISR1(interrupt[1])를 확인해보자.<br>
+`arch/x86/kernel/entry_32.S`:
+![](img/6-1-interrupt.png)
+
+<br>
+
+`read` system call의 ISR1(system_call)를 확인해보자.<br>
+`arch/x86/kernel/entry_32.S`:
+![](img/6-1-system_call.png)
+...중간생략...
+![](img/6-1-system_call3.png)
+
+##### ISR2
+
+keyboard interrupt의 ISR2(atkbd_interrupt) 실제 코드<br>
+`arch/x86/kernel/traps_32.c`:
+![](img/6-1-trap_init.png)
+divide-by-zero exception의 ISR2(do_divide_error)가 `0`번인 것을 확인할 수 있다.
+
+<br>
+
+keyboard interrupt의 ISR2(atkbd_interrupt) 실제 코드<br>
+`drivers/input/keyboard/atkbd.c`:
+![](img/6-1-atkbd_interrupt.png)
+
+<br>
+
+`read` system call의 ISR2(sys_read)의 실제 코드<br>
+`fs/read_write.c`:
+![](img/6-1-sys_read.png)
 
 ### 7) `sys_call_table[]` is in `arch/x86/kernel/syscall_table_32.S`. How many system calls does Linux 2.6 support? What are the system call numbers for `exit`, `fork`, `execve`, `wait4`, `read`, `write`, and `mkdir`? Find system call numbers for `sys_ni_syscall`, which is defined at `kernel/sys_ni.c`. What is the role of `sys_ni_syscall`?
 
