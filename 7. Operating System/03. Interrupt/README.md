@@ -153,7 +153,39 @@ Interrupt numbers and their ISR1 and ISR2 list.
 | 128 (syscall num 2)     | system_call  | sys_fork        |
 | ....................... |              |                 |
 
-## 4. Exercise
+## 4. Creating a new system call and using it
+
+Creating a new system call : 2 steps
+
+- find empty `sys_call_table` entry (`sys_ni_syscall`) : `x`
+- 1. write new system call name: `my_syscall`
+- 2. define `my_syscall` (in appropriate file such as `fs/read_write.c`)
+  ```c
+  asmlinkage void my_syscall(){
+      printk("hello from my_syscall\n");
+  }
+  ```
+- recompile and reboot
+
+### Using `ex1.c`:
+
+```c
+void main(){
+  syscall(x);
+}
+```
+
+### `./ex1`
+
+```
+==> syscall(x)
+==> mov eax, x
+       int   0x80
+==> system_call
+==> my_syscall
+```
+
+## 5. Exercise
 
 ### 1) Following events will cause interrupts in the system. What interrupt number will be assigned to each event? For system call interrupt, also give the system call number.
 
