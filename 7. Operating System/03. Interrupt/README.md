@@ -474,35 +474,106 @@ keyboard interrupt의 ISR2(atkbd_interrupt) 실제 코드<br>
 `fs/read_write.c`:
 ![](img/6-1-sys_read.png)
 
-### 7) `sys_call_table[]` is in `arch/x86/kernel/syscall_table_32.S`. How many system calls does Linux 2.6 support? What are the system call numbers for `exit`, `fork`, `execve`, `wait4`, `read`, `write`, and `mkdir`? Find system call numbers for `sys_ni_syscall`, which is defined at `kernel/sys_ni.c`. What is the role of `sys_ni_syscall`?
-
-### 8) Change the kernel such that it prints "length 17 string found" for each `printf(s) `when the length of s is 17. Run a program that contains a `printf()` statement to see the effect. `printf(s)` calls `write(1, s, strlen(s))` system call which in turn runs
+### 7) `sys_call_table[]` is in `arch/x86/kernel/syscall_table_32.S`. How many system calls does Linux 2.6 support? <br>What are the system call numbers for `exit`, `fork`, `execve`, `wait4`, `read`, `write`, and `mkdir`? Find system call numbers for `sys_ni_syscall`, which is defined at `kernel/sys_ni.c`. What is the role of `sys_ni_syscall`?
 
 ```bash
-             mov eax, 4 ; eax<--4. 4 is system call number for “write”
-             int 128
-# INT 128 will make the cpu stop running current process and jump to the location written in IDT[128]. IDT[128] contains the address of system_call (located in arch/x86/kernel/entry_32.S). Finally, system_call will execute
-             call *sys_call_table(,%eax,4)
-# which eventually calls sys_write() since eax=4 for write() system call (the target function location is sys_call_table+eax*4).
+$ vi arch/x86/kernel/syscall_table_32.S
 ```
 
-- Sometimes the the system call runs "sysenter" instead of "int 128". In this case the cpu jumps to `ia32_sysenter_target` (also in `entry_32.S`) instead of system_call.
+`arch/x86/kernel/syscall_table_32.S` :
+system calls들이 0부터 시작하여
+![](img/7-syscall_table_Top.png)
+326까지 있으므로
+![](img/7-syscall_table_Bot.png)
+
+Linux 2.6은 **327**개의 system call을 지원한다.
+
+첫번째 스크린샷을 참고하면, `exit`는 1번, `fork`는 2번, `execve`는 11번, `read`는 3번, `write`는 4번이다.
+
+![](img/7-wait4.png)
+또한 `wait4`는 114번이고,
+
+![](img/7-mkdir.png)
+`mkdir`는 39번임을 알 수 있다.
+
+![](img/7-sys_ni_syscall.png)
+`sys_ni_call`은 시스템 콜 번호로 17, 31, 32번 등 여러 번호가 있는데 `kernel/sys_ni.c`로 가서 파일을 열어보면 아래와 같다.
+
+`kernel/sys_ni.c` :
+![](img/7-sys_ni.png)
+
+`sys_ni_syscall`는 구현되지 않은 시스템 콜을 가리키는 함수이며 `-ENOSYS`을 반환한다. `ENOSYS`는 구현되지 않은 함수를 사용할 때 발생하는 오류 코드이다.
+
+### 8) Change the kernel such that it prints "length 17 string found" for each `printf(s)` when the length of `s` is 17. Run a program that contains a `printf()` statement to see the effect. `printf(s)` calls `write(1, s, strlen(s))` system call which in turn runs
+
+`printf(s)`는 내부적으로 `write(1, s, strlen(s))`를 호출한다. 따라서 `printf`를 호출할 때 같이 실행되는 코드를 삽입하기 위해서는 `write` 함수가 호출되는 시점을 알아야 한다.
+
+`fs/read_write.c` :
+![](img/8-sys_write.png)
+
+`write` 함수는 `sys_write`를 호출하므로 `count`가 `17`인지 확인하는 코드를 삽입하면 된다.
+
+커널을 컴파일하고 재부팅한다.
+
+부팅 후, 아래와 같은 코드를 가지는 파일들을 만들었다.
+
+`hello_world.c` :
+
+```c
+#include <stdio.h>
+
+int main() {
+  printf("Hello World!\n");
+}
+```
+
+`ex.c` :
+
+```c
+#include <stdio.h>
+
+int main() {
+  printf("1234567890123456\n");
+}
+```
+
+`ex.c`에서는 개행문자(`\n`)을 포함하여 17글자를 출력하도록 하였다.
+
+![](img/8.png)
+
+로그 레벨이 낮아 `printk` 출력이 보이지 않으므로 8로 수정했다.
+
+임의의 17글자 문자열을 `printf로` 출력하게 한다. "Hello World!"는 17자가 아니어서 `printk`가 호출되지 않지만, "01234..."는 마지막의 개행문자(`\n`)까지 총 17자 이므로 "length 17 string found"가 출력되었다.
 
 ### 9) You can call a system call indirectly with `syscall()`.
 
 ```c
-write(1, “hi”, 2);
+write(1, "hi", 2);
 ```
 
 can be written as
 
 ```c
-syscall(4, 1, “hi”, 2); // 4 is the system call number for “write” system call
+syscall(4, 1, "hi", 2); // 4 is the system call number for `write` system call
 ```
 
-Write a program that prints "hello" in the screen using syscall.
+**Write a program that prints "hello" in the screen using syscall.**
 
-### 10) Create a new system call, `my_sys_call` with system call number 17 (system call number 17 is one that is not being used currently). Define `my_sys_call()` just before `sys_write()` in `read_write.c`. Write a program that uses this system call:
+#### Sol)
+
+`ex2.c` :
+
+```c
+#include <stdio.h>
+
+int main() {
+    syscall(4, 1, "hello", 5); // 4 is the system call number for `write` system call
+}
+```
+
+![](img/9.png)
+
+### 10) Create a new system call, `my_sys_call` with system call number 17 (system call number 17 is one that is not being used currently). Define `my_sys_call()` just before `sys_write()` in `fs/read_write.c`. Write a program that uses this system call:
 
 ```c
 void main(){
@@ -510,46 +581,76 @@ void main(){
 }
 ```
 
-When the above program runs, the kernel should display
+**When the above program runs, the kernel should display**
 
 ```bash
 hello from my_sys_call
 ```
 
-- To define a new system call with syscall number x
-  - insert the new system call name in `arch/x86/kernel/syscall_table_32.S` at index x
-  - define the function in appropriate file (such as `read_write.c`)
-  ```c
-  asmlinkage void my_sys_call(){
-      printk("hello from my_sys_call\n");
-  }
-  ```
-  - recompile and reboot
+#### Sol)
+
+- To define a new system call with syscall number `x`
+  - insert the new system call name in `arch/x86/kernel/syscall_table_32.S` at index `x`
+    - ![](img/10-table.png)
+  - define the function in appropriate file (such as `fs/read_write.c`)
+    - ![](img/10.png)
+    ```c
+    asmlinkage void my_sys_call(){
+        printk("hello from my_sys_call\n");
+    }
+    ```
+  - recompile and reboot<br><br>
 - To use this system call in a user program
   ```c
   void main(){
       syscall(x);
   }
   ```
+  - ![](img/10-ex.png)
 
 #### 10-1) Create another system call that will add two numbers given by the user.
 
-`ex0.c`:
+Suppose 31 is an empty entry in sys_call_table.
+
+`arch/x86/kernel/syscall_table_32.S` :
+![](img/10-1-table.png)
+
+31번 자리에 새로운 system call인 `my_sys_sum`으로 변경해주었다.
+
+`fs/read_write.c` :
+![](img/10-1-my_sys_sum.png)
+
+`ex2.c` :
 
 ```c
 void main(){
     int sum;
     sum = syscall(31, 4, 9);  // suppose 31 is an empty entry in sys_call_table
-    printf("sum is %d\n, sum);
+    printf("sum is %d\n", sum);
 }
 ```
 
-```bash
-$./ex0
-sum is 13
-```
+![](img/10-1-ex.png)
 
 ### 11) Modify the kernel such that it displays the system call number for all system calls. Run a simple program that displays "hello" in the screen and find out what system calls have been called. Also explain for each system call why that system call has been used.
+
+Suppose 31 is an empty entry in sys_call_table.
+
+`arch/x86/kernel/syscall_table_32.S` :
+![](img/11-table.png)
+
+31번 자리에 새로운 system call인 `my_sys_call_num`으로 변경해주었다.
+
+`fs/read_write.c` :
+![](img/11-my_sys_call_num.png)
+
+`arch/x86/kernel/entry_32.S` :
+![](img/11-entry.png)
+`syscall_call` 아래에 `my_sys_call_num`를 호출하는 어셈블리 코드르 삽입한다. 함수에 첫 번째 인자로 시스템 콜 번호를 전달하기 위해 호출 전 `pushl %eax`를 한다. 함수 호출이 끝나면 `popl %eax`으로 레지스터 상태를 되돌려 놓았다.
+
+![](img/11-hello.png)
+
+위와 같이 시스템 함수들이 호출되는 것을 볼 수 있다.
 
 ### 12) What system calls are being called when you remove a file? Use `system()` function to run a Linux command as below. Explain what each system call is doing. You need to make `f1` file before you run it. Also explain for each system call why that system call has been used.
 
