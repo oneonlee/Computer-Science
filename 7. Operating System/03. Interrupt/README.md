@@ -654,10 +654,357 @@ Suppose 31 is an empty entry in sys_call_table.
 
 ### 12) What system calls are being called when you remove a file? Use `system()` function to run a Linux command as below. Explain what each system call is doing. You need to make `f1` file before you run it. Also explain for each system call why that system call has been used.
 
+아래와 같이 `ex.c` 파일을 만들었다.<br>
+`ex.c` :
+
 ```c
-   ...........
-   system("rm f1");
-   ...........
+#include <stdlib.h>
+
+int main() {
+    system("rm x");
+    return 0;
+}
 ```
 
+`system`은 리눅스 명령어를 직접 실행하는 함수이다. <br>
+리눅스 명령어인 `rm x`는 `x`라는 이름을 가진 파일을 삭제(remove)하는 명령이다.
+
+```bash
+$ gcc -o ex ex.c
+$ echo 8 > /proc/sys/kernel/printk
+$ ./ex
+```
+
+![](img/12-1.png)<br>
+![](img/12-2.png)<br>
+![](img/12-3.png)<br>
+![](img/12-4.png)<br>
+![](img/12-5.png)<br>
+![](img/12-6.png)<br>
+
+사용된 시스템 콜에 번호와 대응되는 이름을 붙여 나열하면 아래와 같다.
+
+| number | name                |
+| ------ | ------------------- |
+| 45     | sys_brk             |
+| 33     | sys_access          |
+| 5      | sys_open            |
+| 197    | sys_fstat64         |
+| 192    | sys_mmap2           |
+| 6      | sys_close           |
+| 5      | sys_open            |
+| 197    | sys_fstat64         |
+| 192    | sys_mmap2           |
+| 192    | sys_mmap2           |
+| 192    | sys_mmap2           |
+| 192    | sys_mmap2           |
+| 6      | sys_close           |
+| 192    | sys_mmap2           |
+| 243    | sys_set_thread_area |
+| 125    | sys_mprotect        |
+| 125    | sys_mprotect        |
+| 125    | sys_mprotect        |
+| 91     | sys_munmap          |
+| 45     | sys_brk             |
+| 33     | sys_access          |
+| 5      | sys_open            |
+| 197    | sys_fstat64         |
+| 192    | sys_mmap2           |
+| 6      | sys_close           |
+| 5      | sys_open            |
+| 4      | sys_write           |
+| 197    | sys_fstat64         |
+| 192    | sys_mmap2           |
+| 192    | sys_mmap2           |
+| 192    | sys_mmap2           |
+| 192    | sys_mmap2           |
+| 6      | sys_close           |
+| 5      | sys_open            |
+| 3      | sys_read            |
+| 197    | sys_fstat64         |
+| 192    | sys_mmap2           |
+| 192    | sys_mmap2           |
+| 6      | sys_close           |
+| 5      | sys_open            |
+| 3      | sys_read            |
+| 197    | sys_fstat64         |
+| 192    | sys_mmap2           |
+| 192    | sys_mmap2           |
+| 192    | sys_mmap2           |
+| 6      | sys_close           |
+| 192    | sys_mmap2           |
+| 243    | sys_set_thread_area |
+| 125    | sys_mprotect        |
+| 125    | sys_mprotect        |
+| 125    | sys_mprotect        |
+| 125    | sys_mprotect        |
+| 125    | sys_mprotect        |
+| 91     | sys_munmap          |
+| 45     | sys_brk             |
+| 33     | sys_access          |
+| 5      | sys_open            |
+| 197    | sys_fstat64         |
+| 192    | sys_mmap2           |
+| 6      | sys_close           |
+| 5      | sys_open            |
+| 3      | sys_read            |
+| 197    | sys_fstat64         |
+| 192    | sys_mmap2           |
+| 6      | sys_close           |
+| 5      | sys_open            |
+| 3      | sys_read            |
+| 197    | sys_fstat64         |
+| 192    | sys_mmap2           |
+| 192    | sys_mmap2           |
+| 192    | sys_mmap2           |
+| 192    | sys_mmap2           |
+| 6      | sys_close           |
+| 192    | sys_mmap2           |
+| 243    | sys_set_thread_area |
+| 125    | sys_mprotect        |
+| 125    | sys_mprotect        |
+| 125    | sys_mprotect        |
+| 91     | sys_munmap          |
+| 119    | sys_sigreturn       |
+
+- `sys_access`는 파일의 권한을 검사하는 함수이다.
+- `sys_brk`는 힙(데이터) 영역을 확장하거나 축소하는 함수이다.
+- `sys_fstat64`는 파일 정보를 읽는 함수이다.
+- `sys_mmap2`는 파일이나 장치를 메모리에 대응시키는 함수이다.
+- `sys_set_thread_area`는 thread-local storage를 조작하는 함수이다.
+- `sys_mprotect`는 메모리 영역에 대한 접근을 제어하는 함수이다.
+- `sys_munmap`은 mmap으로 만들어진 메모리 페이지를 해제하는 함수이다.
+- `sys_sigreturn`는 시그널 핸들러에서 값을 반환하고 스택 프레임을 정리하는 함수이다.
+
+System Call 흐름을 보면 `rm`파일이 있는지, 파일에 대한 정보를 확인하고 파일을 실행한다.
+`rm`에서는 `f1`에 대한 정보를 확인하고 파일을 삭제한다.
+
+`sys_mmap2`과 `sys_munmap` 기억장치에 저장되어 있는 파일에 접근하기 위해 사용된 것으로 보이며,
+여러 프로그램이 동시에 한 파일에 접근해서 발생하는 문제를 막기 위해 `sys_set_thread_area`와 `sys_mprotect`으로 락을 걸어 하나의 쓰레드만 파일에 접근할 수 있게한 것으로 보인다.
+
 ### 13) Find `rm.c` in `busybox-1.31.1` and show the code that actually removes `f1`. Note all linux commands are actually a program, and running `rm` command means running rm.c program. `rm` needs a system call defined in `uClibc-0.9.33.2` to remove a file. You may want to continue the code tracing all the way up to "INT 0x80" in uClibc for this system call.
+
+#### `busybox-1.31.1/coreutils/rm.c` :
+
+```c
+#include "libbb.h"
+
+int rm_main(int argc, char **argv) MAIN_EXTERNALLY_VISIBLE;
+int rm_main(int argc UNUSED_PARAM, char **argv)
+{
+	int status = 0;
+	int flags = 0;
+	unsigned opt;
+
+	opt = getopt32(argv, "^" "fiRrv" "\0" "f-i:i-f");
+	argv += optind;
+	if (opt & 1)
+		flags |= FILEUTILS_FORCE;
+	if (opt & 2)
+		flags |= FILEUTILS_INTERACTIVE;
+	if (opt & (8|4))
+		flags |= FILEUTILS_RECUR;
+	if ((opt & 16) && FILEUTILS_VERBOSE)
+		flags |= FILEUTILS_VERBOSE;
+
+	if (*argv != NULL) {
+		do {
+			const char *base = bb_get_last_path_component_strip(*argv);
+
+			if (DOT_OR_DOTDOT(base)) {
+				bb_error_msg("can't remove '.' or '..'");
+			} else if (remove_file(*argv, flags) >= 0) {
+				continue;
+			}
+			status = 1;
+		} while (*++argv);
+	} else if (!(flags & FILEUTILS_FORCE)) {
+		bb_show_usage();
+	}
+
+	return status;
+}
+```
+
+`rm` 프로그램의 코드는 위와 같다. 각종 플래그를 확인하고, `remove_file` 함수를 호출해 파일을 삭제한다.
+
+#### `busybox-1.31.1//libbb/remove_file.c:
+
+```c
+#include "libbb.h"
+
+int FAST_FUNC remove_file(const char *path, int flags)
+{
+	struct stat path_stat;
+
+	if (lstat(path, &path_stat) < 0) {
+		if (errno != ENOENT) {
+			bb_perror_msg("can't stat '%s'", path);
+			return -1;
+		}
+		if (!(flags & FILEUTILS_FORCE)) {
+			bb_perror_msg("can't remove '%s'", path);
+			return -1;
+		}
+		return 0;
+	}
+
+	if (S_ISDIR(path_stat.st_mode)) {
+		DIR *dp;
+		struct dirent *d;
+		int status = 0;
+
+		if (!(flags & FILEUTILS_RECUR)) {
+			bb_error_msg("'%s' is a directory", path);
+			return -1;
+		}
+
+		if ((!(flags & FILEUTILS_FORCE) && access(path, W_OK) < 0 && isatty(0))
+		 || (flags & FILEUTILS_INTERACTIVE)
+		) {
+			fprintf(stderr, "%s: descend into directory '%s'? ",
+					applet_name, path);
+			if (!bb_ask_y_confirmation())
+				return 0;
+		}
+
+		dp = opendir(path);
+		if (dp == NULL) {
+			return -1;
+		}
+
+		while ((d = readdir(dp)) != NULL) {
+			char *new_path;
+
+			new_path = concat_subpath_file(path, d->d_name);
+			if (new_path == NULL)
+				continue;
+			if (remove_file(new_path, flags) < 0)
+				status = -1;
+			free(new_path);
+		}
+
+		if (closedir(dp) < 0) {
+			bb_perror_msg("can't close '%s'", path);
+			return -1;
+		}
+
+		if (flags & FILEUTILS_INTERACTIVE) {
+			fprintf(stderr, "%s: remove directory '%s'? ",
+					applet_name, path);
+			if (!bb_ask_y_confirmation())
+				return status;
+		}
+
+		if (status == 0 && rmdir(path) < 0) {
+			bb_perror_msg("can't remove '%s'", path);
+			return -1;
+		}
+
+		if (flags & FILEUTILS_VERBOSE) {
+			printf("removed directory: '%s'\n", path);
+		}
+
+		return status;
+	}
+
+	/* !ISDIR */
+	if ((!(flags & FILEUTILS_FORCE)
+	     && access(path, W_OK) < 0
+	     && !S_ISLNK(path_stat.st_mode)
+	     && isatty(0))
+	 || (flags & FILEUTILS_INTERACTIVE)
+	) {
+		fprintf(stderr, "%s: remove '%s'? ", applet_name, path);
+		if (!bb_ask_y_confirmation())
+			return 0;
+	}
+
+	if (unlink(path) < 0) {
+		bb_perror_msg("can't remove '%s'", path);
+		return -1;
+	}
+
+	if (flags & FILEUTILS_VERBOSE) {
+		printf("removed '%s'\n", path);
+	}
+
+	return 0;
+}
+```
+
+- 함수가 실행되면 입력한 경로가 폴더인지 확인한다.
+  - 경로가 폴더라면 재귀적으로 함수를 실행한다.
+  - 경로가 파일이라면 `rmdir`을 호출해 파일을 삭제한다.
+
+#### `uClibc-0.9.33.2/libc/sysdeps/linux/common/rmdir.c` :
+
+```c
+#include <sys/syscall.h>
+#include <unistd.h>
+
+_syscall1(int, rmdir, const char *, pathname)
+libc_hidden_def(rmdir)
+```
+
+`rmdir`의 실제 코드는 `uClibc`에 있다.
+
+`_syscall1`를 따라가보자.
+
+#### `uClibc-0.9.33.2/libc/sysdeps/linux/common/bits/syscalls-common.h` :
+
+```c
+#define _syscall1(args...)  SYSCALL_FUNC(1, args)
+
+#define SYSCALL_FUNC(nargs, type, name, args...)                    \
+type name(C_DECL_ARGS_##nargs(args)) {                              \
+    return (type)INLINE_SYSCALL(name, nargs, C_ARGS_##nargs(args)); \
+}
+
+#define INLINE_SYSCALL(name, nr, args...) INLINE_SYSCALL_NCS(__NR_##name, nr, args)
+
+#define INLINE_SYSCALL_NCS(name, nr, args...)                       \
+(__extension__                                                      \
+ ({                                                                 \
+    INTERNAL_SYSCALL_DECL(__err);                                   \
+    (__extension__                                                  \
+     ({                                                             \
+       long __res = INTERNAL_SYSCALL_NCS(name, __err, nr, args);    \
+       if (unlikely(INTERNAL_SYSCALL_ERROR_P(__res, __err))) {      \
+        __set_errno(INTERNAL_SYSCALL_ERRNO(__res, __err));          \
+        __res = -1L;                                                \
+       }                                                            \
+       __res;                                                       \
+      })                                                            \
+    );                                                              \
+  })                                                                \
+)
+```
+
+- 위 함수는 C 매크로 함수이기 때문에 실제 함수가 아니지만 호출한다고 설명하겠다.
+- `_syscall1`는 `SYSCALL_FUNC`를 호출한다.
+- `SYSCALL_FUNC`는 `INLINE_SYSCALL`를 호출하고,
+- `INLINE_SYSCALL`는 `INLINE_SYSCALL_NCS`를 호출한다.
+- 마지막으로 `INLINE_SYSCALL_NC`S에서는 `INTERNAL_SYSCALL_NCS`를 호출한다.
+
+#### `uClibc-0.9.33.2/libc/sysdeps/linux/i386/bits/syscalls.h`
+
+```c
+#define INTERNAL_SYSCALL_NCS(name, err, nr, args...)    \
+(__extension__                                          \
+ ({                                                     \
+    register unsigned int resultvar;                    \
+    __asm__ __volatile__ (                              \
+        LOADARGS_##nr                                   \
+        "movl   %1, %%eax\n\t"                          \
+        "int    $0x80\n\t"                              \
+        RESTOREARGS_##nr                                \
+        : "=a" (resultvar)                              \
+        : "g" (name) ASMFMT_##nr(args) : "memory", "cc" \
+    );                                                  \
+    (int) resultvar;                                    \
+  })                                                    \
+)
+```
+
+코드를 보면 알 수 있듯, `INTERNAL_SYSCALL_NCS`는 `int $0x80`으로 `rmdir`의 인터럽트를 생성하는 어셈블리 코드를 생성한다. 이때, `x80`은 10진수 128로 System Call의 인터럽트 번호이다.
