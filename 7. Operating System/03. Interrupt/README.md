@@ -241,7 +241,8 @@ $ vi drivers/input/keyboard/atkbd.c
 
 `code`를 `printk`로 출력할 수 있도록 `printk("%x pressed\n", code);`를 추가하였다.
 
-`drivers/input/keyboard/atkbd.c`:
+`drivers/input/keyboard/atkbd.c` :
+
 ![](img/3-atkbd.png)
 
 이후, 컴파일하고 재부팅하여 새로운 리눅스 커널을 적용하였다.
@@ -282,7 +283,8 @@ $ vi drivers/input/keyboard/atkbd.c
 
 키보드 입력이 들어오면, 실제 입력한 글자의 다음 글자를 입력한 것으로 처리하도록 `unsigned int code = data;`를 `unsigned int code = data+1;`로 수정하였다.
 
-`drivers/input/keyboard/atkbd.c`:
+`drivers/input/keyboard/atkbd.c` :
+
 ![](img/4-atkbd.png)
 
 이후, 컴파일하고 재부팅하여 새로운 리눅스 커널을 적용하였다.
@@ -379,7 +381,8 @@ void kernel_init(){
 
 <br>
 
-`drivers/input/keyboard/atkbd.c`:
+`drivers/input/keyboard/atkbd.c` :
+
 ![](img/3-atkbd.png)
 
 키보드로 입력한 key를 찾는 [Prob 3)](#3-change-the-kernel-such-that-it-prints-x-pressed-for-each-key-pressing-where-x-is-the-scan-code-of-the-key-after-you-change-the-kernel-and-reboot-it-do-followings-to-see-the-effect-of-your-changing)에서 `drivers/input/keyboard/atkbd.c`에 `printk("%x pressed\n", code);`를 추가한 것으로 미루어보아, <br>
@@ -400,7 +403,8 @@ void kernel_init(){
 
 ![](img/6-grep.png)
 
-`include/linux/input.h`:
+`include/linux/input.h` :
+
 ![](img/6-input_report_key.png)
 
 `input_report_key` 함수 역시 `input_event` 함수를 활용한다는 것을 알 수 있다.
@@ -438,19 +442,22 @@ void kernel_init(){
 ##### ISR1
 
 divide-by-zero exception의 ISR1(divide_error)를 확인해보자.<br>
-`arch/x86/kernel/entry_32.S`:
+`arch/x86/kernel/entry_32.S` :
+
 ![](img/6-1-do_divide_error.png)
 
 <br>
 
 keyboard interrupt의 ISR1(interrupt[1])를 확인해보자.<br>
-`arch/x86/kernel/entry_32.S`:
+`arch/x86/kernel/entry_32.S` :
+
 ![](img/6-1-interrupt.png)
 
 <br>
 
 `read` system call의 ISR1(system_call)를 확인해보자.<br>
-`arch/x86/kernel/entry_32.S`:
+`arch/x86/kernel/entry_32.S` :
+
 ![](img/6-1-system_call.png)
 ...중간생략...
 ![](img/6-1-system_call3.png)
@@ -458,20 +465,23 @@ keyboard interrupt의 ISR1(interrupt[1])를 확인해보자.<br>
 ##### ISR2
 
 keyboard interrupt의 ISR2(atkbd_interrupt) 실제 코드<br>
-`arch/x86/kernel/traps_32.c`:
+`arch/x86/kernel/traps_32.c` :
+
 ![](img/6-1-trap_init.png)
 divide-by-zero exception의 ISR2(do_divide_error)가 `0`번인 것을 확인할 수 있다.
 
 <br>
 
 keyboard interrupt의 ISR2(atkbd_interrupt) 실제 코드<br>
-`drivers/input/keyboard/atkbd.c`:
+`drivers/input/keyboard/atkbd.c` :
+
 ![](img/6-1-atkbd_interrupt.png)
 
 <br>
 
 `read` system call의 ISR2(sys_read)의 실제 코드<br>
-`fs/read_write.c`:
+`fs/read_write.c` :
+
 ![](img/6-1-sys_read.png)
 
 ### 7) `sys_call_table[]` is in `arch/x86/kernel/syscall_table_32.S`. How many system calls does Linux 2.6 support? <br>What are the system call numbers for `exit`, `fork`, `execve`, `wait4`, `read`, `write`, and `mkdir`? Find system call numbers for `sys_ni_syscall`, which is defined at `kernel/sys_ni.c`. What is the role of `sys_ni_syscall`?
@@ -500,6 +510,7 @@ Linux 2.6은 **327**개의 system call을 지원한다.
 `sys_ni_call`은 시스템 콜 번호로 17, 31, 32번 등 여러 번호가 있는데 `kernel/sys_ni.c`로 가서 파일을 열어보면 아래와 같다.
 
 `kernel/sys_ni.c` :
+
 ![](img/7-sys_ni.png)
 
 `sys_ni_syscall`는 구현되지 않은 시스템 콜을 가리키는 함수이며 `-ENOSYS`을 반환한다. `ENOSYS`는 구현되지 않은 함수를 사용할 때 발생하는 오류 코드이다.
@@ -509,6 +520,7 @@ Linux 2.6은 **327**개의 system call을 지원한다.
 `printf(s)`는 내부적으로 `write(1, s, strlen(s))`를 호출한다. 따라서 `printf`를 호출할 때 같이 실행되는 코드를 삽입하기 위해서는 `write` 함수가 호출되는 시점을 알아야 한다.
 
 `fs/read_write.c` :
+
 ![](img/8-sys_write.png)
 
 `write` 함수는 `sys_write`를 호출하므로 `count`가 `17`인지 확인하는 코드를 삽입하면 된다.
@@ -613,11 +625,13 @@ hello from my_sys_call
 Suppose 31 is an empty entry in sys_call_table.
 
 `arch/x86/kernel/syscall_table_32.S` :
+
 ![](img/10-1-table.png)
 
 31번 자리에 새로운 system call인 `my_sys_sum`으로 변경해주었다.
 
 `fs/read_write.c` :
+
 ![](img/10-1-my_sys_sum.png)
 
 `ex2.c` :
@@ -637,14 +651,17 @@ void main(){
 Suppose 31 is an empty entry in sys_call_table.
 
 `arch/x86/kernel/syscall_table_32.S` :
+
 ![](img/11-table.png)
 
 31번 자리에 새로운 system call인 `my_sys_call_num`으로 변경해주었다.
 
 `fs/read_write.c` :
+
 ![](img/11-my_sys_call_num.png)
 
 `arch/x86/kernel/entry_32.S` :
+
 ![](img/11-entry.png)
 `syscall_call` 아래에 `my_sys_call_num`를 호출하는 어셈블리 코드르 삽입한다. 함수에 첫 번째 인자로 시스템 콜 번호를 전달하기 위해 호출 전 `pushl %eax`를 한다. 함수 호출이 끝나면 `popl %eax`으로 레지스터 상태를 되돌려 놓았다.
 
