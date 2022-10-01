@@ -10,7 +10,7 @@ overview:
 
 ## 1. What is the Internet?
 
-![](img/network.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/network.png)
 
 - millions of connected computing devices:
   - hosts = end systems
@@ -44,7 +44,7 @@ protocols define format, order of msgs sent and received among network entities,
 
 #### a human protocol and a computer network protocol:
 
-![](img/protocol.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/protocol.png)
 
 ## 2. Network Edge
 
@@ -71,7 +71,7 @@ end systems, access networks, links
 
 ### Access net: digital subscriber line (DSL)
 
-![](img/DSL.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/DSL.png)
 
 - use existing telephone line to central office DSLAM
   - data over DSL phone line goes to Internet
@@ -82,11 +82,11 @@ end systems, access networks, links
 
 ### Access net: home network
 
-![](img/home%20net.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/home%20net.png)
 
 ### Enterprise access networks (Ethernet)
 
-![](img/ethernet.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/ethernet.png)
 
 - typically used in companies, universities, etc
 - 10 Mbps, 100Mbps, 1Gbps, 10Gbps transmission rates
@@ -99,14 +99,14 @@ end systems, access networks, links
 
 #### wireless LANs:
 
-![](img/wireless%20LANs.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/wireless%20LANs.png)
 
 - within building (100 ft)
 - 802.11b/g (WiFi): 11, 54 Mbps transmission rate
 
 #### wide-area wireless access
 
-![](img/wide-area%20wireless%20access.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/wide-area%20wireless%20access.png)
 
 - provided by telco (cellular) operator, 10’s km
 - between 1 and 10 Mbps
@@ -114,7 +114,7 @@ end systems, access networks, links
 
 ### Host: sends packets of data
 
-![](img/host.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/host.png)
 
 - host sending function:
   - takes application message
@@ -122,7 +122,7 @@ end systems, access networks, links
   - transmits packet into access network at transmission rate R
     - link transmission rate, aka link capacity, aka link bandwidth
 
-![](img/delay.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/delay.png)
 
 ## 3. network core
 
@@ -139,7 +139,7 @@ Packet-switching, Circuit-switching, network structure
 
 #### Packet-switching: store-and-forward
 
-![](img/packet-switching.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/packet-switching.png)
 
 - takes L/R seconds to transmit (push out) L-bit packet into link at R bps
 - store and forward: entire packet must arrive at router before it can be transmitted on next link
@@ -151,7 +151,7 @@ Packet-switching, Circuit-switching, network structure
 
 #### Packet-switching: queueing delay, loss
 
-![](img/queue%20of%20packets.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/queue%20of%20packets.png)
 
 - queuing and loss:
   - If arrival rate (in bits) to link exceeds transmission rate of link for a period of time:
@@ -160,13 +160,13 @@ Packet-switching, Circuit-switching, network structure
 
 #### Two key network-core functions
 
-![](img/network-core%20functions.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/network-core%20functions.png)
 
 ### Circuit-switching
 
 #### Alternative core: circuit switching
 
-![](img/circuit-switching.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/circuit-switching.png)
 
 - end-end resources allocated to, reserved for “call” between source & dest:
   - In diagram, each link has four circuits.
@@ -181,7 +181,7 @@ Packet-switching, Circuit-switching, network structure
 - FDM (frequency division multiplex, 주파수 분할 다중 방식)
 - TDM (time division multiplex, 시간 분할 다중 방식)
 
-![](img/FDMvsTDM.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/FDMvsTDM.png)
 
 ### Packet-switching versus Circuit-switching
 
@@ -232,11 +232,11 @@ Packet-switching, Circuit-switching, network structure
   - packet arrival rate to link (temporarily) exceeds output link capacity
   - packets queue, wait for turn
 
-![](img/loss%20and%20delay.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/loss%20and%20delay.png)
 
 ### Four sources of packet delay
 
-![](img/sources%20of%20packet%20delay.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/sources%20of%20packet%20delay.png)
 
 - d_proc: nodal processing
   - check bit errors
@@ -257,13 +257,13 @@ Packet-switching, Circuit-switching, network structure
 
 ### Queueing delay (revisited)
 
-![](img/queuding%20delay.jpg)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/queuding%20delay.jpg)
 
 - R: link bandwidth (bps)
 - L: packet length (bits)
 - a: average packet arrival rate
 
-![](img/La%3AR.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/La%3AR.png)
 La/R ~ 0: avg. queueing delay small
 La/R -> 1: avg. queueing delay large
 La/R > 1: more “work” arriving
@@ -313,7 +313,7 @@ than can be serviced, average delay infinite!
 
 ### Internet protocol stack
 
-![](img/internet_protocol.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/internet_protocol.png)
 
 - application: supporting network applications
   - FTP, SMTP, HTTP
@@ -327,7 +327,7 @@ than can be serviced, average delay infinite!
 
 ### ISO/OSI reference model
 
-![](img/iso%3Aosi-reference-model.png)
+![© All material copyright 1996-2012 J.F Kurose and K.W. Ross, All Rights Reserved](img/iso%3Aosi-reference-model.png)
 
 - presentation: allow applications to interpret meaning of data
   - e.g., encryption, compression, machine-specific conventions
@@ -335,3 +335,8 @@ than can be serviced, average delay infinite!
 - Internet stack “missing” these layers!
   - these services, if needed, must be implemented in application
   - needed?
+
+---
+
+Source : <br>
+**Computer Networking: A Top Down Approach** 6th edition - Jim Kurose, Keith Ross Addison-Wesley March 2012
