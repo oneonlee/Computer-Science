@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <pcap.h>
+#include <string.h>
 
 struct ether_addr
 {
@@ -157,6 +158,10 @@ void print_data(const unsigned char *pkt_data, bpf_u_int32 caplen)
 {
 	if (caplen > 54) // TCP Header는 54bytes에서 끝나고, 그 뒤로는 TCP Option과 data가 온다.
 	{
+		if (strstr(pkt_data, "61747461636b") != NULL) // pkt_data에 "attack" strin이 포함되었는지 확인
+		{											  // string "attack"을 16진수 아스키 코드로 변환하면 `61 74 74 61 63 6b`이다.
+			printf("ATTACK DETECTED!!!\n");
+		}
 		printf("\nPrinting data of packet : \n");
 		for (int i = 54; i < caplen; i++)
 		{

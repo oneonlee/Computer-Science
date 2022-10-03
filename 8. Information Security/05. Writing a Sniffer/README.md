@@ -1661,3 +1661,32 @@ Printing TCP Header: 	Source Port Number: 50338
 ### 3) Improve your sniffer further such that it detects an attack packet from the server. Assume an attack packet contains "attack" string.
 
 string "attack"을 16진수 아스키 코드로 변환하면 `61 74 74 61 63 6b`이다.
+
+`<string.h>`에 포함된 `strstr` 함수를 사용하여 "61747461636b"를 포함하는지 검사하는 조건문을 `print_data` 함수 내에 추가하였다.
+
+```c
+void print_data(const unsigned char *pkt_data, bpf_u_int32 caplen)
+{
+	if (caplen > 54) // TCP Header는 54bytes에서 끝나고, 그 뒤로는 TCP Option과 data가 온다.
+	{
+		if (strstr(pkt_data, "61747461636b") != NULL) // pkt_data에 "attack" strin이 포함되었는지 확인
+		{											  // string "attack"을 16진수 아스키 코드로 변환하면 `61 74 74 61 63 6b`이다.
+			printf("ATTACK DETECTED!!!\n");
+		}
+		printf("\nPrinting data of packet : \n");
+		for (int i = 54; i < caplen; i++)
+		{
+			printf("%02x", pkt_data[i]); // 2자리로 표시하고 빈자리는 0으로 채우기
+			if (i % 2 == 1)
+			{
+				printf(" "); // 2bytes마다 space
+			}
+			if ((i + 11) % 16 == 0)
+			{
+				printf("\n"); // 16bytes마다 enter
+			}
+		}
+	}
+	printf("\n");
+}
+```
