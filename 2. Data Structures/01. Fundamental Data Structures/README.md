@@ -3,8 +3,8 @@ Arrays and Linked Lists
 
 ## Arrays
 
-배열은 확실하게 정해진 순서로 무언가를 저장할 때는 유용하고, 간단하게 적용될 수 있지만. 약간의 단점이 존재한다. 
-배열은 변화에 취약하다. 예를 들어 배열은 미이 크기 n을 정해야 하며 배열의 크기를 다시 정하는 것이 어렵다(STL 벡터에서 이 단점은 해결된다).
+배열은 확실하게 정해진 순서로 무언가를 저장할 때는 유용하고, 간단하게 적용될 수 있지만. 약간의 단점이 존재한다. <br>
+배열은 변화에 취약하다. 예를 들어 배열은 미이 크기 n을 정해야 하며 배열의 크기를 다시 정하는 것이 어렵다. (STL 벡터에서 이 단점은 해결된다.)<br>
 그리고 원소 추가를 위해 추가될 공간을 만들거나, 원소 제거 후에 빈 공간을 채우는 등, 원소들의 이동이 요구되기 때문에, 배열에서의 삽입과 제거에 어려움이 있다.
 
 ## Linked List
@@ -12,8 +12,8 @@ Arrays and Linked Lists
 
 <img width="30%" src="https://user-images.githubusercontent.com/73745836/137891671-51b87fd4-7676-49ee-a153-afbdfa54df7c.jpeg">
 
-링크드 리스트(linked list)의 노드 내부의 next 포인터는 다른 노드에 대란 link 또는 pointer로 볼 수 있다. next 참조를 통해 한 노드에서 다른 노드로 이동하는 것은 link hopping 또는 pointer hopping 이라고 한다.
-링크드 리스트의 제일 처음과 마지막 노드를 각각 그 리스트의 head와 tail이라 각각 부른다. 그래서 리스트를 head에서 시작해서 tail까지 방문할 수 있다. null을 참조하는 next 값을 가진 node로 tail을 확인할 수 있다.
+링크드 리스트(linked list)의 노드 내부의 next 포인터는 다른 노드에 대한 link 또는 pointer로 볼 수 있다. next 참조를 통해 한 노드에서 다른 노드로 이동하는 것은 link hopping 또는 pointer hopping 이라고 한다.<br>
+링크드 리스트의 제일 처음과 마지막 노드를 각각 그 리스트의 head와 tail이라 각각 부른다. 그래서 리스트를 head에서 시작해서 tail까지 방문할 수 있다. null을 참조하는 next 값을 가진 node로 tail을 확인할 수 있다.<br>
 각 노드가 단일 연결을 저장하므로 이러한 구조를 Singly Linked List라고 부른다. 
 
 배열에서와 마찬가지로 Singly Linked List도 특정 순서대로 원소들을 저장하며, 이 순서는 next 링크의 연결로써 결정된다. 다만 배열과는 다르게, Singly Linked List는 미리 선언되어 고정된 크기를 갖는다. 노드를 추가하거나 삭제함으로써 사이즈를 재조정 할 수 있다.
@@ -45,7 +45,7 @@ Time Complexity : O(1)
 #### Removing at the Tail
 ![IMG_7F3ADAA7E9D7-1](https://user-images.githubusercontent.com/73745836/137899671-5aa37140-0340-4eb4-8074-29ffe0eb3b99.jpeg)
 
-- Removing at the tail of a singly linked list is not efficient!
+- **Removing at the tail of a singly linked list is not efficient!**
 - There is no constant-time way to update the tail to point to the previous node
 
 Time Complexity : O(2n-1) = O(n)
