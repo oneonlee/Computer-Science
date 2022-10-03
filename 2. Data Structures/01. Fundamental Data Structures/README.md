@@ -1,5 +1,6 @@
 # 01. Fundamental Data Structures
-Arrays and Linked Lists
+
+[Arrays](#arrays) and [Linked Lists](#linked-lists)
 
 ## Arrays
 
@@ -7,19 +8,27 @@ Arrays and Linked Lists
 배열은 변화에 취약하다. 예를 들어 배열은 미이 크기 n을 정해야 하며 배열의 크기를 다시 정하는 것이 어렵다. (STL 벡터에서 이 단점은 해결된다.)<br>
 그리고 원소 추가를 위해 추가될 공간을 만들거나, 원소 제거 후에 빈 공간을 채우는 등, 원소들의 이동이 요구되기 때문에, 배열에서의 삽입과 제거에 어려움이 있다.
 
-## Linked List
+## Linked Lists
+
+[Singly Linked List](#singly-linked-list), [Doubly Linked List](#doubly-linked-list) and [Circularly Linked List](#circularly-linked-list)
+<br>
+
 ### Singly Linked List
 
 <img width="30%" src="https://user-images.githubusercontent.com/73745836/137891671-51b87fd4-7676-49ee-a153-afbdfa54df7c.jpeg">
 
-링크드 리스트(linked list)의 노드 내부의 next 포인터는 다른 노드에 대한 link 또는 pointer로 볼 수 있다. next 참조를 통해 한 노드에서 다른 노드로 이동하는 것은 link hopping 또는 pointer hopping 이라고 한다.<br>
-링크드 리스트의 제일 처음과 마지막 노드를 각각 그 리스트의 head와 tail이라 각각 부른다. 그래서 리스트를 head에서 시작해서 tail까지 방문할 수 있다. null을 참조하는 next 값을 가진 node로 tail을 확인할 수 있다.<br>
-각 노드가 단일 연결을 저장하므로 이러한 구조를 Singly Linked List라고 부른다. 
+링크드 리스트(linked list)의 노드 내부의 next 포인터는 다른 노드에 대한 link 또는 pointer로 볼 수 있다. next 참조를 통해 한 노드에서 다른 노드로 이동하는 것은 link hopping 또는 pointer hopping 이라고 한다.
+
+링크드 리스트의 제일 처음과 마지막 노드를 각각 그 리스트의 head와 tail이라 각각 부른다. 그래서 리스트를 head에서 시작해서 tail까지 방문할 수 있다. null을 참조하는 next 값을 가진 node로 tail을 확인할 수 있다.
+
+각 노드가 단일 연결을 저장하므로 이러한 구조를 Singly Linked List라고 부른다.
 
 배열에서와 마찬가지로 Singly Linked List도 특정 순서대로 원소들을 저장하며, 이 순서는 next 링크의 연결로써 결정된다. 다만 배열과는 다르게, Singly Linked List는 미리 선언되어 고정된 크기를 갖는다. 노드를 추가하거나 삭제함으로써 사이즈를 재조정 할 수 있다.
 
 #### Inserting at the Head
+
 ![IMG_B9767E3CC7BB-1](https://user-images.githubusercontent.com/73745836/137899259-4d4775ed-dd96-4933-ad22-493f033e4e6a.jpeg)
+
 1. Allocate a new node and insert new element
 2. Have new node print to old head
 3. Update head to point to new node
@@ -27,7 +36,9 @@ Arrays and Linked Lists
 Time Complexity : O(1)
 
 #### Inserting at the tail
+
 ![IMG_2D2B47330F77-1](https://user-images.githubusercontent.com/73745836/137899352-5efe766b-9080-4a89-bf16-9896ed6c46ff.jpeg)
+
 1. Allocate a new node and insert new element
 2. Have new node point to new node
 3. Have old last node point to new node
@@ -36,19 +47,26 @@ Time Complexity : O(1)
 Time Complexity : O(n)
 
 #### Removing at the Head
+
 ![IMG_7BDC1F68FD37-1](https://user-images.githubusercontent.com/73745836/137899547-edf3965d-cfad-469e-8817-1c673671cad2.jpeg)
+
 1. Update head to point to next node in the list
 2. Allow garbage collector to reclaim the former first node
 
 Time Complexity : O(1)
 
 #### Removing at the Tail
+
 ![IMG_7F3ADAA7E9D7-1](https://user-images.githubusercontent.com/73745836/137899671-5aa37140-0340-4eb4-8074-29ffe0eb3b99.jpeg)
 
 - **Removing at the tail of a singly linked list is not efficient!**
 - There is no constant-time way to update the tail to point to the previous node
 
 Time Complexity : O(2n-1) = O(n)
+
+<br>
+
+#### Implementing a Generic Singly Linked List
 
 ```cpp
 #include <string>
@@ -75,6 +93,7 @@ public:
     void removeFront();             // remove front item list
 private:
     StringNode *head; // pointer to the head of list
+    // 구현에 따라 tail을 구현하는 경우도 있다.
 };
 
 // Code Fragment 3.15: Some simple member functions of class StringLinkedList.
@@ -118,26 +137,34 @@ void StringLinkedList::removeFront()
 
 <img width="30%" src="https://user-images.githubusercontent.com/73745836/137899953-1b5a8b1a-1a6b-454c-b57e-74868e7267a9.jpeg">
 
-Singly Linked List의 tail에서 원소를 지우는 것은 쉽지 않다. 사실, Singly Linked List에서 지우려는 노드의 바로 이전 노드로 바로 접근하기 위한 빠른 방법이 없기 때문에 head에서 멀리 있는 노드를 지우는 것은 시간이 많이 소모된다.
+[Singly Linked List의 tail에서 원소를 지우는 것은 쉽지 않다.](#removing-at-the-tail) 사실, Singly Linked List에서 지우려는 노드의 바로 이전 노드로 바로 접근하기 위한 빠른 방법이 없기 때문에 head에서 멀리 있는 노드를 지우는 것은 시간이 많이 소모된다.
+
 Linked List에서 앞 방향과 반대 방향 등 양 방향으로 탐색을 가능케 해주는 Linked List의 종류가 있다. Doubly Linked List는 원소 멤버 이외에, 리스트의 다음 노드와 이전 노드를 각각 가리키는 next 링크와 prev 링크를 가진다. 이러한 리스트글은 어느 위치에서든 효율적인 삽입 및 제거를 포함한 다양한 빠른 업데이트 연산을 제공한다.
 
 #### Insertion
+
 ![IMG_0AC93EA9E87B-1](https://user-images.githubusercontent.com/73745836/137902602-8d395ec4-efab-4f0d-a0f8-f18b602ce51b.jpeg)
 
 Time Complexity : O(n+1) = O(n)
 
 ### Circularly Linked List
+
 - Rather than having a head or tail, the nodes of a circularly linked list are linked into a cycle
 - Cursor:Aplacetostartfromifweeverneedtotraverseacircularlylinkedlist
 - Back: The element that is referenced by the cursor
 - Front: The element immediately following this in the circular order
 
-#### Queue with a Circularly-Linked List
+#### Queue with a Circularly Linked List
+
+용어들은 구현에 따라 차이가 있을 수 있다.
+
 - `back()`: Return the element referenced by the cursor; error if empty
 - `front()`: Return the element immediately after the cursor; error if empty
 - `advance()`: Advance the cursor to the next node in the list
 - `add(e)`: Insert a new node with element e immediately after the cursor; if the list is empty, then this node becomes the cursor and its next pointer points to itself
 - `remove()`: Remove the node immediately after the cursor (so the front); if the list has only one node, the node at cursor is removed; if the list becomes empty, the cursor is set to null
+
+##### C++ Implementation
 
 ```cpp
 #include <string>
