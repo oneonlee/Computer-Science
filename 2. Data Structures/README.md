@@ -1,9 +1,36 @@
 - [01. Fundamental Data Structures](https://github.com/oneonlee/Computer-Science/tree/main/2.%20Data%20Structures/01.%20Fundamental%20Data%20Structures)
+  - Arrays 
+  - Linked Lists
 - [02. Analysis of Algorithms](https://github.com/oneonlee/Computer-Science/tree/main/2.%20Data%20Structures/02.%20Analysis%20of%20Algorithms)
+  - Recursion
+  - Analysis of Algorithms
 - [03. Abstract Data Types](https://github.com/oneonlee/Computer-Science/tree/main/2.%20Data%20Structures/03.%20Abstract%20Data%20Types)
+  - Stack
+  - Queue
+  - Deque
 - [04. List and Iterator ADTs](https://github.com/oneonlee/Computer-Science/tree/main/2.%20Data%20Structures/04.%20List%20and%20Iterator%20ADTs)
+  - Vectors (Array Lists)
 - [05. Trees](05.%20Trees)
+  - Tree
+  - Binary Tree
+  - Traversal
+  - Arithmetic Expression Tree
 - [06. Priority Queues and Heaps](06.%20Priority%20Queues%20and%20Heaps)
+  - Priority Queues
+  - Heaps
+  - Heaps and Priority Queues
 - [07. Maps, Hash Tables, Skip Lists, and Dictionaries](07.%20Maps,%20Hash%20Tables,%20Skip%20Lists,%20and%20Dictionaries)
+  - Maps
+  - Hash Tables
+  - Skip Lists
+  - Dictionaries
 - [08. Search Trees](08.%20Search%20Trees)
+  - Binary Search Trees
+  - AVL Trees
+  - Splay Trees
+  - (2,4) Trees
 - [09. Sorting](09.%20Sorting)
+  - Merge-Sort
+  - Quick-Sort
+  - Lower Bound for Sorting
+
