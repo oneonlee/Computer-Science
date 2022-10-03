@@ -56,7 +56,7 @@
 
 <img width="340" alt="스크린샷 2021-12-13 오후 12 16 37" src="https://user-images.githubusercontent.com/73745836/145746950-f00cd940-68b9-4eee-81ca-fb46c6d20b12.png">
 
-### Priority Queue Sorting
+### Priority Queue Sort
 
 - We can use a priority queue to sort a set of comparable elements
 - Insert the elements one by one with a series of `insert(e)` operations
