@@ -4,7 +4,7 @@
 
 - [01. Computer Network and Internet](./01.%20Computer%20Network%20and%20Internet/README.md)
 - [02. Application Layer](./02.%20Application%20Layer/README.md)
-- [03. Transport Layer]
+<!-- - [03. Transport Layer]
 - [04. Network Layer]
 - [05. Link Layer]
-- [06. Wireless and Mobile Networks]
+- [06. Wireless and Mobile Networks] -->
