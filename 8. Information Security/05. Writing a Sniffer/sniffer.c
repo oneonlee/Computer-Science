@@ -92,7 +92,7 @@ void print_ether_header(const unsigned char *pkt_data)
 	{
 		printf("%02x", eh->ether_shost.ether_addr_octet[i]);
 	}
-	printf("\nProtocol Type: %04x\n", ntohs(eh->ether_type));
+	printf("\n\tProtocol Type: %04x\n", ntohs(eh->ether_type));
 }
 
 // IP Header를 출력하는 함수
@@ -100,7 +100,7 @@ void print_ip_header(const unsigned char *pkt_data)
 {
 	struct ip_header *ih;
 	ih = (struct ip_header *)(pkt_data + 14); // ethernet header(14) 이후부터 시작
-	printf("\nPrinting IP Header: ");
+	printf("\nPrinting IP Header: \n");
 
 	printf("\tIP Version: %x\n", ih->ip_version);
 	printf("\tIP Header Length: %d bytes\n", ih->ip_header_len);
@@ -153,22 +153,22 @@ void print_tcp_header(const unsigned char *pkt_data)
 	printf("\tUrgent Pointer: %04x\n", ntohs(th->urgent_pointer));
 }
 
-void print_data(const unsigned char *pkt_data, bpf_u_int32 caplen, unsigned int tcp_length = 20)
+void print_data(const unsigned char *pkt_data, bpf_u_int32 caplen)
 {
-	int packet_size_without_data = 14 + 20 + tcp_length;
-	unsigned char *data = (unsigned char *)(pkt_data + packet_size_without_data);
-
-	printf("\nPrinting data of packet : \n");
-	for (int i = 0; i < caplen - packet_size_without_data; i++)
+	if (caplen > 54) // TCP Header는 54bytes에서 끝나고, 그 뒤로는 TCP Option과 data가 온다.
 	{
-		printf("%02x", data[i]); // 2자리로 표시하고 빈자리는 0으로 채우기
-		if (i % 2 == 1)
+		printf("\nPrinting data of packet : \n");
+		for (int i = 54; i < caplen; i++)
 		{
-			printf(" "); // 2bytes마다 space
-		}
-		if ((i + 1) % 16 == 0)
-		{
-			printf("\n"); // 16bytes마다 enter
+			printf("%02x", pkt_data[i]); // 2자리로 표시하고 빈자리는 0으로 채우기
+			if (i % 2 == 1)
+			{
+				printf(" "); // 2bytes마다 space
+			}
+			if ((i + 11) % 16 == 0)
+			{
+				printf("\n"); // 16bytes마다 enter
+			}
 		}
 	}
 	printf("\n");
