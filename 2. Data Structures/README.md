@@ -2,35 +2,35 @@
 
 - [01. Fundamental Data Structures](./01.%20Fundamental%20Data%20Structures)
   - Arrays 
-  - Linked Lists
+  - Linked Lists<br><br>
 - [02. Analysis of Algorithms](./02.%20Analysis%20of%20Algorithms)
   - Recursion
-  - Analysis of Algorithms
+  - Analysis of Algorithms<br><br>
 - [03. Abstract Data Types](./03.%20Abstract%20Data%20Types)
   - Stack
   - Queue
-  - Deque
+  - Deque<br><br>
 - [04. List and Iterator ADTs](./04.%20List%20and%20Iterator%20ADTs)
-  - Vectors (Array Lists)
+  - Vectors (Array Lists)<br><br>
 - [05. Trees](./05.%20Trees)
   - Tree
   - Binary Tree
   - Traversal
-  - Arithmetic Expression Tree
+  - Arithmetic Expression Tree<br><br>
 - [06. Priority Queues and Heaps](./06.%20Priority%20Queues%20and%20Heaps)
-  - Priority Queues
+  - Priority Queues (Selection Sort, Insertion Sort, Priority Queue Sort)
   - Heaps
-  - Heaps and Priority Queues
+  - Heaps and Priority Queues (Heap Sort)<br><br>
 - [07. Maps, Hash Tables, Skip Lists, and Dictionaries](./07.%20Maps,%20Hash%20Tables,%20Skip%20Lists,%20and%20Dictionaries)
   - Maps
   - Hash Tables
   - Skip Lists
-  - Dictionaries
+  - Dictionaries<br><br>
 - [08. Search Trees](./08.%20Search%20Trees)
   - Binary Search Trees
   - AVL Trees
   - Splay Trees
-  - (2,4) Trees
+  - (2,4) Trees<br><br>
 - [09. Sorting](./09.%20Sorting)
   - Merge-Sort
   - Quick-Sort
