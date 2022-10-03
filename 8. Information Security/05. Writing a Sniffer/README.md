@@ -860,7 +860,7 @@ available한 dev를 확인할 수 있었다.
 
 #### STEP 4 : 로컬에서 client 실행 파일인 `./cli`를 실행하였다.
 
-![](img/s4.png)<br>
+![](img/2-s4.png)<br>
 위 화면에서 왼쪽 터미널은 `./sniffer`를 실행한 화면이다. 오른쪽 위 터미널은 server의 터미널이고, 오른쪽 아래 터미널이 client의 터미널이다.
 
 ```
@@ -868,16 +868,17 @@ Raw Byte Stream of the Packet
 New Packet of Size : 78
 705d ccaa 6e94 08f8 bc6a a8db 0800 4500
 0040 0000 4000 4006 ad38 c0a8 004a a5f6
-2697 fdb3 30e8 1451 99f1 0000 0000 b002
-ffff d101 0000 0204 05b4 0103 0306 0101
-080a 826a 7931 0000 0000 0402 0000
+2697 c4a2 30e8 8f21 c532 0000 0000 b002
+ffff 54dd 0000 0204 05b4 0103 0306 0101
+080a 6270 a84f 0000 0000 0402 0000
 
 Printing Ethernet Header:
 	Destination MAC Address: 705dccaa6e94
 	Source MAC Address: 08f8bc6aa8db
-Protocol Type: 0800
+	Protocol Type: 0800
 
-Printing IP Header: 	IP Version: 4
+Printing IP Header:
+	IP Version: 4
 	IP Header Length: 5 bytes
 	IP Type of Service: 0
 	IP Total Length: 64
@@ -893,9 +894,9 @@ Printing IP Header: 	IP Version: 4
 	Source IP Address: c0a8004a
 	Destination IP Address: a5f62697
 
-Printing TCP Header: 	Source Port Number: 64947
+Printing TCP Header: 	Source Port Number: 50338
 	Destination Port Number: 12520
-	Sequence Number: 340892145
+	Sequence Number: -1893612238
 	ACK Number: 0
 	TCP Data Offset: b
 	Reserved Part 1: 0
@@ -909,27 +910,28 @@ Printing TCP Header: 	Source Port Number: 64947
 	ECN: 0
 	CWR: 0
 	Window: 65535
-	TCP CheckSum: d101
+	TCP CheckSum: 54dd
 	Urgent Pointer: 0000
 
 Printing data of packet :
-0204 05b4 0103 0306 0101 080a 826a 7931
+0204 05b4 0103 0306 0101 080a 6270 a84f
 0000 0000 0402 0000
 
 Raw Byte Stream of the Packet
 New Packet of Size : 74
 08f8 bc6a a8db 705d ccaa 6e94 0800 4500
 003c 0000 4000 3806 b53c a5f6 2697 c0a8
-004a 30e8 fdb3 0a19 ff33 1451 99f2 a012
-3890 b175 0000 0204 05b4 0402 080a e2b9
-0be8 826a 7931 0103 0307
+004a 30e8 c4a2 554f 29c9 8f21 c533 a012
+3890 d51c 0000 0204 05b4 0402 080a e2e4
+f625 6270 a84f 0103 0307
 
 Printing Ethernet Header:
 	Destination MAC Address: 08f8bc6aa8db
 	Source MAC Address: 705dccaa6e94
-Protocol Type: 0800
+	Protocol Type: 0800
 
-Printing IP Header: 	IP Version: 4
+Printing IP Header:
+	IP Version: 4
 	IP Header Length: 5 bytes
 	IP Type of Service: 0
 	IP Total Length: 60
@@ -946,9 +948,9 @@ Printing IP Header: 	IP Version: 4
 	Destination IP Address: c0a8004a
 
 Printing TCP Header: 	Source Port Number: 12520
-	Destination Port Number: 64947
-	Sequence Number: 169475891
-	ACK Number: 340892146
+	Destination Port Number: 50338
+	Sequence Number: 1431251401
+	ACK Number: -1893612237
 	TCP Data Offset: a
 	Reserved Part 1: 0
 	TCP NS: 0
@@ -961,27 +963,28 @@ Printing TCP Header: 	Source Port Number: 12520
 	ECN: 0
 	CWR: 0
 	Window: 14480
-	TCP CheckSum: b175
+	TCP CheckSum: d51c
 	Urgent Pointer: 0000
 
 Printing data of packet :
-0204 05b4 0402 080a e2b9 0be8 826a 7931
+0204 05b4 0402 080a e2e4 f625 6270 a84f
 0103 0307
 
 Raw Byte Stream of the Packet
 New Packet of Size : 66
 705d ccaa 6e94 08f8 bc6a a8db 0800 4500
 0034 0000 4000 4006 ad44 c0a8 004a a5f6
-2697 fdb3 30e8 1451 99f2 0a19 ff34 8010
-080a 106f 0000 0101 080a 826a 798a e2b9
-0be8
+2697 c4a2 30e8 8f21 c533 554f 29ca 8010
+080a 345e 0000 0101 080a 6270 a860 e2e4
+f625
 
 Printing Ethernet Header:
 	Destination MAC Address: 705dccaa6e94
 	Source MAC Address: 08f8bc6aa8db
-Protocol Type: 0800
+	Protocol Type: 0800
 
-Printing IP Header: 	IP Version: 4
+Printing IP Header:
+	IP Version: 4
 	IP Header Length: 5 bytes
 	IP Type of Service: 0
 	IP Total Length: 52
@@ -997,10 +1000,10 @@ Printing IP Header: 	IP Version: 4
 	Source IP Address: c0a8004a
 	Destination IP Address: a5f62697
 
-Printing TCP Header: 	Source Port Number: 64947
+Printing TCP Header: 	Source Port Number: 50338
 	Destination Port Number: 12520
-	Sequence Number: 340892146
-	ACK Number: 169475892
+	Sequence Number: -1893612237
+	ACK Number: 1431251402
 	TCP Data Offset: 8
 	Reserved Part 1: 0
 	TCP NS: 0
@@ -1013,37 +1016,38 @@ Printing TCP Header: 	Source Port Number: 64947
 	ECN: 0
 	CWR: 0
 	Window: 2058
-	TCP CheckSum: 106f
+	TCP CheckSum: 345e
 	Urgent Pointer: 0000
 
 Printing data of packet :
-0101 080a 826a 798a e2b9 0be8
+0101 080a 6270 a860 e2e4 f625
 ```
 
 #### STEP 5 : server와 client 간에 통신을 시작하였다.
 
 ##### Client -> Server : "HI"
 
-![](img/s5-1.png)
+![](img/2-s5-1.png)
 
 ```Raw byte stream of the packet
 Raw Byte Stream of the Packet
-New Packet of Size : 69
+New Packet of Size : 68
 705d ccaa 6e94 08f8 bc6a a8db 0800 4500
-0037 0000 4000 4006 ad41 c0a8 004a a5f6
-2697 fdb3 30e8 1451 99f2 0a19 ff34 8018
-080a b1fe 0000 0101 080a 826c 6ea4 e2b9
-0be8 4849 21
+0036 0000 4000 4006 ad42 c0a8 004a a5f6
+2697 c4a2 30e8 8f21 c533 554f 29ca 8018
+080a 431b 0000 0101 080a 6271 514f e2e4
+f625 4849
 
 Printing Ethernet Header:
 	Destination MAC Address: 705dccaa6e94
 	Source MAC Address: 08f8bc6aa8db
-Protocol Type: 0800
+	Protocol Type: 0800
 
-Printing IP Header: 	IP Version: 4
+Printing IP Header:
+	IP Version: 4
 	IP Header Length: 5 bytes
 	IP Type of Service: 0
-	IP Total Length: 55
+	IP Total Length: 54
 	IP Identification: 0
 	IP Reserved Zero: 0
 	IP Don't Fragment: 1
@@ -1052,14 +1056,14 @@ Printing IP Header: 	IP Version: 4
 	IP Frag Offset 1: 00
 	IP TTL: 40
 	IP Protocol: 06
-	IP CheckSum: ad41
+	IP CheckSum: ad42
 	Source IP Address: c0a8004a
 	Destination IP Address: a5f62697
 
-Printing TCP Header: 	Source Port Number: 64947
+Printing TCP Header: 	Source Port Number: 50338
 	Destination Port Number: 12520
-	Sequence Number: 340892146
-	ACK Number: 169475892
+	Sequence Number: -1893612237
+	ACK Number: 1431251402
 	TCP Data Offset: 8
 	Reserved Part 1: 0
 	TCP NS: 0
@@ -1072,30 +1076,31 @@ Printing TCP Header: 	Source Port Number: 64947
 	ECN: 0
 	CWR: 0
 	Window: 2058
-	TCP CheckSum: b1fe
+	TCP CheckSum: 431b
 	Urgent Pointer: 0000
 
 Printing data of packet :
-0101 080a 826c 6ea4 e2b9 0be8 4849 21
+0101 080a 6271 514f e2e4 f625 4849
 
 Raw Byte Stream of the Packet
 New Packet of Size : 66
 08f8 bc6a a8db 705d ccaa 6e94 0800 4500
-0034 f4c4 4000 3806 c07f a5f6 2697 c0a8
-004a 30e8 fdb3 0a19 ff34 1451 99f5 8010
-0072 2dbb 0000 0101 080a e2bb 0113 826c
-6ea4
+0034 dfe6 4000 3806 d55d a5f6 2697 c0a8
+004a 30e8 c4a2 554f 29ca 8f21 c535 8010
+0072 ea05 0000 0101 080a e2e5 9f23 6271
+514f
 
 Printing Ethernet Header:
 	Destination MAC Address: 08f8bc6aa8db
 	Source MAC Address: 705dccaa6e94
-Protocol Type: 0800
+	Protocol Type: 0800
 
-Printing IP Header: 	IP Version: 4
+Printing IP Header:
+	IP Version: 4
 	IP Header Length: 5 bytes
 	IP Type of Service: 0
 	IP Total Length: 52
-	IP Identification: 62660
+	IP Identification: 57318
 	IP Reserved Zero: 0
 	IP Don't Fragment: 1
 	IP More Fragment: 0
@@ -1103,14 +1108,14 @@ Printing IP Header: 	IP Version: 4
 	IP Frag Offset 1: 00
 	IP TTL: 38
 	IP Protocol: 06
-	IP CheckSum: c07f
+	IP CheckSum: d55d
 	Source IP Address: a5f62697
 	Destination IP Address: c0a8004a
 
 Printing TCP Header: 	Source Port Number: 12520
-	Destination Port Number: 64947
-	Sequence Number: 169475892
-	ACK Number: 340892149
+	Destination Port Number: 50338
+	Sequence Number: 1431251402
+	ACK Number: -1893612235
 	TCP Data Offset: 8
 	Reserved Part 1: 0
 	TCP NS: 0
@@ -1123,32 +1128,191 @@ Printing TCP Header: 	Source Port Number: 12520
 	ECN: 0
 	CWR: 0
 	Window: 114
-	TCP CheckSum: 2dbb
+	TCP CheckSum: ea05
 	Urgent Pointer: 0000
 
 Printing data of packet :
-0101 080a e2bb 0113 826c 6ea4
+0101 080a e2e5 9f23 6271 514f
+
 ```
 
 ##### Server -> Client : "BYE"
 
-![](img/s5-2.png)
+![](img/2-s5-2.png)
 
 ```
 Raw Byte Stream of the Packet
 New Packet of Size : 66
+08f8 bc6a a8db 705d ccaa 6e94 0800 4500
+0034 dfe8 4000 3806 d55b a5f6 2697 c0a8
+004a 30e8 c4a2 554f 29cd 8f21 c535 8011
+0072 04aa 0000 0101 080a e2e6 847a 6271
+514f
+
+Printing Ethernet Header:
+	Destination MAC Address: 08f8bc6aa8db
+	Source MAC Address: 705dccaa6e94
+	Protocol Type: 0800
+
+Printing IP Header:
+	IP Version: 4
+	IP Header Length: 5 bytes
+	IP Type of Service: 0
+	IP Total Length: 52
+	IP Identification: 57320
+	IP Reserved Zero: 0
+	IP Don't Fragment: 1
+	IP More Fragment: 0
+	IP Frag Offset: 00
+	IP Frag Offset 1: 00
+	IP TTL: 38
+	IP Protocol: 06
+	IP CheckSum: d55b
+	Source IP Address: a5f62697
+	Destination IP Address: c0a8004a
+
+Printing TCP Header: 	Source Port Number: 12520
+	Destination Port Number: 50338
+	Sequence Number: 1431251405
+	ACK Number: -1893612235
+	TCP Data Offset: 8
+	Reserved Part 1: 0
+	TCP NS: 0
+	FIN: 1
+	SYN: 0
+	RST: 0
+	PSH: 0
+	ACK: 1
+	URG: 0
+	ECN: 0
+	CWR: 0
+	Window: 114
+	TCP CheckSum: 04aa
+	Urgent Pointer: 0000
+
+Printing data of packet :
+0101 080a e2e6 847a 6271 514f
+
+Raw Byte Stream of the Packet
+New Packet of Size : 69
+08f8 bc6a a8db 705d ccaa 6e94 0800 4500
+0037 dfe7 4000 3806 d559 a5f6 2697 c0a8
+004a 30e8 c4a2 554f 29ca 8f21 c535 8018
+0072 7d49 0000 0101 080a e2e6 847a 6271
+514f 4259 45
+
+Printing Ethernet Header:
+	Destination MAC Address: 08f8bc6aa8db
+	Source MAC Address: 705dccaa6e94
+	Protocol Type: 0800
+
+Printing IP Header:
+	IP Version: 4
+	IP Header Length: 5 bytes
+	IP Type of Service: 0
+	IP Total Length: 55
+	IP Identification: 57319
+	IP Reserved Zero: 0
+	IP Don't Fragment: 1
+	IP More Fragment: 0
+	IP Frag Offset: 00
+	IP Frag Offset 1: 00
+	IP TTL: 38
+	IP Protocol: 06
+	IP CheckSum: d559
+	Source IP Address: a5f62697
+	Destination IP Address: c0a8004a
+
+Printing TCP Header: 	Source Port Number: 12520
+	Destination Port Number: 50338
+	Sequence Number: 1431251402
+	ACK Number: -1893612235
+	TCP Data Offset: 8
+	Reserved Part 1: 0
+	TCP NS: 0
+	FIN: 0
+	SYN: 0
+	RST: 0
+	PSH: 1
+	ACK: 1
+	URG: 0
+	ECN: 0
+	CWR: 0
+	Window: 114
+	TCP CheckSum: 7d49
+	Urgent Pointer: 0000
+
+Printing data of packet :
+0101 080a e2e6 847a 6271 514f 4259 45
+
+Raw Byte Stream of the Packet
+New Packet of Size : 78
 705d ccaa 6e94 08f8 bc6a a8db 0800 4500
-0034 0000 4000 4006 ad44 c0a8 004a a5f6
-2697 fdb3 30e8 1451 99f5 0a19 ff37 8010
-080a f3cf 0000 0101 080a 826d 87d1 e2bc
-1a34
+0040 0000 4000 4006 ad38 c0a8 004a a5f6
+2697 c4a2 30e8 8f21 c535 554f 29ca b010
+080a c8b4 0000 0101 080a 6272 36b6 e2e5
+9f23 0101 050a 554f 29cd 554f 29ce
 
 Printing Ethernet Header:
 	Destination MAC Address: 705dccaa6e94
 	Source MAC Address: 08f8bc6aa8db
-Protocol Type: 0800
+	Protocol Type: 0800
 
-Printing IP Header: 	IP Version: 4
+Printing IP Header:
+	IP Version: 4
+	IP Header Length: 5 bytes
+	IP Type of Service: 0
+	IP Total Length: 64
+	IP Identification: 0
+	IP Reserved Zero: 0
+	IP Don't Fragment: 1
+	IP More Fragment: 0
+	IP Frag Offset: 00
+	IP Frag Offset 1: 00
+	IP TTL: 40
+	IP Protocol: 06
+	IP CheckSum: ad38
+	Source IP Address: c0a8004a
+	Destination IP Address: a5f62697
+
+Printing TCP Header: 	Source Port Number: 50338
+	Destination Port Number: 12520
+	Sequence Number: -1893612235
+	ACK Number: 1431251402
+	TCP Data Offset: b
+	Reserved Part 1: 0
+	TCP NS: 0
+	FIN: 0
+	SYN: 0
+	RST: 0
+	PSH: 0
+	ACK: 1
+	URG: 0
+	ECN: 0
+	CWR: 0
+	Window: 2058
+	TCP CheckSum: c8b4
+	Urgent Pointer: 0000
+
+Printing data of packet :
+0101 080a 6272 36b6 e2e5 9f23 0101 050a
+554f 29cd 554f 29ce
+
+Raw Byte Stream of the Packet
+New Packet of Size : 66
+705d ccaa 6e94 08f8 bc6a a8db 0800 4500
+0034 0000 4000 4006 ad44 c0a8 004a a5f6
+2697 c4a2 30e8 8f21 c535 554f 29ce 8010
+080a 17aa 0000 0101 080a 6272 36b6 e2e6
+847a
+
+Printing Ethernet Header:
+	Destination MAC Address: 705dccaa6e94
+	Source MAC Address: 08f8bc6aa8db
+	Protocol Type: 0800
+
+Printing IP Header:
+	IP Version: 4
 	IP Header Length: 5 bytes
 	IP Type of Service: 0
 	IP Total Length: 52
@@ -1164,10 +1328,10 @@ Printing IP Header: 	IP Version: 4
 	Source IP Address: c0a8004a
 	Destination IP Address: a5f62697
 
-Printing TCP Header: 	Source Port Number: 64947
+Printing TCP Header: 	Source Port Number: 50338
 	Destination Port Number: 12520
-	Sequence Number: 340892149
-	ACK Number: 169475895
+	Sequence Number: -1893612235
+	ACK Number: 1431251406
 	TCP Data Offset: 8
 	Reserved Part 1: 0
 	TCP NS: 0
@@ -1180,26 +1344,27 @@ Printing TCP Header: 	Source Port Number: 64947
 	ECN: 0
 	CWR: 0
 	Window: 2058
-	TCP CheckSum: f3cf
+	TCP CheckSum: 17aa
 	Urgent Pointer: 0000
 
 Printing data of packet :
-0101 080a 826d 87d1 e2bc 1a34
+0101 080a 6272 36b6 e2e6 847a
 
 Raw Byte Stream of the Packet
 New Packet of Size : 66
 705d ccaa 6e94 08f8 bc6a a8db 0800 4500
 0034 0000 4000 4006 ad44 c0a8 004a a5f6
-2697 fdb3 30e8 1451 99f5 0a19 ff38 8010
-080a f3ce 0000 0101 080a 826d 87d1 e2bc
-1a34
+2697 c4a2 30e8 8f21 c535 554f 29ce 8011
+080a 17a9 0000 0101 080a 6272 36b6 e2e6
+847a
 
 Printing Ethernet Header:
 	Destination MAC Address: 705dccaa6e94
 	Source MAC Address: 08f8bc6aa8db
-Protocol Type: 0800
+	Protocol Type: 0800
 
-Printing IP Header: 	IP Version: 4
+Printing IP Header:
+	IP Version: 4
 	IP Header Length: 5 bytes
 	IP Type of Service: 0
 	IP Total Length: 52
@@ -1215,61 +1380,10 @@ Printing IP Header: 	IP Version: 4
 	Source IP Address: c0a8004a
 	Destination IP Address: a5f62697
 
-Printing TCP Header: 	Source Port Number: 64947
+Printing TCP Header: 	Source Port Number: 50338
 	Destination Port Number: 12520
-	Sequence Number: 340892149
-	ACK Number: 169475896
-	TCP Data Offset: 8
-	Reserved Part 1: 0
-	TCP NS: 0
-	FIN: 0
-	SYN: 0
-	RST: 0
-	PSH: 0
-	ACK: 1
-	URG: 0
-	ECN: 0
-	CWR: 0
-	Window: 2058
-	TCP CheckSum: f3ce
-	Urgent Pointer: 0000
-
-Printing data of packet :
-0101 080a 826d 87d1 e2bc 1a34
-
-Raw Byte Stream of the Packet
-New Packet of Size : 66
-705d ccaa 6e94 08f8 bc6a a8db 0800 4500
-0034 0000 4000 4006 ad44 c0a8 004a a5f6
-2697 fdb3 30e8 1451 99f5 0a19 ff38 8011
-080a f3cd 0000 0101 080a 826d 87d1 e2bc
-1a34
-
-Printing Ethernet Header:
-	Destination MAC Address: 705dccaa6e94
-	Source MAC Address: 08f8bc6aa8db
-Protocol Type: 0800
-
-Printing IP Header: 	IP Version: 4
-	IP Header Length: 5 bytes
-	IP Type of Service: 0
-	IP Total Length: 52
-	IP Identification: 0
-	IP Reserved Zero: 0
-	IP Don't Fragment: 1
-	IP More Fragment: 0
-	IP Frag Offset: 00
-	IP Frag Offset 1: 00
-	IP TTL: 40
-	IP Protocol: 06
-	IP CheckSum: ad44
-	Source IP Address: c0a8004a
-	Destination IP Address: a5f62697
-
-Printing TCP Header: 	Source Port Number: 64947
-	Destination Port Number: 12520
-	Sequence Number: 340892149
-	ACK Number: 169475896
+	Sequence Number: -1893612235
+	ACK Number: 1431251406
 	TCP Data Offset: 8
 	Reserved Part 1: 0
 	TCP NS: 0
@@ -1282,30 +1396,31 @@ Printing TCP Header: 	Source Port Number: 64947
 	ECN: 0
 	CWR: 0
 	Window: 2058
-	TCP CheckSum: f3cd
+	TCP CheckSum: 17a9
 	Urgent Pointer: 0000
 
 Printing data of packet :
-0101 080a 826d 87d1 e2bc 1a34
+0101 080a 6272 36b6 e2e6 847a
 
 Raw Byte Stream of the Packet
 New Packet of Size : 66
 08f8 bc6a a8db 705d ccaa 6e94 0800 4500
-0034 f4c7 4000 3806 c07c a5f6 2697 c0a8
-004a 30e8 fdb3 0a19 ff38 1451 99f6 8010
-0072 fb5e 0000 0101 080a e2bc 1a3b 826d
-87d1
+0034 dfe9 4000 3806 d55a a5f6 2697 c0a8
+004a 30e8 c4a2 554f 29ce 8f21 c536 8010
+0072 1f38 0000 0101 080a e2e6 8483 6272
+36b6
 
 Printing Ethernet Header:
 	Destination MAC Address: 08f8bc6aa8db
 	Source MAC Address: 705dccaa6e94
-Protocol Type: 0800
+	Protocol Type: 0800
 
-Printing IP Header: 	IP Version: 4
+Printing IP Header:
+	IP Version: 4
 	IP Header Length: 5 bytes
 	IP Type of Service: 0
 	IP Total Length: 52
-	IP Identification: 62663
+	IP Identification: 57321
 	IP Reserved Zero: 0
 	IP Don't Fragment: 1
 	IP More Fragment: 0
@@ -1313,14 +1428,14 @@ Printing IP Header: 	IP Version: 4
 	IP Frag Offset 1: 00
 	IP TTL: 38
 	IP Protocol: 06
-	IP CheckSum: c07c
+	IP CheckSum: d55a
 	Source IP Address: a5f62697
 	Destination IP Address: c0a8004a
 
 Printing TCP Header: 	Source Port Number: 12520
-	Destination Port Number: 64947
-	Sequence Number: 169475896
-	ACK Number: 340892150
+	Destination Port Number: 50338
+	Sequence Number: 1431251406
+	ACK Number: -1893612234
 	TCP Data Offset: 8
 	Reserved Part 1: 0
 	TCP NS: 0
@@ -1333,26 +1448,27 @@ Printing TCP Header: 	Source Port Number: 12520
 	ECN: 0
 	CWR: 0
 	Window: 114
-	TCP CheckSum: fb5e
+	TCP CheckSum: 1f38
 	Urgent Pointer: 0000
 
 Printing data of packet :
-0101 080a e2bc 1a3b 826d 87d1
+0101 080a e2e6 8483 6272 36b6
 
 Raw Byte Stream of the Packet
 New Packet of Size : 66
 08f8 bc6a a8db 705d ccaa 6e94 0800 4500
 0034 0000 4000 3806 b544 a5f6 2697 c0a8
-004a 30e8 fdb3 0a19 ff38 1451 99f6 8010
-0072 fb5e 0000 0101 080a e2bc 1a3b 826d
-87d1
+004a 30e8 c4a2 554f 29ce 8f21 c536 8010
+0072 1f38 0000 0101 080a e2e6 8483 6272
+36b6
 
 Printing Ethernet Header:
 	Destination MAC Address: 08f8bc6aa8db
 	Source MAC Address: 705dccaa6e94
-Protocol Type: 0800
+	Protocol Type: 0800
 
-Printing IP Header: 	IP Version: 4
+Printing IP Header:
+	IP Version: 4
 	IP Header Length: 5 bytes
 	IP Type of Service: 0
 	IP Total Length: 52
@@ -1369,9 +1485,9 @@ Printing IP Header: 	IP Version: 4
 	Destination IP Address: c0a8004a
 
 Printing TCP Header: 	Source Port Number: 12520
-	Destination Port Number: 64947
-	Sequence Number: 169475896
-	ACK Number: 340892150
+	Destination Port Number: 50338
+	Sequence Number: 1431251406
+	ACK Number: -1893612234
 	TCP Data Offset: 8
 	Reserved Part 1: 0
 	TCP NS: 0
@@ -1384,26 +1500,27 @@ Printing TCP Header: 	Source Port Number: 12520
 	ECN: 0
 	CWR: 0
 	Window: 114
-	TCP CheckSum: fb5e
+	TCP CheckSum: 1f38
 	Urgent Pointer: 0000
 
 Printing data of packet :
-0101 080a e2bc 1a3b 826d 87d1
+0101 080a e2e6 8483 6272 36b6
 
 Raw Byte Stream of the Packet
 New Packet of Size : 66
 08f8 bc6a a8db 705d ccaa 6e94 0800 4500
 0034 0000 4000 3806 b544 a5f6 2697 c0a8
-004a 30e8 fdb3 0a19 ff38 1451 99f6 8010
-0072 fb5e 0000 0101 080a e2bc 1a3b 826d
-87d1
+004a 30e8 c4a2 554f 29ce 8f21 c536 8010
+0072 1f37 0000 0101 080a e2e6 8484 6272
+36b6
 
 Printing Ethernet Header:
 	Destination MAC Address: 08f8bc6aa8db
 	Source MAC Address: 705dccaa6e94
-Protocol Type: 0800
+	Protocol Type: 0800
 
-Printing IP Header: 	IP Version: 4
+Printing IP Header:
+	IP Version: 4
 	IP Header Length: 5 bytes
 	IP Type of Service: 0
 	IP Total Length: 52
@@ -1420,9 +1537,9 @@ Printing IP Header: 	IP Version: 4
 	Destination IP Address: c0a8004a
 
 Printing TCP Header: 	Source Port Number: 12520
-	Destination Port Number: 64947
-	Sequence Number: 169475896
-	ACK Number: 340892150
+	Destination Port Number: 50338
+	Sequence Number: 1431251406
+	ACK Number: -1893612234
 	TCP Data Offset: 8
 	Reserved Part 1: 0
 	TCP NS: 0
@@ -1435,25 +1552,26 @@ Printing TCP Header: 	Source Port Number: 12520
 	ECN: 0
 	CWR: 0
 	Window: 114
-	TCP CheckSum: fb5e
+	TCP CheckSum: 1f37
 	Urgent Pointer: 0000
 
 Printing data of packet :
-0101 080a e2bc 1a3b 826d 87d1
+0101 080a e2e6 8484 6272 36b6
 
 Raw Byte Stream of the Packet
 New Packet of Size : 54
 705d ccaa 6e94 08f8 bc6a a8db 0800 4500
 0028 0000 4000 4006 ad50 c0a8 004a a5f6
-2697 fdb3 30e8 1451 99f6 0000 0000 5004
-0000 457d 0000
+2697 c4a2 30e8 8f21 c536 0000 0000 5004
+0000 d87d 0000
 
 Printing Ethernet Header:
 	Destination MAC Address: 705dccaa6e94
 	Source MAC Address: 08f8bc6aa8db
-Protocol Type: 0800
+	Protocol Type: 0800
 
-Printing IP Header: 	IP Version: 4
+Printing IP Header:
+	IP Version: 4
 	IP Header Length: 5 bytes
 	IP Type of Service: 0
 	IP Total Length: 40
@@ -1469,9 +1587,9 @@ Printing IP Header: 	IP Version: 4
 	Source IP Address: c0a8004a
 	Destination IP Address: a5f62697
 
-Printing TCP Header: 	Source Port Number: 64947
+Printing TCP Header: 	Source Port Number: 50338
 	Destination Port Number: 12520
-	Sequence Number: 340892150
+	Sequence Number: -1893612234
 	ACK Number: 0
 	TCP Data Offset: 5
 	Reserved Part 1: 0
@@ -1485,25 +1603,24 @@ Printing TCP Header: 	Source Port Number: 64947
 	ECN: 0
 	CWR: 0
 	Window: 0
-	TCP CheckSum: 457d
+	TCP CheckSum: d87d
 	Urgent Pointer: 0000
-
-Printing data of packet :
 
 
 Raw Byte Stream of the Packet
 New Packet of Size : 54
 705d ccaa 6e94 08f8 bc6a a8db 0800 4500
 0028 0000 4000 4006 ad50 c0a8 004a a5f6
-2697 fdb3 30e8 1451 99f6 0000 0000 5004
-0000 457d 0000
+2697 c4a2 30e8 8f21 c536 0000 0000 5004
+0000 d87d 0000
 
 Printing Ethernet Header:
 	Destination MAC Address: 705dccaa6e94
 	Source MAC Address: 08f8bc6aa8db
-Protocol Type: 0800
+	Protocol Type: 0800
 
-Printing IP Header: 	IP Version: 4
+Printing IP Header:
+	IP Version: 4
 	IP Header Length: 5 bytes
 	IP Type of Service: 0
 	IP Total Length: 40
@@ -1519,9 +1636,9 @@ Printing IP Header: 	IP Version: 4
 	Source IP Address: c0a8004a
 	Destination IP Address: a5f62697
 
-Printing TCP Header: 	Source Port Number: 64947
+Printing TCP Header: 	Source Port Number: 50338
 	Destination Port Number: 12520
-	Sequence Number: 340892150
+	Sequence Number: -1893612234
 	ACK Number: 0
 	TCP Data Offset: 5
 	Reserved Part 1: 0
@@ -1535,12 +1652,12 @@ Printing TCP Header: 	Source Port Number: 64947
 	ECN: 0
 	CWR: 0
 	Window: 0
-	TCP CheckSum: 457d
+	TCP CheckSum: d87d
 	Urgent Pointer: 0000
-
-Printing data of packet :
 
 ^C
 ```
 
 ### 3) Improve your sniffer further such that it detects an attack packet from the server. Assume an attack packet contains "attack" string.
+
+string "attack"을 16진수 아스키 코드로 변환하면 `61 74 74 61 63 6b`이다.
