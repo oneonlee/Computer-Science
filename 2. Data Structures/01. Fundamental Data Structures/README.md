@@ -16,7 +16,7 @@ Arrays and Linked Lists
 링크드 리스트의 제일 처음과 마지막 노드를 각각 그 리스트의 head와 tail이라 각각 부른다. 그래서 리스트를 head에서 시작해서 tail까지 방문할 수 있다. null을 참조하는 next 값을 가진 node로 tail을 확인할 수 있다.
 각 노드가 단일 연결을 저장하므로 이러한 구조를 Singly Linked List라고 부른다. 
 
-배열에서와 마찬가지로 Singly Linked List도 특정 순서로 원소들을 저장하며, 이 순서는 next 링크의 연결로써 결정된다. 다만 배열과의 다른 점은 Singly Linked List는 미리 선언되어 고정된 크기를 갖는 것이 안디ㅏ. 노드를 추가하거나 삭제함으로써 사이즈를 재조정 할 수 있다.
+배열에서와 마찬가지로 Singly Linked List도 특정 순서대로 원소들을 저장하며, 이 순서는 next 링크의 연결로써 결정된다. 다만 배열과는 다르게, Singly Linked List는 미리 선언되어 고정된 크기를 갖는다. 노드를 추가하거나 삭제함으로써 사이즈를 재조정 할 수 있다.
 
 #### Inserting at the Head
 ![IMG_B9767E3CC7BB-1](https://user-images.githubusercontent.com/73745836/137899259-4d4775ed-dd96-4933-ad22-493f033e4e6a.jpeg)
