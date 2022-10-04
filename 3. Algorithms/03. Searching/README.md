@@ -12,19 +12,21 @@
   - [연쇄법 (chaining)](#연쇄법-chaining)
   - [선형 탐사법 (linear probing)](#선형-탐사법-linear-probing)
   - [이중 해싱 (double hashing)](#이중-해싱-double-hashing)
+  - [Grid File (다차원 Hashing)](#grid-file-다차원-hashing)
 - [기수 탐색 (Radix searching)](#기수-탐색-radix-searching)
   - [디지털 탐색 트리 (Digital Search Tree)](#디지털-탐색-트리-digital-search-tree)
   - [기수 탐색 트라이 (Radix Search Trie)](#기수-탐색-트라이-radix-search-trie)
   - [패트리샤 트리 (Patricia)](#패트리샤-트리-patricia)
 - [외부 탐색 (external seraching)](#외부-탐색-external-seraching)
   - [B-tree](#b-tree)
+  - [B+-tree](#b-tree-1)
+  - [R-tree](#r-tree)
 
 ---
 
 ## Trees
 
 - Tree Terminology
-
 
   <img width="265" alt="스크린샷 2021-12-10 - ᅩ후 2 37 10" src="https://user-images.githubusercontent.com/73745836/145522856-33feaab6-4710-4bac-9d1f-5e9de31df1a1.png">
 
@@ -44,7 +46,6 @@
 | Edge                  | a pair of node (u, v) such that u is a parent of v((C, H))           |                           |
 | Path                  | A sequence of nodes such that any two consecutive nodes form an edge | A, B, F, J                |
 | Ordered tree          | a tree with a linear ordering defined for the children of each node  |                           |
-
 
 ### 1) Preorder Traversal (P-L-R)
 
@@ -194,7 +195,7 @@ Algorithm TreeSearch(k, u)
     return TreeSearch(k, u.right())
 ```
 
-### Insertion
+### BST에서의 Insertion
 
 참고 : https://new93helloworld.tistory.com/115?category=691027
 
@@ -277,9 +278,11 @@ protected:
 #### Example: Removal
 
 ##### `erase(4)`
+
   <img width="267" alt="스크린샷 2021-12-14 - ᅩ후 5 57 47" src="https://user-images.githubusercontent.com/73745836/145966063-066272b4-8a50-4984-b1aa-1b9426f62aa1.png">
 
 ##### Removing an entry with key `32`
+
   <img width="545" alt="스크린샷 2021-12-14 - ᅩ후 5 58 38" src="https://user-images.githubusercontent.com/73745836/145966197-0fc34dd6-01d2-4e3f-8d8f-cfed8ef9a6ba.png">
 
 ### Removal (cont.)
@@ -290,10 +293,13 @@ protected:
   - we remove node `w` and its left child `z` (which must be a leaf) by means of operation `removeAboveExternal(z)`
 
 #### Example: Removal
+
 ##### `erase(3)`
+
 <img width="260" alt="스크린샷 2021-12-14 - ᅩ후 6 15 50" src="https://user-images.githubusercontent.com/73745836/145968955-7af45d5d-270d-4856-87e9-b0b32ef9dbb3.png">
 
 ##### Removing an entry with key `65`
+
 <img width="559" alt="스크린샷 2021-12-14 - ᅩ후 6 17 30" src="https://user-images.githubusercontent.com/73745836/145969235-935381fb-7107-41e3-8a7c-274226739c29.png">
 
 ### Performance
@@ -308,10 +314,7 @@ protected:
 ## 균형 트리 (Balanced Tree)
 
 - Balanced의 정의 : **모든 leaf node들이 같은 level에 있는 상태**
-- Balanced Tree의 정의 : **임의의 노드에서 파생되는 좌우의 부분트리의 노드 수가 최대 1 밖에 틀리지 않는 트리**
-
-<br>
-
+- Balanced Tree의 정의 : **임의의 노드에서 파생되는 좌우의 부분트리의 노드 수가 최대 1 밖에 틀리지 않는 트리**<br><br>
 - 이진 트리 알고리즘
   - 최악의 경우 성능이 나쁨
     - 정렬된 파일 또는 역순으로 정렬된 파일, 큰 키와 작은 키가 교대로 나오는 파일
@@ -396,6 +399,18 @@ A red-black tree is a representation of a (2,4) tree by means of a binary tree w
   - 이중 해싱은 선형 탐사에 비해 작은 테이블 크기를 가지고도 동일한 탐색 성능을 나타냄
   - 테이블이 80% 이하로 채워져 있을 경우 성공적이지 않은 탐색의 평균 탐사 회수는 5번 이하이며, 99% 채워져 있을 경우 성공적인 탐색을 5번 이하로 할 수 있음
 
+### Grid File (다차원 Hashing)
+
+- 격자 파일
+  - 전체 공간을 하나 이상의 격자(grid)로 분할
+  - 데이터 추가에 따라 기존 격자를 분할하여 새로운 격자 구성
+- 특징
+  - 디스크 기반 -> 대용량 데이터 처리 가능
+  - 해시 기반 -> 일반적으로 두 번의 디스크 접근으로 데이터 검색
+- 격자 블록과 데이터 페이지
+  - 기본적으로 하나의 격자 블록당 하나의 데이터 페이지
+  - 두 개 이상의 격자 블록이 하나의 데이터 페이지에 대한 공유 가능
+
 ## 기수 탐색 (Radix searching)
 
 - 탐색 키의 디지털 성질(0과 1)을 이용해 탐색을 위한 이진 트리를 만들어 탐색을 진행
@@ -444,7 +459,18 @@ A red-black tree is a representation of a (2,4) tree by means of a binary tree w
 
 - Visualization : [B-tree](https://people.ksp.sk/~kuko/gnarley-trees/Btree.html) (초기 로딩느림 주의)
 
-#### B+-트리의 성능 (B-트리와의 비교)
+### B+-tree
+
+- Knuth가 제안한 B-tree의 또 다른 변형 구조
+  - Index set & Sequence set로 구성
+  - 목적 : 순차 탐색의 성능 향상(B-tree의 순차 탐색 보완)
+- 인덱스 세트 (index set)
+  - 리프 이외의 노드
+  - 구조 : 키 값만 존재(리프 노드에 대한 경로만 제공)
+- 순차 세트 (sequence set) - 리프 노드
+  - 구조 : 모든 (키값, 데이타 레코드의 주소)들이 존재
+
+#### B+-tree의 성능 (B-tree와의 비교)
 
 - 특정 키 값의 검색
   - 단점
@@ -457,3 +483,12 @@ A red-black tree is a representation of a (2,4) tree by means of a binary tree w
     - B+-트리는 **키 검색**과 **범위 검색**을 모두 필요로 하는 응용에서 효율적
       - DBMS
       - File systems
+
+### R-tree
+
+- B-tree를 다차원으로 확장시킨 완전 균형 트리
+- 선, 면, 도형 등 다양한 다차원 공간 데이터의 저장이 가능(SAM)
+- 특징
+  - 루트 노드가 아닌 노드는 최소 m, 최대 M개의 엔트리를 포함한다. (m <= M/2)
+  - 루트노드는 단말이 아닌 경우 최소 2개의 엔트리를 포함한다.
+  - 완전 균형트리(모든 단말 노드는 같은 레벨)이다.
