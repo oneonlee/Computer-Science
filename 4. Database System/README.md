@@ -8,4 +8,5 @@
 - [05. Relational Data Model](./05.%20Relational%20Data%20Model/)<br><br>
 - [Projects](./Projects/)
   - [Company Database](./Projects/Company/)
-  - [Inha Database](./Projects/InhaDB/)
+  - [Inha Database v1](./Projects/InhaDBv1/)
+  - [Inha Database v2](./Projects/InhaDBv2/)
