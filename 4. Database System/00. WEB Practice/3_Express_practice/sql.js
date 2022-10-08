@@ -17,7 +17,12 @@ const sql = {
         const results = await promisePool.query(`
             SELECT * FROM Employee
         `)
-
+        return results;
+    },
+    getDepartment: async () => {
+        const results = await promisePool.query(`
+            SELECT * FROM Department;
+        `)
         return results;
     },
 };

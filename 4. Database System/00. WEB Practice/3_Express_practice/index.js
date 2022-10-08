@@ -9,11 +9,14 @@ const app = express();
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 
-app.get("/", async (req, res) => {
+app.get("/employee/", async (req, res) => {
     const employee = await sql.getEmployee();
-    // console.log(employee);
-    // res.sendFile(path.join(__dirname + 'index.html'));
     res.json({ "Employee": employee })
+});
+
+app.get("/department/", async (req, res) => {
+    const department = await sql.getDepartment();
+    res.json({ "Department": department })
 });
 
 app.get("/", (req, res) => {
