@@ -103,7 +103,7 @@ MySQL Workbench 프로그램 상에서, [STEP 1](#step-1)에서 정의한 관계
 
 #### `Class` 테이블
 
-![]Class(img/.png)<br>
+![](img/Class.png)<br>
 **그림 14 `Class` 테이블의 설명 및 조회 결과**
 
 #### `Student` 테이블
