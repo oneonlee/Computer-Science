@@ -1,4 +1,8 @@
-# Company Database
+# Basic SQL Practice
+
+## Company Database
+
+[Go to Problems](#problems)
 
 ```sql
 mysql> use company;
@@ -174,7 +178,7 @@ mysql> select * from works_on;
 16 rows in set (0.00 sec)
 ```
 
-# SQL Practice
+## Problems
 
 1. 성이 'Borg'인 사원(들)의 전체 이름(`Fname`, `Minit`, `Lname`)과 생년월일(`Bdate`)과 주소(`Address`)를 검색하라.
    ```sql
