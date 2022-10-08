@@ -121,8 +121,9 @@ MySQL Workbench 프로그램 상에서, [STEP 1](#step-1)에서 정의한 관계
 ![](img/Department_manages_Student.png)<br>
 **그림 17 `Department_manages_Student` 테이블의 설명 및 조회 결과**
 
-4. 결론
-   본 설계에서는 `Building`, `Room`, `Department`, `Class`, `Student` 테이블을 가지고 있는 `InhaDB` 데이터베이스를 설계하였다. [STEP 1](#step-1)에서 주어진 조건 이외에도 각각의 테이블 간의 관계에 맞도록 참조관계를 추가하여 정의하였다.
+## 4. 결론
+
+본 설계에서는 `Building`, `Room`, `Department`, `Class`, `Student` 테이블을 가지고 있는 `InhaDB` 데이터베이스를 설계하였다. [STEP 1](#step-1)에서 주어진 조건 이외에도 각각의 테이블 간의 관계에 맞도록 참조관계를 추가하여 정의하였다.
 
 [STEP 2](#step-2)에서는 개념적 설계 이외에도 MySQL Workbench 프로그램을 통해 직접 Schema Diagram으로 나타내보고, “Forward Engineer to Database” 기능을 통해 설계한 Schema Diagram을 `InhaDB`에 반영하였다.
 
