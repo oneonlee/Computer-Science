@@ -32,7 +32,7 @@ MySQL Workbench 프로그램을 실행시켜 `InhaDB` 데이터베이스 모델�
   - 또한, 모든 수업은 하나의 부서로부터 개설된다고 가정하면, 하나의 `Class`는 하나의 `Department`에 속한다.
 - `Department`와 `Student`는 M:N의 식별 관계를 가진다.
   - 하나의 부서는 여러 학생을 관리하고, 한 명의 학생이 여러 전공 (e.g., 복수전공, 부전공 등)을 가질 수 있으므로, 여러 부서로부터 관리를 받을 수 있기 때문이다.
-  - M:N 관계를 실제로 구현하기 위해, 두 테이블의 PK를 FK로 참조하고 있는 연결테이블인 ` Department_manages_Student`를 사용하였다.
+  - M:N 관계를 실제로 구현하기 위해, 두 테이블의 PK를 FK로 참조하고 있는 연결테이블인 `Department_manages_Student`를 사용하였다.
 - `Student`와 `Class`는 M:N의 식별 관계를 가진다.
   - 한 명의 학생이 여러 수업을 수강할 수 있고, 한 수업은 여러 학생을 수용하기 때문이다.
   - M:N 관계를 실제로 구현하기 위해, 두 테이블의 PK를 FK로 참조하고 있는 연결테이블인 `Student_takes_Class`를 사용하였다.
@@ -114,7 +114,7 @@ MySQL Workbench 프로그램 상에서, [STEP 1](#step-1)에서 정의한 관계
 #### `Student_takes_Class` 테이블
 
 ![](img/Student_takes_Class.png)<br>
-**그림 16 `Student_takes_Class ` 테이블의 설명 및 조회 결과**
+**그림 16 `Student_takes_Class` 테이블의 설명 및 조회 결과**
 
 #### `Department_manages_Student` 테이블
 
