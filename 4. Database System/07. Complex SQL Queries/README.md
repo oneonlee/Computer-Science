@@ -1,4 +1,8 @@
-# Company Database
+# Complex SQL Practice
+
+## Company Database
+
+[Go to Problems](#problems)
 
 ```sql
 mysql> use company;
@@ -174,12 +178,11 @@ mysql> select * from works_on;
 16 rows in set (0.00 sec)
 ```
 
----
+## Problems
 
 1. 'Newbenefits' 프로젝트에 참여하는 모든 사원의 급여를 10% 올린 경우의 급여를 제시하라. (`Fname`, `Lname`, `Increased_sal`)
    ```sql
-   mysql> select Fname, Lname, Salary*1.1 as Increased_sal from project, works_on,
-   employee where Pname='Newbenefits' and Pnumber=Pno and Essn=Ssn;
+   mysql> select Fname, Lname, Salary*1.1 as Increased_sal from project, works_on, employee where Pname='Newbenefits' and Pnumber=Pno and Essn=Ssn;
    +----------+---------+---------------+
    | Fname    | Lname   | Increased_sal |
    +----------+---------+---------------+
@@ -190,7 +193,6 @@ mysql> select * from works_on;
    3 rows in set (0.00 sec)
    ```
 2. 급여가 30,000달러에서 40,000달러 사이에 있는 5번 부서의 모든 사원을 검색하라.
-
    ```sql
    mysql> select * from employee WHERE (Salary BETWEEN 30000 AND 40000) AND Dno=5;
    +----------+-------+---------+-----------+------------+-------------------------+------+--------+-----------+-----+
@@ -201,7 +203,8 @@ mysql> select * from works_on;
    | Ramesh   | K     | Narayan | 666884444 | 1962-09-15 | 975 Fire Oak, Humble TX | M    |  38000 | 333445555 |   5 |
    +----------+-------+---------+-----------+------------+-------------------------+------+--------+-----------+-----+
    3 rows in set (0.00 sec)
-
+   ```
+   ```sql
    mysql> select * from employee WHERE Salary>=30000 AND Salary<=40000 AND Dno=5;
    +----------+-------+---------+-----------+------------+-------------------------+------+--------+-----------+-----+
    | Fname    | Minit | Lname   | Ssn       | Bdate      | Address                 | Sex  | Salary | Super_ssn | Dno |
@@ -212,7 +215,6 @@ mysql> select * from works_on;
    +----------+-------+---------+-----------+------------+-------------------------+------+--------+-----------+-----+
    3 rows in set (0.00 sec)
    ```
-
 3. 모든 사원의 (1) 급여(높은 순서) (2) 생년월일(나이가 많은 순서)을 제시하라.
    ```sql
    mysql> select Salary, Bdate from employee ORDER BY Salary DESC, Bdate ASC;
@@ -286,6 +288,30 @@ mysql> select * from works_on;
    5 rows in set (0.00 sec)
    ```
 7. 프로젝트 번호 1,2,3에서 일하는 사원의 주민등록번호(`Essn`)를 검색하라.
+   ```sql
+   mysql> select Distinct(Essn) from works_on WHERE Pno<=3;
+   +-----------+
+   | Essn      |
+   +-----------+
+   | 123456789 |
+   | 453453453 |
+   | 333445555 |
+   | 666884444 |
+   +-----------+
+   4 rows in set (0.01 sec)
+   ```
+   ```sql
+   mysql> select Distinct(Essn) from works_on WHERE Pno IN (1,2,3);
+   +-----------+
+   | Essn      |
+   +-----------+
+   | 123456789 |
+   | 453453453 |
+   | 333445555 |
+   | 666884444 |
+   +-----------+
+   4 rows in set (0.00 sec)
+   ```
 8. 사원의 급여의 합, 최고 급여, 최저 급여, 평균 급여를 구하라.
    ```sql
    mysql> select SUM(Salary), MAX(Salary), MIN(Salary), AVG(Salary) from employee;
@@ -308,36 +334,82 @@ mysql> select * from works_on;
    ```
 10. 각 부서에서 근무하는 사원의 수를 검색하라. (부서이름과 소속 사원수를 제시)
     ```sql
-    mysql> select DISTINCT Essn from works_on where Pno=1 or Pno=2 or Pno=3;
-    +-----------+
-    | Essn      |
-    +-----------+
-    | 123456789 |
-    | 453453453 |
-    | 333445555 |
-    | 666884444 |
-    +-----------+
-    4 rows in set (0.01 sec)
-    ```
-    ```sql
-    mysql> select DISTINCT Essn from works_on where Pno IN (1,2,3);
-    +-----------+
-    | Essn      |
-    +-----------+
-    | 123456789 |
-    | 453453453 |
-    | 333445555 |
-    | 666884444 |
-    +-----------+
-    4 rows in set (0.00 sec)
+    mysql> select Dname, COUNT(*) from department, employee WHERE Dno=Dnumber GROUP BY Dname;
+    +----------------+----------+
+    | Dname          | COUNT(*) |
+    +----------------+----------+
+    | Administration |        3 |
+    | Headquarters   |        1 |
+    | Research       |        4 |
+    +----------------+----------+
+    3 rows in set (0.00 sec)
     ```
 11. 각 부서에 대해서 부서이름, 부서에 소속된 사원의 수와 최고 급여와 평균 급여를 구하라.
-
     ```sql
-
+    mysql> select Dname, COUNT(*), MAX(Salary), AVG(Salary) from department, employee WHERE Dno=Dnumber GROUP BY Dname;
+    +----------------+----------+-------------+-------------+
+    | Dname          | COUNT(*) | MAX(Salary) | AVG(Salary) |
+    +----------------+----------+-------------+-------------+
+    | Administration |        3 |       43000 |  31000.0000 |
+    | Headquarters   |        1 |       55000 |  55000.0000 |
+    | Research       |        4 |       40000 |  33250.0000 |
+    +----------------+----------+-------------+-------------+
+    3 rows in set (0.01 sec)
     ```
-
 12. 프로젝트에 대해서 프로젝트 번호, 프로젝트 이름, 그 프로젝트에서 근무 하는 사원들의 수를 검색하라.
+    ```sql
+    mysql> select Pnumber, Pname, COUNT(*) from project, employee WHERE Dnum=Dno GROUP BY Pnumber, Pname;
+    +---------+-----------------+----------+
+    | Pnumber | Pname           | COUNT(*) |
+    +---------+-----------------+----------+
+    |       1 | ProductX        |        4 |
+    |       2 | ProductY        |        4 |
+    |       3 | ProductZ        |        4 |
+    |      10 | Computerization |        3 |
+    |      20 | Reorganization  |        1 |
+    |      30 | Newbenefits     |        3 |
+    +---------+-----------------+----------+
+    6 rows in set (0.01 sec)
+    ```
 13. 세 명 이상의 사원이 근무하는 프로젝트에 대해서 프로젝트 번호, 프로젝트 이름, 그 프로젝트에서 근무하는 사원들의 수를 검색하라.
+    ```sql
+    mysql> select Pnumber, Pname, COUNT(*) from project, employee WHERE Dnum=Dno AND Dno IN
+       -> (select Dno from employee GROUP BY Dno HAVING COUNT(*)>=3)
+       -> GROUP BY Pnumber, Pname;
+    +---------+-----------------+----------+
+    | Pnumber | Pname           | COUNT(*) |
+    +---------+-----------------+----------+
+    |       1 | ProductX        |        4 |
+    |       2 | ProductY        |        4 |
+    |       3 | ProductZ        |        4 |
+    |      10 | Computerization |        3 |
+    |      30 | Newbenefits     |        3 |
+    +---------+-----------------+----------+
+    5 rows in set (0.03 sec)
+    ```
 14. 프로젝트에 대해서 프로젝트 번호, 프로젝트 이름, 5번 부서에 속하면서 프로젝트에서 근무하는 사원의 수를 검색하라.
+    ```sql
+    mysql> select Pnumber, Pname, COUNT(*) from project, employee, works_on WHERE Pnumber=Pno and Ssn=Essn and Dno=5 GROUP BY Pnumber, Pname;
+    +---------+-----------------+----------+
+    | Pnumber | Pname           | COUNT(*) |
+    +---------+-----------------+----------+
+    |       1 | ProductX        |        2 |
+    |       2 | ProductY        |        3 |
+    |       3 | ProductZ        |        2 |
+    |      10 | Computerization |        1 |
+    |      20 | Reorganization  |        1 |
+    +---------+-----------------+----------+
+    5 rows in set (0.01 sec)
+    ```
 15. 3명 이상의 사원이 근무하는 각 부서에 대해서 부서 번호와 40,000달러가 넘는 급여를 받는 사원의 `ssn` 및 `salary`를 검색하라.
+    ```sql
+    mysql> select Dno, Ssn, Salary from employee WHERE Salary>40000 AND Dno IN
+      -> (select Dno from employee GROUP BY Dno HAVING COUNT(*)>=3)
+      -> GROUP BY Dno, Ssn, Salary;
+    +-----+-----------+--------+
+    | Dno | Ssn       | Salary |
+    +-----+-----------+--------+
+    |   4 | 987654321 |  43000 |
+    +-----+-----------+--------+
+    1 row in set (0.00 sec)
+    ```
