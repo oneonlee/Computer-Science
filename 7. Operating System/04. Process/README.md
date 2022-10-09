@@ -814,30 +814,34 @@ shell uses `fork()` and `exec()` to run the command:
 
 ```c
 #include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <errno.h>
 
-void main(){
-   int x,y;
+int main() {
+   int x, y;
    char buf[50];
    char * argv[2];
 
-   for(;;){
+   for(;;) {
       printf("$ ");
       scanf("%s", buf); // get command. no arg can be input this way
       argv[0] = buf;
       argv[1] = NULL;
 
-      x=fork();
-      if (x==0){ // child
+      x = fork();
+      if (x == 0) { // child
           printf("I am child to execute %s\n", buf);
-          y=execve(buf, argv, 0);
-          if (y<0){
+          y = execve(buf, argv, 0);
+          if (y < 0) {
              printf("exec failed. errno is %d\n", errno);
              exit(1);
           }
-      } else wait();
+      } else {
+         wait();
+      }
    }
+   return 0;
 }
 ```
 
@@ -948,7 +952,7 @@ void main(){
 }
 ```
 
-위 코드는 `fork`를 2번하고 무한루프를 돌고 있다.
+위 코드는 `fork`를 3번하고 무한루프를 돌고 있다.
 
 ```bash
 $ gcc –o ex1 ex1.c
@@ -956,7 +960,7 @@ $ ./ex1 &
 $ ps –ef
 ```
 
-총 4개의 프로세스가 생성되는데, `fork` 함수가 2개이기 때문에 2^2=4개의 프로세스가 생성되었다.
+총 8개의 `./ex1` 프로세스가 생성되는데, `fork` 함수가 3개이기 때문에 2^3=8개의 프로세스가 생성되었다.
 
 ![](img/10-2-1.png)<br>
 ![](img/10-2-2.png)<br>
@@ -982,7 +986,7 @@ void main(){
 }
 ```
 
-[2번](#2-try-below-and-explain-the-result)과 동일하게 총 4개의 프로세스가 생성된다. <br>4개의 프로세스에서 `y`에 대한 연산을 수행하고 자신의 PID를 출력한다.
+[2번](#2-try-below-and-explain-the-result)과 비슷하지만, `fork()`가 2번 있기 때문에 총 4(=2^2)개의 `./ex1` 프로세스가 생성된다. <br>4개의 프로세스에서 `y`에 대한 연산을 수행하고 자신의 PID를 출력한다.
 
 ![](img/10-3.png)
 
@@ -1069,72 +1073,148 @@ void main() {
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-void * foo(void * aa){
+void * foo(void * aa) {
    printf("hello from child\n");
    return NULL;
 }
-void main(){
+void main() {
    pthread_t x;
-   pthread_create(&x, NULL, foo, NULL); // make a child which starts at foo
+   pthread_create(&x, NULL, foo, NULL);   // make a child which starts at foo
    printf("hi from parent\n");
-   pthread_join(x, NULL);                // wait for the child
-
+   pthread_join(x, NULL);                 // wait for the child
 }
 ```
+
+프로세스(process)란 단순히 실행 중인 프로그램(program)이라고 할 수 있다.
+
+즉, 사용자가 작성한 프로그램이 운영체제에 의해 메모리 공간을 할당받아 실행 중인 것을 말한다. 이러한 프로세스는 프로그램에 사용되는 데이터와 메모리 등의 자원 그리고 스레드로 구성된다.
+
+스레드(thread)란 프로세스(process) 내에서 실제로 작업을 수행하는 주체를 의미한다. 모든 프로세스에는 한 개 이상의 스레드가 존재하여 작업을 수행한다. <br>
+[출처 : TCP School - 69) 스레드의 개념](http://www.tcpschool.com/java/java_thread_concept)
+
+`pthread_create`는 스레드를 생성하는 함수이다. 첫 번째 인자 thread는 스레드가 생성되었을 때, 이를 식별하기 위한 값이다. 세 번째 인자는 스레드가 실행될 때, 사용될 함수를 넣어준다.
 
 ```bash
 $ gcc –o p1 p1.c –lpthread
 $ ./p1
 ```
 
+`<pthread.h>` 헤더의 함수를 사용하려면 PThread 라이브러리를 링크해야 한다. `gcc`에서 `-l`은 라이브러리를 링크하는 옵션으로 `-lpthread`는 `/usr/lib/libpthread.so`를 링크한다.
+
+실행결과는 아래와 같다.
+
+![](img/10-7.png)
+
 ### 8) Run following code and explain the difference.
 
-`p1` :
+`p1.c` :
 
 ```c
 #include <stdio.h>
 int y=0;
-void main(){
+
+int main() {
    int x;
-   x=fork();
-   if (x==0){
-      y=y+2;
+   x = fork();
+   if (x == 0) {
+      y = y + 2;
       printf("process child:%d\n", y);
-   }else{
-      y=y+2;
+   } else {
+      y = y + 2;
       printf("process parent:%d\n", y);
    }
+   return 0;
 }
 ```
 
-`p2` :
+`p2.c` :
 
 ```c
 #include <stdio.h>
 #include <stdlib.h>
 #include <pthread.h>
-int y=0;
-void * foo(void *aa){ // aa is arguments passed by parent, if any.
-   y=y+2;
+
+int y = 0;
+
+void * foo(void *aa) { // aa is arguments passed by parent, if any.
+   y = y + 2;
    printf("thread child:%d\n", y);
    return NULL;
 }
-void main(){
+
+void main() {
    pthread_t x;
    pthread_create(&x, NULL, foo, NULL);
-   y=y+2;
+   y = y + 2;
    printf("thread parent:%d\n", y);
    pthread_join(x, NULL);                // wait for the child
 }
 ```
 
-## 11. Homework-3
+`p1.c`는 process의 parent, child를 비교,<br>
+`p2.c`는 thread의 parent, child를 비교하는 코드이다.
 
-### 1) Try the shell code in section 7. Try Linux command such as `/bin/ls`, `/bin/date`, etc.
+`p1.c`와 `p2.c` 모두 전역 변수 `y`를 선언해주었다.
 
-### 2) Print the pid of the current process (`current->pid`) inside `rest_init()` and `kernel_init()`. The pid printed inside `rest_init()` will be 0, but the pid inside `kernel_init()` is 1. 0 is the pid of the kernel itself. <br>Why do we have pid=1 inside `kernel_init()`? Find a location where `current->pid` will print `2`.
+![](img/10-8.png)
+
+`p1.c`는 `y`의 값으로 parent와 child 모두 동일하게 **2**가 출력되었지만, 각각의 프로세스마다 개별적인 `y`를 가지고 있기 때문에 이는 서로의 영향을 받지 않은 값이다.
+
+`p2.c`에서는 스레드가 한 프로세스 내의 전역변수 `y`를 공유하기 때문에 child process에서 **2**를 출력하고, parent process에서 2인 `y`에 2를 더한 **4**를 출력했다.
+
+## 11. Exercise-3
+
+### 1) Try the shell code in [section 7](#7-shell). Try Linux command such as `/bin/ls`, `/bin/date`, etc.
+
+`shell.c` :
+
+![](img/11-1-c1.png)<br>
+![](img/11-1-c2.png)
+
+Section 7의 shell code를 참고하여 shell 프로그램을 만들어보았다.
+
+![](img/11-1.png)
+
+`/bin/ls`, `/bin/date`, 그리고 `/bin/pwd/` 명령어를 입력해보았는데 결과값이 정확히 나온 것을 확인할 수 있었다.
+
+### 2) Print the pid of the current process (`current->pid`) inside `rest_init()` and `kernel_init()`. The pid printed inside `rest_init()` will be 0, but the pid inside `kernel_init()` is 1. 0 is the pid of the kernel itself. <br>Why do we have pid=1 inside `kernel_init()`? <br>Find a location where `current->pid` will print `2`.
+
+`init/main.c` :
+![](img/2.png)<br>
+![](img/2-2.png)
+
+위와 같이 `rest_init`과 `kernel_init` 함수 시작 부분에 현재 PID를 출력하는 코드를 삽입했다.
+
+변경사항을 적용하기 위해 커널을 컴파일하고, 재부팅하였다.
+
+```bash
+$ make bzImage
+$ cp arch/x86/boot/bzImage /boot/bzImage
+$ reboot
+```
+
+`dmesg`로 부팅 메세지를 확인해보았다.<br>
+![](img/2-x.png)
+
+`rest_init`에서의 PID는 0, `kernel_init`에서는 1이 출력되었다.
+
+`rest_init` 함수 내부에서는 `kernel_thread` 함수로 `kernel_init`이라는 task를 만들며 PID를 1로 지정한다. 이때, `kernel_init`은 프로세스이기 때문에 `init_task`와 process body를 공유한다.
+
+<br>
+
+다음으로 `current->pid`의 출력이 `2`가 되는 곳을 알아보기 위해 `ps` 명령어를 사용하였다.
+
+```bash
+$ ps -ef
+```
+
+![](img/2-ps.png)
+
+`kthreadd`의 PID가 2이므로 `current->pid`의 출력이 `2`가 되는 곳은 `kthreadd`가 실행된 이후라고 예측할 수 있다.
 
 ### 3) The last function call in `start_kernel()` is `rest_init()`. If you insert `printk()` after `rest_init()`, it is not displayed during the system booting. Explain the reason.
+
+`init/main.c` :
 
 ```c
     void start_kernel(){
@@ -1145,41 +1225,201 @@ void main(){
     }
 ```
 
+![](img/3.png)
+
+`start_kernel()`에서 마지막으로 호출되는 `rest_init`를 보면 함수의 정의 중 `cpu_idle` 함수를 호출한다.<br>
+![](img/2-rest.png)
+
+`arch/x86/kernel/process_64.c`:
+![](img/cpu_idle.png)<br>
+`cpu_idle` 함수는 "login:"를 화면에 출력한 후, 사용자의 입력 전까지 무한루프를 돌며 스케쥴링을 기다린다. 계속 무한 루프를 돌고 있기 때문에, 같은 프로세스의 rest_init 이후의 코드는 실행되지 않는다. 따라서 rest_init 이후의 코드는 부팅 과정에서 실행될 수 없다.
+
 ### 4) The CPU is either in some application program or in Linux kernel. You always should be able to say where is the CPU currently. Suppose we have a following program (`ex1.c`).
 
-```c
-      void main(){
-         printf("korea\n");
-      }
-```
-
-When the shell runs this, CPU could be in shell program or in `ex1` or in kernel. Explain where is CPU for each major step of this program. You should indicate the CPU location whenever the cpu changes its location among these three programs. Start the tracing from the moment when the shell prints a prompt until it prints next prompt.
+`ex1.c`:<br>
 
 ```c
-shell: printf("$");               // CPU is in shell
-=> write(1, "$", 1)               // CPU is in c library
-=> INT 128                        // CPU is in c library
-
-kernel:
-      sys_write()                // CPU is in kernel and display '$' in screen
-                                 // after sys_write() kernel schedules shell again
-                                 // and CPU goes back to shell
-
-shell: scanf("%s", buf);         // CPU is in shell
-..............
-.............
-shell: printf("$");              // CPU is back in shell
+   void main(){
+      printf("korea\n");
+   }
 ```
 
-### 5) What happens if the kernel calls `kernel_init` directly instead of calling `kernel_thread(kernel_init, ...)` in `rest_init()`? Call `kernel_init` with `NULL` argument and explain why the kenel falls into panic.
+When the shell runs this, CPU could be in shell program or in `ex1` or in kernel. <br>Explain where is CPU for each major step of this program. You should indicate the CPU location whenever the cpu changes its location among these three programs. <br>Start the tracing from the moment when the shell prints a prompt until it prints next prompt.
 
 ```c
-             ...............
-             kernel_init(NULL);
-             .............
+shell: printf(“$”);        // CPU는 shell에 있으며, shell에서 입력 가능을 나타내는 문자를 출력
+    => write(1, “$”, 1);   // CPU는 C 라이브러리에 있으며, STDOUT_FILENO(=1)에 “$”을 1글자 출력
+    => INT 128             // CPU는 C 라이브러리에 있으며, 시스템 콜 인터럽트인 128번을 호출
+    => mov eax 4           // CPU는 C 라이브러리에 있으며, write의 시스템 콜 번호는 4
+kernel: sys_write()        // CPU는 kernel에 있으며, “$” 문자열을 출력하기 위한 시스템 콜 호출
+
+shell: scanf(“%s”, buf);   // CPU는 shell에 있으며, 사용자가 입력한 문자열을 읽음
+    => read(1, buf, n);    // CPU는 C 라이브러리에 있으며, STDIN_FILENO(=1)에서 len 만큼 읽어 buf에 저장
+    => INT 128             // CPU는 C 라이브러리에 있으며, 시스템 콜 인터럽트인 128번을 호출
+    => mov eax 3           // CPU는 C 라이브러리에 있으며, read의 시스템 콜 번호는 3
+kernel: sys_read();        // CPU는 kernel에 있으며, 입력한 문자열을 읽어오는 시스템 콜 호출
+
+/* (키보드 입력 발생) */
+shell: INT 33              // CPU는 C 라이브러리에 있으며, 키보드 인터럽트인 33번 호출
+kernel: atkbd_interrupt    // CPU는 C 라이브러리에 있으며, 키보드 버퍼에 입력한 문자 저장
+/* (ENTER가 입력될 때까지 위 과정 반복) */
+
+/* (ENTER 입력) */         // CPU가 shell로 되돌아감
+
+shell: x=fork();           // CPU는 shell에 있으며, 프로그램을 실행하기 위한 자식 프로세스 생성
+    => INT 128             // CPU는 C 라이브러리에 있으며, 시스템 콜 인터럽트인 128번을 호출
+kernel: sys_fork()         // CPU는 kernel에 있으며, fork의 시스템 콜 호출
+
+shell: printf(“I am child~%s\n”, buf); // CPU는 shell에 있음
+    => write(1, “I am~”, n)            // CPU는 C 라이브러리에 있으며, STDOUT_FILENO(=1)에 “I am~”을 n글자만큼 출력
+    => INT 128                         // CPU는 C 라이브러리에 있으며, 시스템 콜 인터럽트인 128번을 호출
+kernel: sys_write()                    // CPU는 kernel에 있으며, “I am~”문자열을 출력하기 위한 시스템 콜 호출
+
+shell: y=execve(buf, argv, 0);   // CPU는 shell에 있으며, 입력받은 프로그램을 실행
+    => INT 128                   // CPU는 C 라이브러리에 있으며, 시스템 콜 인터럽트인 128번을 호출
+kernel: sys_execve()             // CPU는 kernel에 있으며, execve의 시스템 콜 호출
+
+ex1: printf(“korea\n”);          // CPU는 ex1에 있음
+    => write(1, “korea\n”, 6);   // CPU는 C 라이브러리에 있으며,
+    => INT 128                   // CPU는 C 라이브러리에 있으며, 시스템 콜 인터럽트인 128번을 호출
+kernel: sys_write()              // CPU는 kernel에 있으며, “korea”문자열을 출력하기 위한 시스템 콜 호출
+    => exit(0)
+
+shell: else wait();        // CPU는 shell에 있음
+    => INT 128             // CPU는 C 라이브러리에 있으며, 시스템 콜 인터럽트인 128번을 호출
+kernel: sys_wait4          // CPU는 kernel에 있음
+
+shell: printf("$");        // CPU는 다시 shell에 있으며, 프로그램이 종료되면 다시 shell에서 입력 가능을 나타내는 문자를 출력
 ```
+
+### 5) What happens if the kernel calls `kernel_init` directly instead of calling `kernel_thread(kernel_init, ...)` in `rest_init()`?<br>Call `kernel_init` with `NULL` argument and explain why the kenel falls into panic.
+
+`init/main.c` :<br>
+![](img/5-kernel_init.png)
+
+`rest_init` 함수의 정의에서 `kernel_thread` 코드를 주석 처리한 후 `kernel_init(NULL);`로 직접 호출하도록 하였다.
+
+이후 recompile 및 재부팅하였다.
+
+![](img/kernel_panic.png)
+
+마지막 줄에 "Kernel panic"이라는 에러 메세지가 출력된 후 부팅이 더 이상 진행되지 않았다.
+
+`kernel_thread`는 프로세스 디스크립터를 복사하는데, `kernel_thread` 없이 `kernel_init`을 실행하게 되면 `kernel_init` 내부의 무한루프로 인해 이후 프로세스가 실행되지 않는다.
+
+또한, `kernel_execve`으로 다른 프로세스를 실행하면 현재 body를 제거했기 때문에 오류가 발생했다.
 
 ### 6) Trace `fork`, `exec`, `exit`, `wait` system call to find the corresponding code for the major steps of each system call.
+
+#### `fork`
+
+`fork`는 `sys_fork` 함수를 호출한다.
+
+##### `arch/x86/kernel/process_32.c` :
+
+![](img/sys_fork.png)
+
+##### `kernel/fork.c` :
+
+`do_fork` : <br>
+![](img/do_fork1.png)<br>
+![](img/do_fork2.png)<br>
+![](img/do_fork3.png)<br>
+![](img/do_fork4.png)
+
+<br>
+
+`copy_process` : <br>
+![](img/copy_process1.png)<br>
+![](img/copy_process2.png)<br>
+......
+
+<br>
+
+`dup_task_struct` : <br>
+![](img/dup1.png)<br>
+![](img/dup2.png)<br>
+.....
+
+`sys_fork` -> `do_fork` -> `copy_process` -> `dup_task_struct`
+
+`do_fork`에서 `return`하는 `nr`은 복사된 프로세스의 PID이다.
+
+#### `exec`
+
+`exec`는 `sys_exec` 함수를 호출한다.
+
+##### `arch/x86/kernel/process_32.c` :
+
+![](img/sys_execve.png)
+
+##### `fs/exec.c` :
+
+![](img/do_execve1.png)<br>
+......<br>
+![](img/do_execve2.png)<br>
+![](img/do_execve3.png)
+
+`sys_execve` -> `do_execve` -> `open_exec` -> `sched_exec`
+
+`do_execve`에서 파일을 열고, 스케줄에 등록하고, `argv`등의 값을 넘겨준다.
+
+#### `exit`
+
+`exit`는 `sys_exit` 함수를 호출한다.
+
+##### `kernel/exit.c` :
+
+`sys_exit` :<br>
+![](img/sys_exit.png)
+
+<br>
+
+`do_exit` :<br>
+![](img/do_exit1.png)<br>
+......<br>
+![](img/do_exit2.png)<br>
+......<br>
+![](img/do_exit3.png)<br>
+......<br>
+![](img/do_exit4.png)
+
+`sys_exit` -> `do_exit` -> `exit_signals` -> `exit_mm` -> `exit_thread` -> `exit_notify` -> `schedule`
+
+시그널 보내고(등록된 함수 호출), 메모리 회수하고, 스레드 종료하고, 부모 프로세스에 알리고(시그널 전송), 스케줄링으로 완전히 제거한다.
+
+#### `wait`
+
+`wait(&wstatus)`는 `waitpid(-1, &wstatus, 0)`이다. 따라서 `waitpid`를 찾아야 한다.
+
+`waitpid`는 `sys_waitpid` 함수를 호출한다.
+
+##### `kernel/exit.c` :<br>
+
+`sys_waitpid` : <br>
+![](img/sys_waitpid.png)
+
+`sys_waitpid`를 찾아가면, <br>
+`sys_waitpid`는 호환성을 위해 남겨두었을뿐, `sys_wait4`으로 구현된다고 주석이 남겨있다. <br>
+`sys_wait4`를 찾아보자.
+
+<br>
+
+`sys_wait4` :<br>
+![](img/sys_wait4_1.png)<br>
+![](img/sys_wait4_2.png)
+
+<br>
+
+`do_wait` : <br>
+![](img/do_wait1.png)<br>
+![](img/do_wait2.png)<br>
+![](img/do_wait3.png)<br>
+![](img/do_wait4.png)<br>
+......<br>
+![](img/do_wait5.png)<br>
+
+`sys_waitpid` -> `sys_wait4` -> `do_wait` -> `wait_task_stopped` / `wait_task_zombie` / `wait_task_continued`
 
 ### 7) Explain the result of following:
 
