@@ -1,5 +1,6 @@
 # Database System
 
 - [Company Database](./Company/)
-- [Inha Database v1](./InhaDBv1/)
-- [Inha Database v2](./InhaDBv2/)
+- [Inha Database](./InhaDB/)
+  - [Version.1](./InhaDB/InhaDBv1/)
+  - [Version.2](./InhaDB/InhaDBv2/)

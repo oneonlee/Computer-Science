@@ -1,0 +1,22 @@
+{
+  "name": "inhadb",
+  "version": "1.0.0",
+  "description": "Inha Database",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon  --exec babel-node index.js"
+  },
+  "author": "Lee Dong-geon",
+  "license": "ISC",
+  "dependencies": {
+    "@babel/core": "^7.19.3",
+    "@babel/node": "^7.19.1",
+    "@babel/preset-env": "^7.19.3",
+    "body-parser": "^1.20.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.1",
+    "mysql2": "^2.3.3",
+    "nodemon": "^2.0.20"
+  }
+}
