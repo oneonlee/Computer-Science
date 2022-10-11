@@ -222,7 +222,7 @@ if (pcap_sendpacket(fp, packet, 14+20+tcp_header_len) != 0) {
   - (8) check if you can see the ACK packet from the server.<br><br>
 - If the captured SYN packet shows `checksum`=0, you need to disable "checksum offload" feature of your network interface:
   - press windows logo and x > device manager > network adapters > right mouse button on target adapter > properties > advanced > disable all "offload"s. Disabling checksum offload may slow down the network. Enable it after your finish the homework.
-  - If above method is not working, just recompute the checksum as in [1-2)](#1-2). You may try packet injection tool such as Scapy (windows version).
+  - If above method is not working, just recompute the checksum as in [1-2)](#1-2-modify-the-sniffer-further-such-that-it-re-computes-ip-and-tcp-checksum). You may try packet injection tool such as Scapy (windows version).
 
 #### STEP 1 : `sniffer.c`를 아래와 같이 수정하였다. 수정한 `sniffer.c`를 "\_\_gxx_personality_v0 error"를 방지하기 위해 `g++`로 `-lpcap` 옵션을 주어 컴파일하고, 실행 파일을 `sudo` 권한을 주어 실행한다.
 
@@ -842,3 +842,112 @@ Printing TCP Header: 	Source Port Number: 56391
 - Detect which ports are live by finding out those who respond with SYN/ACK.
 - You may need separate sniffer for such detection.
 - Detect live ports in 165.246.38.136 server also.
+
+[1-2](#1-2-modify-the-sniffer-further-such-that-it-re-computes-ip-and-tcp-checksum)의 `sniffer.c`를 수정하여 `sniffer_2.c`를 만들었다.
+
+```c
+int main()
+{
+	......
+
+	while ((res = pcap_next_ex(fp, &header, &pkt_data)) >= 0) // 1 if success
+	{
+		if (res == 0) // 0 if time-out
+		{
+			continue;
+		}
+
+		print_raw_packet(pkt_data, header->caplen);
+		// print_ether_header(pkt_data);
+		// print_ip_header(pkt_data);
+		// print_tcp_header(pkt_data);
+		// print_data(pkt_data, header->caplen);
+
+		// 1-1-1), 1-2-1)
+		printf("\nNow breaking this loop\n");
+		break; // 1-1-1), 1-2-1) break out of the while loop after capturing the first SYN packet.
+	}
+
+	// 1-2-2) copy them into another buffer: pkt_data=>packet
+	const unsigned char *packet = (unsigned char *)malloc(65535);
+	packet = pkt_data;
+
+	// 1-1-3), 1-2-7) kill the server and the client (manually)
+	printf("\nKill server and the client.\n");
+	// 1-1-4), 1-2-8) run the original sniffer
+	printf("Run the original sniffer.\n");
+	// 1-1-5), 1-2-9) rerun the server
+	printf("Rerun the server and hit '9' when ready : ");
+	int x;
+	scanf("%d", &x);
+
+	if (x == 9)
+	{
+		int p;
+		for (p = 1; p <= 65535; p++) // 2) 포트 번호 : 1~65535
+		{
+			// 1-2-3)
+			struct ip_header *ih = (struct ip_header *)(pkt_data + 14);
+			struct tcp_header *th = (struct tcp_header *)(pkt_data + 14 + 20);
+
+			// 2) destination port 변경 (1~65535)
+			th->dest_port = htons(p);
+
+			// 1-2-3) set ip_check_sum and tcp_check_sum to zero
+			ih->ip_checksum = 0;
+			th->checksum = 0;
+
+			// 1-2-4), 1-2-5)
+			int tcp_length = th->data_offset * 4;
+
+			struct pseudo_header psh;
+			// to use inet_pton(), include "winsock2.h" and "ws2tcpip.h" in windows
+			// in MacOS, include <arpa/inet.h>
+			inet_pton(AF_INET, IP_OF_YOUR_PC, &(psh.source_address)); // ip of your pc
+			inet_pton(AF_INET, IP_OF_DEST, &(psh.dest_address));	  // dest ip
+			psh.placeholder = 0;									  // reserved
+			psh.protocol = 6;										  // protocol number for tcp
+			psh.tcp_length = htons(tcp_length);						  // store multi byte number in network byte order
+
+			unsigned char *seudo;
+			seudo = (unsigned char *)malloc(sizeof(struct pseudo_header) + tcp_length);
+			memcpy(seudo, &psh, sizeof(struct pseudo_header));
+			memcpy(seudo + sizeof(struct pseudo_header), th, tcp_length);
+
+			// 1-2-4), 1-2-5) recompute ip_check_sum and tcp_check_sum
+			ih->ip_checksum = in_checksum((unsigned short *)ih, 20);
+			th->checksum = in_checksum((unsigned short *)seudo, sizeof(struct pseudo_header) + tcp_length);
+
+			/*
+			// 1-1-2) now we have syn packet in pkt_data
+			printf("\nLet's send SYN ===========\n");
+			printf("Checking TCP header length : %d\n", tcp_length);
+			printf("Length of SYN packet       : %d\n", header->caplen); // header : struct pcap_pkthdr
+			print_raw_packet(pkt_data, header->caplen);					 // 1-2-6) display the packet in raw bytes.
+																		 // this should be same as pkt_data
+			*/
+
+			printf("send SYN packet to port %d\n", p); // 2) 전송한 패킷의 destination 포트 번호 출력
+			// 1-1-6), 1-2-10) send the captured SYN packet to the server
+			// printf("\nNow we send our SYN. See if we receive ACK from the server.\n");
+			if (pcap_sendpacket(fp, pkt_data, 14 + 20 + tcp_length) != 0)
+			{
+				printf("err in packet send : %s\n", pcap_geterr(fp));
+			}
+		}
+	}
+
+	return 0;
+}
+```
+
+`sniffer_2.c`는 최초 서버로부터 캡처한 SYN 패킷을 복사한다. 이 패킷의 destination port 번호를 1부터 65535까지 변경하며 총 65535개의 SYN 패킷을 서버로 전송한다.
+
+<br>
+
+[1-2](#1-2-modify-the-sniffer-further-such-that-it-re-computes-ip-and-tcp-checksum)의 `sniffer.c`를 수정하여 `stealth_scanner.c`를 만들었다.
+
+`stealth_scanner`는 모든 포트 번호로부터 오는 SYN/ACK 패킷을 캡쳐해야 하기 때문에 기존의 filter 규칙에서 포트 번호를 제거하였다.
+
+![](img/2.png)
+12520번 포트로부터 응답이 온 것을 알 수 있다.
