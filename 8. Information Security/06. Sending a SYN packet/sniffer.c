@@ -1,6 +1,12 @@
 #include <stdio.h>
+#include <stdlib.h>
 #include <pcap.h>
 #include <string.h>
+#include <arpa/inet.h> // 1-2)
+
+// 1-2)
+#define IP_OF_YOUR_PC "165.246.222.179"
+#define IP_OF_DEST "165.246.38.151"
 
 struct ether_addr
 {
@@ -54,6 +60,43 @@ struct tcp_header
 	unsigned short checksum;
 	unsigned short urgent_pointer;
 };
+
+// 1-2)
+struct pseudo_header
+{
+	unsigned int source_address;
+	unsigned int dest_address;
+	unsigned char placeholder;
+	unsigned char protocol;
+	unsigned short tcp_length;
+};
+
+// 1-2)
+unsigned short in_checksum(unsigned short *ptr, int nbytes)
+{
+	register long sum;
+	unsigned short oddbyte;
+	register short answer;
+
+	sum = 0;
+	while (nbytes > 1)
+	{
+		sum += *ptr++;
+		nbytes -= 2;
+	}
+	if (nbytes == 1)
+	{
+		oddbyte = 0;
+		*((u_char *)&oddbyte) = *(u_char *)ptr;
+		sum += oddbyte;
+	}
+
+	sum = (sum >> 16) + (sum & 0xffff);
+	sum = sum + (sum >> 16);
+	answer = (short)~sum; // use “short” in MacOS instead of “SHORT”
+
+	return (answer);
+}
 
 // raw byte stream을 출력하는 함수
 void print_raw_packet(const unsigned char *pkt_data, bpf_u_int32 caplen)
@@ -269,32 +312,62 @@ int main()
 		// print_tcp_header(pkt_data);
 		// print_data(pkt_data, header->caplen);
 
-		// 1-1-1)
+		// 1-1-1), 1-2-1)
 		printf("\nNow breaking this loop\n");
-		break; // break out of the while loop after capturing the first SYN packet.
+		break; // 1-1-1), 1-2-1) break out of the while loop after capturing the first SYN packet.
 	}
 
-	// 1-1-2)
+	// 1-2-2) copy them into another buffer: pkt_data=>packet
+	const unsigned char *packet = (unsigned char *)malloc(65535);
+	packet = pkt_data;
+
+	// 1-2-3)
+	struct ip_header *ih = (struct ip_header *)(pkt_data + 14);
 	struct tcp_header *th = (struct tcp_header *)(pkt_data + 14 + 20);
+	// 1-2-3) set ip_check_sum and tcp_check_sum to zero
+	ih->ip_checksum = 0;
+	th->checksum = 0;
+
+	// 1-2-4), 1-2-5)
 	int tcp_length = th->data_offset * 4;
-	// now we have syn packet in pkt_data
+
+	struct pseudo_header psh;
+	// to use inet_pton(), include "winsock2.h" and "ws2tcpip.h" in windows
+	// in MacOS, include <arpa/inet.h>
+	inet_pton(AF_INET, IP_OF_YOUR_PC, &(psh.source_address)); // ip of your pc
+	inet_pton(AF_INET, IP_OF_DEST, &(psh.dest_address));	  // dest ip
+	psh.placeholder = 0;									  // reserved
+	psh.protocol = 6;										  // protocol number for tcp
+	psh.tcp_length = htons(tcp_length);						  // store multi byte number in network byte order
+
+	unsigned char *seudo;
+	seudo = (unsigned char *)malloc(sizeof(struct pseudo_header) + tcp_length);
+	memcpy(seudo, &psh, sizeof(struct pseudo_header));
+	memcpy(seudo + sizeof(struct pseudo_header), th, tcp_length);
+
+	// 1-2-4), 1-2-5) recompute ip_check_sum and tcp_check_sum
+	ih->ip_checksum = in_checksum((unsigned short *)ih, 20);
+	th->checksum = in_checksum((unsigned short *)seudo, sizeof(struct pseudo_header) + tcp_length);
+
+	// 1-1-2) now we have syn packet in pkt_data
 	printf("\nLet's send SYN ===========\n");
 	printf("Checking TCP header length : %d\n", tcp_length);
 	printf("Length of SYN packet       : %d\n", header->caplen); // header : struct pcap_pkthdr
-	print_raw_packet(pkt_data, header->caplen);					 // display the packet in raw bytes.
+	print_raw_packet(pkt_data, header->caplen);					 // 1-2-6) display the packet in raw bytes.
+																 // this should be same as pkt_data
 
-	// 1-1-3) kill the server and the client (manually)
+	// 1-1-3), 1-2-7) kill the server and the client (manually)
 	printf("\nKill server and the client.\n");
-	// 1-1-4) run the original sniffer
+	// 1-1-4), 1-2-8) run the original sniffer
 	printf("Run the original sniffer.\n");
-	// 1-1-5) rerun the server
+	// 1-1-5), 1-2-9) rerun the server
 	printf("Rerun the server and hit '9' when ready : ");
 	int x;
 	scanf("%d", &x);
 
 	if (x == 9)
 	{
-		// 1-1-6) send the captured SYN packet to the server
+		// 1-1-6), 1-2-10) send the captured SYN packet to the server
 		printf("\nNow we send our SYN. See if we receive ACK from the server.\n");
 		if (pcap_sendpacket(fp, pkt_data, 14 + 20 + tcp_length) != 0)
 		{
