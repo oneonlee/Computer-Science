@@ -356,7 +356,7 @@ Transmission delay = (Packet Length) / (link bandwidth) 로 계산한다.
 Propagation delay는 거리와 link의 매체가 결정하는 delay로, 다른 delay에 비해 매우 짧은 시간이 걸린다. 특히나 요즘같이 광통신을 하는 경우에는 거의 없다고 봐도 될 정도로 짧다.
 
 Propagation delay = (distance) / (Propagation speed) 로 계산한다.<br>
-출발지와 목적지 라우터 사이의 거리가 d이고 s가 link의 전파속도라면, 전파 지연은 d/s이다.
+출발지와 목적지 라우터 사이의 거리가 d이고 v가 link의 전파속도라면, 전파 지연은 d/v이다.
 
 ##### Transmission delay vs. Propagation delay
 
@@ -456,7 +456,7 @@ traffic intensity(트래픽 강도)가 1에 접근할수록 평균 큐잉 지연
   - **라우팅 프로토콜**: 출발지와 목적지 사이에서 데이터그램이 이동하는 경로를 결정한다.
 - 비록 네트워크 계층이 인터넷 프로토콜과 여러 라우팅 프로토콜을 모두 갖고 있지만, IP가 인터넷을 함께 묶는 역할을 한다는 사실을 반영하여 흔히 IP Layer라고 불린다.
 
-#### link (링크 계틍)
+#### link layer (링크 계층)
 
 - 링크 계층은 인접한 네트워크 노드끼리 데이터를 전송하는 기능과 절차를 제공한다.
 - 링크 계층 프로토콜의 예로는 이더넷, 802.111 (WiFi) 등이 있다.
