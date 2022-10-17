@@ -202,11 +202,13 @@ void main(){
 - An application causes a page-fault error
   - `page_fault()` => `do_page_fault()` :14
 
-## 2) Change `drivers/input/keyboard/atkbd.c` as follows.
+### 2) Change `drivers/input/keyboard/atkbd.c` as follows.
 
 ```bash
 $ vi drivers/input/keyboard/atkbd.c
 ```
+
+`drivers/input/keyboard/atkbd.c` :
 
 ```c
 static irqreturn_t atkbd_interrupt(....){
