@@ -104,27 +104,11 @@ transport layer에서 application layer protocol에 제공해주어야 하는 �
 
 #### TCP service (for loss-sensitive application)
 
-- **reliable transport**
-  - 전송 프로세스와 수신 프로세스 간의 안정적인 전송이 가능하다.
-- **connection-oriented (연결 지향)** : 클라이언트와 서버 간에 설정(setup)이 필요하다.
-  - 여기서 말하는 설정(setup)이란?
-    - sender/receiver에 buffer 할당
-    - buffer & window size 설정 등
-- flow control
-  - sender 측 버퍼가 넘치치 않도록 제어해준다.
-- congestion control
-  - 각 TCP 연결이 네트워크 대역폭을 공평하게 공유할 수 있게끔 제어한다.
-- timing, minimum throughput guarantee, security 등의 기능은 제공하지 않는다.
+[Transport Layer 부분에서 자세히 다루었으니 링크 참조](../03.%20Transport%20Layer/README.md#tcp-transmission-control-protocol-for-loss-sensitive-application)
 
 #### UDP service (for delay-sensitive application)
 
-- **unreliable data transfer**
-- UDP는 TCP에서 제공하는 것을 하나도 제공하지 않는다.
-  - reliability, connection setup, flow control, congestion control, timing, minimum throughput guarantee, security 등을 **제공하지 않는다.**
-- 정말 아무것도 안 하는 것 같은데 필요한 이유가 무엇일까?
-  - UDP는 포트 번호에 따라 전달하는 역할을 한다.
-  - UDP는 신뢰성을 보장하지는 않지만, TCP에 비하여 빠른 전송 속도를 제공한다.
-  - UDP는 비연결을 지향하기 때문에 데이터를 재전송할 필요도 없고, 흐름 제어나 에러 체크도 항상 필요로 하지 않는다.
+[Transport Layer 부분에서 자세히 다루었으니 링크 참조](../03.%20Transport%20Layer/README.md#udp-user-datagram-protocol-for-delay-sensitive-application)
 
 ## 2. Web and HTTP
 
