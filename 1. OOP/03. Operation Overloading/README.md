@@ -1,6 +1,7 @@
 # Operator Overloading
 
 ## Contents
+
 1. Introduction
 2. Operator Overloading 기본사항
 3. Operator Overloading 제한조건
@@ -13,7 +14,9 @@
 10. Case Study: A Date Class
 
 ## 1. Introduction
+
 ### 연산자 오버로딩이란?
+
 - 클래스 객체에 기본형 및 사용자 정의형 연산자를 이용
   - 예) Time 클래스 객체끼리 덧셈 연산?
   - 연산자 오버로딩 (operator overloading) 이라고도 함
@@ -21,10 +24,12 @@
   - 문맥(context)에 따라 적응적으로 동작
 - 예시
   - <<:스트림 삽입(stream-insertion), 비트단위 왼쪽 시프트 (bitwise left-shift)
-  - + : 다양한 아이템(integers, floats, etc.) 들 간의 덧셈 연산을 수행
+  - - : 다양한 아이템(integers, floats, etc.) 들 간의 덧셈 연산을 수행
 
 ## 2. Operator Overloading 기본사항
+
 ### 연산자 오버로딩 방법
+
 - Operator overloading의 타입
   - 내장 (built-in) 데이터 타입 (int, char) 또는 사용자 정의 데이터 타입 (classes)
   - 기존 연산자를 사용자 정의 타입에 사용할 수 있도록 함
@@ -36,6 +41,7 @@
     - ex> `operator+` 는 덧셈 연산자를 +를 의미함
 
 ### Operator+ 라는 이름의 함수
+
 ```cpp
 class Point
 {
@@ -70,54 +76,61 @@ int main(void)
 ```
 
 ### Good Programming Practice
+
 > Overloaded operators should mimic the functionality of their built-in counterparts—for example, the + operator should be overloaded to perform addition, not subtraction. Avoid excessive or inconsistent use of operator overloading, as this can make a program cryptic and difficult to read.
 
 ### 연산자 오버로딩 방법
+
 - 연산자를 클래스 객체에 적용하기 위해 연산자를 반드시 오버로딩 해야 한다.
 - 예외
   - 모든 클래스에 대해 오버로딩 없이 사용할 수 있으나, 역시 프로그래머에 의해 다시 오버로딩 될 수 있는 연산자
-  - 대입 연산자(=)
+  - 대입 연산자(`=`)
     - 클래스에 속한 데이터 멤버들을 멤버 별로 복사한다.
-  - 주소 연산자(&)
-    - 객체의 주소 값을 반환한다.			
+  - 주소 연산자(`&`)
+    - 객체의 주소 값을 반환한다.
 
 ### 오버로딩은 객체간 연산의 간결한 표현을 제공
+
 - Overloading 하지 않았을 때
-  - `object2	=	object2.add(object1);`
+  - `object2 = object2.add(object1);`
 - Overloading 했을 때
-  - `object2	=	object2	+	object1;`
+  - `object2 = object2 + object1;`
 
 ### 3. Operator Overloading 제한조건
+
 ### 연산자 오버로딩으로도 변경 불가능한 것은?
+
 - 연산자의 우선순위 (중간 계산 순서)
-  - e.g., A * B + C
+  - e.g., A \* B + C
   - 연산자의 순서를 바꾸기 위해서 괄호를 사용한다.
 - 연산자의 결합 순서 (left-to-right 또는 right-to-left)
 - 피연산자(operand)의 개수
   - e.g., &은 단항(unary) 연산자이므로, 단 하나의 피연산자만을 취함
 - 내장 타입의 객체에 적용되는 연산 방법
-  (i.e., 정수 덧셈에 사용되는 + 연산자의 의미를 바꿀 수 없다.)
+  (i.e., 정수 덧셈에 사용되는 `+` 연산자의 의미를 바꿀 수 없다.)
 
 - 새로운 연산자를 만드는 것은 불가능
 - 연산자는 명확하게 오버로딩 되어야 한다.
-  - = 와 + 연산자가 오버로딩 되었다고 해서 += 연산자가 오버로딩 된 것은 아니다.
-- 연산자 ?: 는 오버로딩 될 수 없다.
+  - `=` 와 `+` 연산자가 오버로딩 되었다고 해서 `+=` 연산자가 오버로딩 된 것은 아니다.
+- 연산자 `?:` 는 오버로딩 될 수 없다.
 
 ### 연산자 오버로딩할 수 없는 연산자
+
 <img width="675" alt="스크린샷 2021-12-02 오후 9 18 08" src="https://user-images.githubusercontent.com/73745836/144420521-87cdc77b-1f2c-4dac-9756-fa7e32a81fcb.png">
 
-
-
 ## 4. Operator Functions as Class Members vs. Global Functions
+
 ### 멤버 함수로서의 연산자 함수
+
 - (피연산자1 연산자 피연산자2) 일 때, 피연산자1이 연산자가 정의된 클래스의 객체가 되어야 한다.
 - 이항 연산자 (binary operator) 의 왼쪽 피연산자의 인자를 얻기 위해 암시적으로 키워드를 사용한다.
-- 연산자 (), [], -> 또는 대입 연산자(=)는 클래스 멤버 함수로 오버로드 되어야 한다.
+- 연산자 `()`, `[]`, `->` 또는 대입 연산자(`=`)는 클래스 멤버 함수로 오버로드 되어야 한다.
 - 연산자 멤버 함수는 아래의 경우에 호출된다.
   - 이항 연산자의 왼쪽 피연산자가 그 클래스의 객체인 경우
   - 단항 연산자의 피연산자가 그 클래스의 객체인 경우
 
 ### 전역 함수로서의 연산자 함수
+
 - 전역 함수로서의 연산자 함수
   - 함수 매개변수들(즉, 모든 피연산자)을 필요로 한다.
   - 연산자와 다른 클래스의 객체를 매개변수로 취할 수 있다.
@@ -129,6 +142,7 @@ int main(void)
     - classObject 형을 인자로 취하는 연산자 오버로딩을 위해 C++ standard library를 바꿀 수 없기 때문
 
 ### 연산자 오버로딩과 연산의 교환 법칙
+
 - 교환 법칙이 성립하는 연산자
   - 덧셈 연산자(+)는 교환 법칙이 성립하기를 원함
     - “operand1 + operand2” 와 “operand2 + operand1” 모두 가능하도록
@@ -139,17 +153,21 @@ int main(void)
       - `long int + HugeIntClass`
 
 ## 5. Overloading Stream Insertion and Stream Extraction Operators
+
 ### 연산자 오버로딩과 stream 연산자
+
 - << 와 >> 연산자
   - 내장 자료형을 처리하기 위해 이미 오버로드 되어 있음
   - 사용자 정의 클래스를 처리하기 위해 전역 friend 함수로서 오버로딩을 구현
 - 예제 프로그램
   - `Class PhoneNumber`
   - cout에 의해 PhoneNumber객체의 내용을 알맞게 출력
-    - 예) (123) 456-7890 
+    - 예) (123) 456-7890
 
-### 연산자 오버로딩과 stream 연산자 예제 
+### 연산자 오버로딩과 stream 연산자 예제
+
 #### PhoneNumber.h
+
 ```cpp
 #pragma once
 
@@ -169,6 +187,7 @@ private:
 ```
 
 #### PhoneNumber.cpp
+
 ```cpp
 // #include <iostream>
 
@@ -211,6 +230,7 @@ istream &operator>>(istream &input, PhoneNumber &number)
 ```
 
 #### driver
+
 ```cpp
 #include <iostream>
 using namespace std;
@@ -231,8 +251,11 @@ int main()
     return 0;
 }
 ```
+
 ## 6. Overloading Unary Operators
+
 ### 단항 연산자 (unary operator) 오버로딩
+
 - static이 아닌 클래스 멤버함수로 오버로딩 가능
   - 이항 연산자 오버로딩과 달리 인수가 필요없음
 - 또는 하나의 인수를 갖는 전역 함수로 오버로딩 가능
@@ -240,16 +263,21 @@ int main()
 - static 멤버함수는 static 멤버 데이터에만 접근할 수 있음을 기억할 것
 
 ### 증가, 감소 연산자의 오버로딩
+
 <img width="875" alt="스크린샷 2021-12-02 오후 9 31 41" src="https://user-images.githubusercontent.com/73745836/144422457-dd9f68ae-00f6-42ee-8027-96b53d50bfbb.png">
 
 ## 7. Overloading Binary Operators
+
 ### 이항 연산자 (binary operator) 오버로딩
+
 - Non-static 멤버 함수로 구현했을 때, 하나의 인수
 - 전역 함수로 구현했을 때, 두 개의 인수
   - 하나의 인수는 클래스의 객체이거나 객체의 참조여야 한다.
 
 ### 예제: += 오버로딩
+
 #### Non-static 멤버 함수라면, 하나의 인수가 필요하다.
+
 ```cpp
 class String
 {
@@ -258,13 +286,18 @@ public:
   …
 };
 ```
+
 - y += z 는 y.operator+=( z )으로 작성된 것처럼 처리된다.
+
 #### 전역 함수라면, 두 개의 인수가 필요하다.
+
 - `const String &operator+=( String &, const String & );`
 - y += 는 operator+=( y, z )으로 작성된 것처럼 처리된다.
 
 ## 8. Case Study: Array Class
+
 ### C++ 배열의 단점
+
 - 배열의 범위를 체크하지 않는다. (no range checking)
 - `==` 로 두 개의 배열을 비교할 수 없다.
 - 대입 연산자로 다른 배열로 대입될 수 없다.
@@ -273,31 +306,36 @@ public:
   - 배열의 이름으로는 배열 크기를 알 수 없음
 
 ### C++ 배열의 개선
+
 - 다음의 기능을 포함하는 새로운 배열을 구현하기 위한 클래스
   - 범위 체크(range checking)가 가능
   - 하나의 배열 객체를 다른 배열 객체에 대입할 수 있다.
   - 별도의 인수로 배열의 크기를 함수에 전해줄 필요가 없다.
   - 배열 전체를 << 과 >>를 통해 입출력 할 수 있다.
   - == 과 != 을 통한 배열 비교가 가능하다.
-  (추가할 만한 유용한 기능이 또 무엇이 있을까?)
+    (추가할 만한 유용한 기능이 또 무엇이 있을까?)
 
 ### Array 클래스의 복사 생성자(Copy Constructor)
+
 - 객체의 복사가 필요할 때마다 사용:
+
   - 객체가 값으로 함수에 전달될 때 (함수에서 값으로 객체를 반환할 때)
   - 같은 클래스의 다른 객체를 복사하여 초기화 할 때 다음과 같이 사용
-    - `Array	newArray(oldArray)	또는 Array	newArray =	oldArray;`
-      - =>	수행 후 newArray는 oldArray의 복사본이 됨.
+    - `Array newArray(oldArray) 또는 Array newArray = oldArray;`
+      - => 수행 후 newArray는 oldArray의 복사본이 됨.
 
 - 복사 생성자 선언
   - `Array(const Array&);`
   - 반드시 참조(&)를 가져와야 한다.
     - 그렇지 않으면, 인수는 값으로 전달되어지면서 매개변수 객체 생성
     - -> 매개변수 객체 생성을 위해 복사 생성자 다시 호출
-    - -> 또 다시 매개변수 객체 생성을 위해 복사 생성자 호출 
+    - -> 또 다시 매개변수 객체 생성을 위해 복사 생성자 호출
     - -> 무한 루프
 
-### 연산자 오버로딩으로 개선된 Array 클래스 예제 
+### 연산자 오버로딩으로 개선된 Array 클래스 예제
+
 #### Array.h
+
 ```cpp
 #ifndef ARRAY_H
 #define ARRAY_H
@@ -338,6 +376,7 @@ private:
 ```
 
 #### Array.cpp
+
 ```cpp
 #include <iostream>
 using std::cerr;
@@ -481,6 +520,7 @@ ostream &operator<<(ostream &output, const Array &a)
 ```
 
 #### main.cpp
+
 ```cpp
 #include <iostream>
 using std::cin;
@@ -542,7 +582,9 @@ int main()
 ```
 
 ## 9. Overloading ++ and –
+
 ### 증가/감소 연산자의 오버로딩
+
 - Date 클래스 객체 d1에 1을 더하려고 함
 - Prototype (member function을 이용한 오버로딩)
   - `Date &operator++();`
@@ -552,6 +594,7 @@ int main()
   - `++d1`은 `d1.operator++(d1)`과 동일
 
 ### 접두(prefix), 접미(postfix) 증가의 구분
+
 - 예) a++, ++a
 - 접미 증가의 경우 공 매개변수(dummy parameter)를 이용
   - 정수 0
@@ -563,7 +606,9 @@ int main()
   - `d1++`은 `d1.operator++(d1, 0)`과 동일
 
 ### 접두(prefix), 접미(postfix) 증가의 반환값
+
 - 반환값
+
   - 접두 증가 (prefix increment)
     - 참조형 반환 (`Date &`)
     - C++은 반환값을 lvalue로 취급 -> assign 가능
@@ -575,8 +620,11 @@ int main()
 - 감소 연산자(--) 의 경우도 같은 방식으로 적용
 
 ## 10. Case Study: A Date Class
-### Date 클래스 예제 
+
+### Date 클래스 예제
+
 #### 개요
+
 - 증가 연산자 오버로드
   - 일, 월, 년을 변화
 - 윤년 (leap years) 테스트를 위한 함수
@@ -584,6 +632,7 @@ int main()
 - 일년 마지막 날임을 판단하는 함수
 
 #### date.h
+
 ```cpp
 #pragma once
 
@@ -614,6 +663,7 @@ private:
 ```
 
 #### date.cpp
+
 ```cpp
 #include <iostream>
 #include "Date.h"
@@ -706,6 +756,7 @@ ostream &operator<<(ostream &output, const Date &d)
 ```
 
 #### main.cpp
+
 ```cpp
 #include <iostream>
 using std::cout;

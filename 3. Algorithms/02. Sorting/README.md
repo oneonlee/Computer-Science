@@ -202,7 +202,7 @@ void merge (int h, int m, const keytype U[], const keytype V[], const keytype S[
     - at each recursive call we divide in half the sequence,
   - The overall amount or work done at the nodes of depth `i` is <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}O(n)" title="O(n)" />
     - we partition and merge `2^i` sequences of size `n/2^i`
-    - we make 2^(i+1)` recursive calls
+    - we make `2^(i+1)` recursive calls
   - Thus, the total running time of merge-sort is `O(n log n)`
 
 ### 공간복잡도 분석
