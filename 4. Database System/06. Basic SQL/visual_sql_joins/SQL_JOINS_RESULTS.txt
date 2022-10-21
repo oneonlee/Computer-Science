@@ -1,0 +1,89 @@
+INNER JOIN
+A_PK        A_Value    B_Value    B_PK
+----------- ---------- ---------- -----------
+1           FOX        TROT       1
+2           COP        CAR        2
+3           TAXI       CAB        3
+6           WASHINGTON MONUMENT   6
+7           DELL       PC         7
+
+(5 row(s) affected)
+
+LEFT JOIN
+A_PK        A_Value    B_Value    B_PK
+----------- ---------- ---------- -----------
+1           FOX        TROT       1
+2           COP        CAR        2
+3           TAXI       CAB        3
+4           LINCOLN    NULL       NULL
+5           ARIZONA    NULL       NULL
+6           WASHINGTON MONUMENT   6
+7           DELL       PC         7
+10          LUCENT     NULL       NULL
+
+(8 row(s) affected)
+
+RIGHT JOIN
+A_PK        A_Value    B_Value    B_PK
+----------- ---------- ---------- -----------
+1           FOX        TROT       1
+2           COP        CAR        2
+3           TAXI       CAB        3
+6           WASHINGTON MONUMENT   6
+7           DELL       PC         7
+NULL        NULL       MICROSOFT  8
+NULL        NULL       APPLE      9
+NULL        NULL       SCOTCH     11
+
+(8 row(s) affected)
+
+OUTER JOIN
+A_PK        A_Value    B_Value    B_PK
+----------- ---------- ---------- -----------
+1           FOX        TROT       1
+2           COP        CAR        2
+3           TAXI       CAB        3
+4           LINCOLN    NULL       NULL
+5           ARIZONA    NULL       NULL
+6           WASHINGTON MONUMENT   6
+7           DELL       PC         7
+10          LUCENT     NULL       NULL
+NULL        NULL       MICROSOFT  8
+NULL        NULL       APPLE      9
+NULL        NULL       SCOTCH     11
+
+(11 row(s) affected)
+
+LEFT JOIN EXCLUDING INNER JOIN
+A_PK        A_Value    B_Value    B_PK
+----------- ---------- ---------- -----------
+4           LINCOLN    NULL       NULL
+5           ARIZONA    NULL       NULL
+10          LUCENT     NULL       NULL
+
+(3 row(s) affected)
+
+RIGHT JOIN EXCLUDING INNER JOIN
+A_PK        A_Value    B_Value    B_PK
+----------- ---------- ---------- -----------
+NULL        NULL       MICROSOFT  8
+NULL        NULL       APPLE      9
+NULL        NULL       SCOTCH     11
+
+(3 row(s) affected)
+
+OUTER JOIN EXCLUDING INNER JOIN
+OR
+LEFT & RIGHT JOINS EXCLUDING INNER JOIN
+A_PK        A_Value    B_Value    B_PK
+----------- ---------- ---------- -----------
+4           LINCOLN    NULL       NULL
+5           ARIZONA    NULL       NULL
+10          LUCENT     NULL       NULL
+NULL        NULL       MICROSOFT  8
+NULL        NULL       APPLE      9
+NULL        NULL       SCOTCH     11
+
+(6 row(s) affected)
+
+

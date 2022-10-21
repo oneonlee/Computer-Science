@@ -1,6 +1,80 @@
-# Complex SQL Practice
+1. [Complex SQL](#complex-sql)
+2. [Practice](#complex-sql-practice)
 
-## Company Database
+---
+
+# Complex SQL
+
+- [NULL 값을 포함한 비교](#null-값을-포함한-비교)
+- [중첩 질의(nested query)와 집합 비교](#중첩-질의nested-query와-집합-비교)
+- [상관 중첩 질의 (Correlated Nested Query)](#상관-중첩-질의-correlated-nested-query)
+- SQL의 EXISTS 함수와 UNIQUE 함수
+- SQL에서 명시적 집합과 애트리뷰트의 재명명
+- SQL에서 조인된 테이블과 외부 조인
+- 집계 함수(Aggregate functions)
+- Group by와 Having 절
+- Assertions, Triggers
+- Views
+- Schema modifications
+
+## NULL 값을 포함한 비교
+
+- 애트리뷰트의 값이 NULL인지 검사하는 연산자
+  - `IS NULL`
+  - `IS NOT NULL`
+
+## 중첩 질의(nested query)와 집합 비교
+
+### 중첩 질의
+
+- 다른 질의의 WHERE 절 내에 완전한 SELECT 질의가 나타나는 형태
+- 외부 질의와 내부 질의로 구분됨
+
+### 비교 연산자 `IN`
+
+- 외부 질의의 한 튜플에 대하여, 이 튜플이 임의의 튜플 집합의 원소가 되는지 비교하는 연산이다.
+- 집합에 있어서 원소 여부를 확인하는 '∈'와 동일한 기능을 한다.
+
+### `= ALL` 연산자
+
+- 하나의 값 v가 집합 V내의 모든 값들과 같으면 참이 된다.
+- 집합에서 '∀'에 해당한다.
+- `ALL` 앞에 `=` 대신 `>`, `>=`, `<`, `<=`를 사용할 수도 있다.
+  - e.g., `= ALL`, `>= ALL`, `< ALL` ...
+
+### `= ANY`(`= SOME`) 연산자
+
+- 하나의 값 v가 집합 V내의 어떤 하나의 값과 같으면 참이 된다.
+- 집합에서 '∃'에 해당한다.
+- `ANY`(`SOME`) 앞에 `=` 대신 `>`, `>=`, `<`, `<=`를 사용할 수도 있다.
+
+## 상관 중첩 질의 (Correlated Nested Query)
+
+### 상관된 질의 (Correlated Query)
+
+- 내부 질의의 WHERE 절에 있는 조건에서, 외부 질의에 선언된 릴레이션의 일부 애트리뷰트를 참조하는 경우에 두 질의를 상관된 질의라고 한다.
+
+## SQL의 EXISTS 함수와 UNIQUE 함수
+
+## SQL에서 명시적 집합과 애트리뷰트의 재명명
+
+## SQL에서 조인된 테이블과 외부 조인
+
+## 집계 함수(Aggregate functions)
+
+## Group by와 Having 절
+
+## Assertions, Triggers
+
+## Views
+
+## Schema modifications
+
+---
+
+## Complex SQL Practice
+
+### Company Database
 
 [Go to Problems](#problems)
 
@@ -178,7 +252,7 @@ mysql> select * from works_on;
 16 rows in set (0.00 sec)
 ```
 
-## Problems
+### Problems
 
 1. 'Newbenefits' 프로젝트에 참여하는 모든 사원의 급여를 10% 올린 경우의 급여를 제시하라. (`Fname`, `Lname`, `Increased_sal`)
    ```sql
@@ -413,3 +487,10 @@ mysql> select * from works_on;
     +-----+-----------+--------+
     1 row in set (0.00 sec)
     ```
+
+---
+
+## Source
+
+1. **Fundamentals of Database Systems 7th Edition** by Ramez Elmasri, Shamkant B. Navathe.
+2. **데이터베이스 시스템 (Database System Concepts) 6th Edition** by Abranham Silberschatz, Henry F.Korth, S.Sudarchan, 김형주 역.
