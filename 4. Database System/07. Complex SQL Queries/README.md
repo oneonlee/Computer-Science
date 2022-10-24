@@ -8,14 +8,13 @@
 - [NULL 값을 포함한 비교](#null-값을-포함한-비교)
 - [중첩 질의(nested query)와 집합 비교](#중첩-질의nested-query와-집합-비교)
 - [상관 중첩 질의 (Correlated Nested Query)](#상관-중첩-질의-correlated-nested-query)
-- SQL의 EXISTS 함수와 UNIQUE 함수
-- SQL에서 명시적 집합과 애트리뷰트의 재명명
-- SQL에서 조인된 테이블과 외부 조인
-- 집계 함수(Aggregate functions)
-- Group by와 Having 절
-- Assertions, Triggers
-- Views
-- Schema modifications
+- [SQL의 EXISTS 함수와 UNIQUE 함수](#sql의-exists-함수와-unique-함수)
+- [SQL에서 명시적 집합과 애트리뷰트의 재명명](#sql에서-명시적-집합과-애트리뷰트의-재명명)
+- [집계 함수(Aggregate functions)](#집계-함수aggregate-functions)
+- [Grouping: Group by와 Having 절](#grouping-group-by와-having-절)
+- [SELECT문 요약](#select문-요약)
+
+---
 
 ## NULL 값을 포함한 비교
 
@@ -50,25 +49,44 @@
 
 ## 상관 중첩 질의 (Correlated Nested Query)
 
-### 상관된 질의 (Correlated Query)
-
-- 내부 질의의 WHERE 절에 있는 조건에서, 외부 질의에 선언된 릴레이션의 일부 애트리뷰트를 참조하는 경우에 두 질의를 상관된 질의라고 한다.
+- 내부 질의의 WHERE 절에 있는 조건에서, 외부 질의에 선언된 릴레이션의 일부 애트리뷰트를 참조하는 경우에 두 질의를 상관된 질의(Correlated Query)라고 한다.
+- 이러한 상관 중첩질의는 비중첩 질의로 변환할 수 있다.
+  - 한 질의는 항상 단일 블록 질의로 변환할 수 있음
 
 ## SQL의 EXISTS 함수와 UNIQUE 함수
 
+### EXISTS 함수
+
+- 상관된 중첩질의에서 내부 질의의 결과가 공집합인가를 검사함
+- `EXISTS(Q)`: 질의 `Q`의 결과에 최소한 한 개의 투플이 있다면 참을 반환
+
 ## SQL에서 명시적 집합과 애트리뷰트의 재명명
 
-## SQL에서 조인된 테이블과 외부 조인
+- `WHERE` 절에 값들의 명시적 집합 사용 가능
+  - e.g., `SELECT DISTINCT ESSN FROM WORKS_ON WHERE PNO IN (1, 2, 3);`
+- 질의 결과 애트리뷰트의 재명명
+  - 결과에 나타나는 애트리뷰트의 이름은 키워드 `AS`를 사용하여 원하는 새 이름으로 재명명할 수
+    있음
+  - `AS`를 사용하여 애트리뷰트와 릴레이션에 별명을 붙일 수 있음
 
 ## 집계 함수(Aggregate functions)
 
-## Group by와 Having 절
+- SQL에서는 COUNT, SUM, MAX, MIN, AVG 등의 집계 (or 내장) 함수를 제공함
+- COUNT 함수는 질의에서 투플이나 값의 개수를 반환함
+- SUM, MAX, MIN, AVG 함수는 수치 값들의 다중집합에 적용되며, 각각 합, 최대값, 최소
+  값, 평균값을 반환함
+- 집계 함수가 NULL을 대하는 태도는 "투명인간"이다.
+  - DISTINCT 키워드를 사용해도 NULL은 투명인간 취급.
 
-## Assertions, Triggers
+## Grouping: Group by와 Having 절
 
-## Views
+- 그룹화 (grouping)
 
-## Schema modifications
+  - 특정 애트리뷰트(들)의 값이 같은 투플들을 모아서 그룹을 생성하고, 이들 그룹에 대하여 집단함수를 적용함
+  - 이 때, 특정 애트리뷰트들을 **그룹화 애트리뷰트**라 하며, SQL의 **GROUP BY절**에 지정함
+  - 대부분의 경우, SELECT절에 그룹화 애트리뷰트(들)를 지정하여, 그 값과 그 값에 해당하는 투플 그룹에 **집단함수**를 적용한 결과를 동시에 반환함
+
+- Having: GROUP BY 절에 대한 조건을 제시할 수 있음
 
 ---
 
@@ -487,6 +505,24 @@ mysql> select * from works_on;
     +-----+-----------+--------+
     1 row in set (0.00 sec)
     ```
+
+## SELECT문 요약
+
+- 6개의 절로 구성
+  - 질의의 평가 순서
+    - FROM → WHERE절 → GROUP BY → HAVING → SELECT → ORDER BY
+  - (1) SELECT <애트리뷰트 목록>
+    - SELECT 절은 질의 결과에 포함될 애트리뷰트들이나 함수를 나열함
+  - (2) FROM <테이블 목록>
+    - FROM 절은 질의의 대상을 명시하는 곳으로 조인된 릴레이션이나 릴레이션(들)을 지정함
+  - (3) [WHERE <조건>]
+    - WHERE 절은 투플들에 대한 조건을 명시함
+  - (4) [GROUP BY <집단화 애트리뷰트>]
+    - GROUP BY절은 그룹화 애트리뷰트들을 지정함
+  - (5) [HAVING <집단 조건>]
+    - HAVING 절은 그룹들에 대한 조건을 지정함
+  - (6) [ORDER BY <애트리뷰트 목록>]
+    - ORDER BY 절은 정렬 기준이 되는 애트리뷰트(들)을 지정함
 
 ---
 
