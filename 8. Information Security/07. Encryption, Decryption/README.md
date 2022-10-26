@@ -1,7 +1,5 @@
 # Encryption, Decryption
 
-Basic concepts, symmetric-key algorithm, public-key algorithm, security protocol
-
 ## 1. Basic concepts
 
 ### 1) symbols
