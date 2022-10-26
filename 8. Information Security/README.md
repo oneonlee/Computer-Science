@@ -6,3 +6,6 @@
 - [03. Buffer Overflow Attack](./03.%20Buffer%20Overflow%20Attack/)
 - [04. Packet Sniffing](./04.%20Packet%20Sniffing/)
 - [05. Writing a Sniffer](./05.%20Writing%20a%20Sniffer/)
+- [06. Sending a SYN packet](./06.%20Sending%20a%20SYN%20packet/)
+- [07. Encryption, Decryption](./07.%20Encryption%2C%20Decryption/)
+- [08. Public Key](./08.%20Public%20Key/)
