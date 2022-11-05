@@ -1,5 +1,8 @@
 !8.%20Information Security/01.%20Debugging/memory%20map.pdf
 
+**/node_modules/
+create_1M_data.sql
+
 *.pdf
 *.exe
 *.pptx
@@ -282,6 +285,8 @@ cython_debug/
 #.idea/
 
 ### VisualStudioCode ###
+.vscode/
+.vscode
 .vscode/*
 !.vscode/settings.json
 !.vscode/tasks.json
