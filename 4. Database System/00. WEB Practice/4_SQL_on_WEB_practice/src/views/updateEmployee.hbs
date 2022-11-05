@@ -1,0 +1,32 @@
+<h1>{{title}}</h1>
+
+<table>
+    <tr>
+        <td>Fname</td>
+        <td>Minit</td>
+        <td>Lname</td>
+        <td>Ssn</td>
+        <td>Bdate</td>
+        <td>Address</td>
+        <td>Sex</td>
+        <td>Salary</td>
+        <td>SuperSsn</td>
+        <td>Dno</td>
+    </tr>
+    {{#each emp_res}}
+    <form method="post" action="/update/employee"><tr>
+        <td>{{Fname}}</td>
+        <td>{{Minit}}</td>
+        <td>{{Lname}}</td>
+        <td>{{Ssn}}</td>
+        <td>{{Bdate}}</td>
+        <td>{{Address}}</td>
+        <td>{{Sex}}</td>
+        <td>{{Salary}}</td>
+        <td>{{SuperSsn}}</td>
+        <td>{{Dno}}</td>
+        <td><input type="submit" value="수정"></td>
+    </tr></form>
+    
+    {{/each}}
+</table>
