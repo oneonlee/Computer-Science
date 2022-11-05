@@ -1,0 +1,21 @@
+<h1>{{title}}</h1>
+
+<table>
+    <tr>
+        <td>Dname</td>
+        <td>Dnumber</td>
+        <td>Mgr_ssn</td>
+        <td>Mgr_start_date</td>
+    </tr>
+    {{#each dept_res}}
+    <form method="post">
+        <tr>
+            <td><input type="text" name="dname" placeholder={{Dname}}></td> <!-- placeholder : 기본값 -->
+            <td>{{Dnumber}}</td>
+            <td>{{Mgr_ssn}}</td>
+            <td>{{Mgr_start_date}}</td>
+            <td><input type="submit" value="수정" formaction="/update/department"></td>
+        </tr>
+    </form>
+    {{/each}}
+</table>
