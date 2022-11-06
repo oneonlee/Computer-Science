@@ -1,0 +1,27 @@
+<h1>{{main_title}}</h1>
+<table>
+    <tr>
+        <td>Id</td>
+        <td>Name</td>
+        <td>Email</td>
+        <td>Phone_number</td>
+        <td>Major</td>
+        <td>Student_Id</td>
+    </tr>
+    {{#each student_res}}
+    <form method="post">
+        <tr>
+            <!-- placeholder : 기본값 -->
+            <!-- value : 초기값 -->
+            <td>{{Id}}</td>
+            <td style="display: none"><input type="text" name="id" value={{Id}}></td> 
+            <td><input type="text" name="name" value={{Name}}></td> 
+            <td><input type="text" name="email" value={{Email}}></td> 
+            <td><input type="text" name="phonenumber" value={{Phone_number}}></td> 
+            <td><input type="text" name="major" value={{Major}}></td> 
+            <td><input type="text" name="studentid" value={{Student_Id}}></td> 
+            <td><input type="submit" value="수정" formaction="/update/student"></td>
+        </tr>
+    </form>
+    {{/each}}
+</table>
