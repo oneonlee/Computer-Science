@@ -14,7 +14,4 @@
 - [17. Indexing Structures](./17.%20Indexing%20Structures/)<br><br>
 - [Projects](./Projects/)
   - [Company Database](./Projects/Company/)
-  - [Inha Database v1](./Projects/InhaDBv1/)
-  - [Inha Database v2](./Projects/InhaDBv2/)
-  - [Inha Database v3](./Projects/InhaDBv3/)
-  - [Inha Database v4](./Projects/InhaDBv4/)
+  - [Inha Database](./Projects/InhaDB/)
