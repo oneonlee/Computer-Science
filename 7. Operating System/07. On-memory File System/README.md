@@ -1,3 +1,342 @@
+# On-memory file system
+
+on-disk, on-memory file system, mounting, process and file system, file system calls
+
+## 0. Accessing a file in EXT2
+
+```c
+x=open("/d1/d2/f1", .....);  // find the inode of "/d1/d2/f1"
+```
+
+- read the super block and find the location of the group descriptor
+- read the group descriptor and find the location of the inode table
+- read the inode table, find inode 2, find the block locations of "/"
+- read the blocks of "/" and find the inode number of "d1"
+- find the inode of "/d1" and find the block locations of "/d1"
+- read the blocks of "/d1" and find the inode number of "d2"
+- find the inode of "/d1/d2" and find the block locations of "/d1/d2"
+- read the blocks of "/d1/d2" and find the inode number of f1
+- find the inode of "/d1/d2/f1"
+
+## 1. on-disk, on-memory file system
+
+### 1) on-disk file system: file system data structure on disks. example: EXT2, FAT, ....
+
+### 2) on-memory file system
+
+- disk is slow => open, read, write take too much time
+- we cache frequently-used data (superblock, inode, group descriptor,...) into memory
+- when caching, some additional information is added
+  - each disk has its own file system, and we need to know which meta block came from which disk
+
+#### 2.1) caching superblock
+
+- (1)
+  - on-disk : ext2_super_block{}
+  - on-mem: super_block{}
+- (2) additional info in super_block{} (include/linux/fs.h)
+  - s_list : next superblock
+  - s_dev: device number. which disk this superblock came from?
+  - s_type: file system type?
+  - s_op : operations on superblock
+  - s_root : root directory of the file system of this superblock
+  - s_files : link list of file{} belonging to this file system
+  - s_id : device name of this super block
+- (3) all cached superblocks form a link-list pointed to by “super_blocks” (fs/super.c)
+
+#### 2.2) caching inode
+
+Individual inode is cached when accessed by the system.
+
+- (1)
+  - on-disk : ext2_inode{}
+  - on-mem: inode{} (include/linux/fs.h)
+- (2) additional info
+  - i_list : next inode
+  - i_dentry: corresponding dentry list for this inode
+  - i_ino : inode number
+  - i_rdev: device this inode belongs to
+  - i_count: usage counter
+  - i_op: operations on this inode
+  - i_sb: pointer to super_block{} this inode belongs to
+  - i_pipe: used if a pipe
+- (3) all cached inodes form a linked-list pointed to by “inode_in_use” (fs/inode.c)
+
+#### 2.3) caching other blocks
+
+- (1) added info
+  - a buffer_head{} structure is attached to each cached block: (include/linux/buffer_head.h)
+  - b_blocknr : block number
+  - b_bdev : device this block belongs to
+  - b_size : block size
+  - b_data : original block
+- (2) all cached blocks are attached to a hash table, “hash_table_array”(linux 2.4)
+
+#### 2.4) dentry table
+
+- (1) for each cached directory entry, dentry{} structure is defined
+  - For example, when reading “/aa/bb”, three dentry objects are created: one for “/”, another for “aa”, and the last for “bb”.
+- (2) dentry{} (include/linux/dcache.h)
+  - d_inode: pointer to the corresponding inode
+  - d_op : operations on this dentry
+  - d_mounted: this inode is a mounting point if d_mounted > 0
+  - d_name: corresponding file name (d_name.name is the actual file name)
+
+## 2. mounting
+
+All cached file systems are connected into one virtual file system through “mounting”
+
+### 1) root file system: the first file system cached into the system
+
+- other file systems are mounted on this root file system
+
+### 2) mount(“/dev/x”, “/y/z”) or "mount /dev/x /y/z"
+
+- meaning: mount the file system in /dev/x on /y/z
+  - mounted file system: /dev/x
+  - mounting point: /y/z
+- mounting process:
+  - cache the file system in /dev/x
+  - cache superblock of /dev/x : sb
+  - cache the root inode of /dev/x : rinode
+  - sb->s_root = rinode
+  - connect the new file system to the mounting point
+    - ```
+        d_mounted of /y/z += 1
+        allocate vfsmount{}and set
+                mnt_mountpoint=/y/z
+                mnt_root= rinode
+                mnt_sb=sb
+        insert this vfsmount{} into mount_hashtable
+      ```
+    ````
+    - ```c
+        struct vfsmount{ // include/linux/mount.h. mounting info of this fs
+            struct vfsmount *mnt_parent;  // parent vfsmount
+            struct dentry *mnt_mountpoint; // mounting point
+            struct dentry *mnt_root;       // root of this file system
+            struct super_block *mnt_sb;    // super block of this file system
+            char *mnt_devname;  // dev name
+            .......
+        };
+    ````
+
+### 3) example
+
+Suppose we have two disks: dev0 and dev1. Suppose they have the file trees as below:
+
+![](img/file_tree.png)
+
+Assume dev0 is the root device (one which has the root file system).
+
+#### (1) start_kernel() -> kernel_init() -> prepare_namespace()->mount_root()
+
+- mount_root() caches the root file system: - cache the superblock - cache the root inode
+  After this, the system has:
+
+![](img/2-3-1.png)
+
+#### (2) “mount /dev/fd0 /d1”
+
+- cache the file system in /dev/fd0
+- cache the superblock of /dev/fd0
+- cache the root inode of /dev/fd0
+- cache the inode of /d1
+- cache the block of “/”
+- cache the inode of /d1
+- connect the root inode of /dev/fd0 to /d1
+
+After caching the file system of /dev/fd0:<br>
+![](img/2-3-2.png)
+
+After caching the block of “/”:<br>
+![](img/2-3-2-2.png)
+
+After caching the inode of “/d1” and connecting the new file system with this:<br>
+![](img/2-3-2-3.png)
+
+After mounting, the final tree looks like:<br>
+![](img/2-3-2-4.png)
+
+The above tree will look as below to the user:<br>
+![](img/2-3-2-5.png)
+
+## 3. process and file system
+
+- each process has “root” and “pwd” to access the root of the file system and to access the current working directory, respectively.
+  - example
+    - p1's root is what p1 thinks as "root"
+    - p1's pwd is the current location of p1
+    - when p1 says "/aa/bb", the system starts at p1's root for the search
+    - when p1 says "aa/bb", the system starts at p1's pwd for the search
+  - `chroot()` changes “root” to a “new root”
+  - `chdir()` changes “pwd” to a “new pwd”.
+- each process has “fd table” for file accessing
+- the system has “file table” to control the file accessing by a process
+- the on-mem file system is represented by inode_in_use, super_blocks, hash_table_array
+
+![](img/3.png)
+
+### 1) file table
+
+- for each opened file, we have file{} structure (include/linux/fs.h)
+  - f_list: next file{}
+  - f_dentry: link to the inode (actually dentry{}) of this file
+  - f_op : operations on this file{ (open, read, write, ...)
+  - f_pos : file read/write pointer. shows how much has been read/written
+  - f_count: number of links to this file{}
+  - ..........
+- super_block{}->s_files contains a link list of file{} for each file system
+
+### 2) root, pwd, fd table
+
+- each process has (in task_struct) -- include/linux/sched.h
+
+```c
+struct fs_struct  *fs;
+struct files_struct  *files;
+struct nsproxy    *nsproxy;  // namespace
+
+struct nsproxy{ // include/linux/nsproxy.h
+    struct mnt_namespace *mnt_ns;
+    ......
+};
+struct mnt_namespace{ // include/linux/mnt_namespace.h
+    struct vfsmount * root;   // vfsmount of this process
+    .........
+};
+```
+
+- fs contains root, pwd info
+
+```c
+struct fs_struct{  // include/linux/fs_struct.h
+    struct path    root,  // the root inode of the file system
+                    pwd;  // the present working directory
+    .........
+};
+struct path { // include/linux/path.h
+    struct vfsmount *mnt;
+    struct denry *dentry;
+};
+```
+
+- files contains fd table
+
+```c
+struct files_struct{ // include/linux/file.h
+    struct fdtable *fdt;;
+    ...........
+};
+struct fdtable{
+    struct file **fd;  // fd table. file{} pointer array.
+    .......
+};
+```
+
+- fork system call copies this fs, files structure, too – so, the child inherits the root, pwd, and fd table of the parent.
+
+## 4. file system calls
+
+### 1) open
+
+```c
+x = open(“/aa/bb”, O_RDWR, 00777);
+```
+
+- meaning: find the inode of /aa/bb and open it
+- algorithm:
+  - find the inode of `/aa/bb`
+  - cache into memory
+  - connect to file table
+    - allocate `file{},` `y`, insert to `sb->s_files` linklist(`sb` is the superblock of this process)
+    - `y->f_dentry` = inode of `/aa/bb`
+    - `y->f_pos=0`
+  - find an empty entry in `fd` table, `z`, and link to `y`
+    - `fd[z] = y`
+  - `return z`
+- Example:
+  ![](img/4.png)
+
+### 2) read
+
+```c
+y = read(x, buf, 10)
+```
+
+- meaning: go to the file pointed to by `fd[x]` and read 10 bytes into `buf` with `f_op->read()`
+- algorithm:
+  - go to `file{}` pointed to by `fd[x]`
+  - go to `inode{}` pointed to by `file{}->f_dentry`
+  - find the block location we want
+  - find the block in hash_table_array
+  - if not there, cache the block first
+  - read max 10 bytes starting from `file{}->f_pos` into `buf`
+  - increase `file{}->f_pos` by actual num of bytes read
+  - return the actual num of bytes read
+
+### 3) write
+
+```c
+y = write(x, buf, 10)
+```
+
+- meaning: go to the file pointed to by `fd[x]`, write max 10 bytes starting from the corresponding `f_pos`, increase `f_pos` by the actual num of bytes written, and return the actual num of bytes written.
+
+### 4) close
+
+```c
+close(x);
+```
+
+- meaning: close the file pointed to by `fd[x]`
+- algorithm:
+  - `fd[x]=0`
+  - `file{}->f_count--` , where `file{}` is the one pointed to by `fd[x]`
+
+### 5) lseek
+
+```c
+lseek(x, 20, 0)
+```
+
+- meaning: modify `f_pos` to 20, where `f_pos` is the file pointer of file `x`.
+- example:
+
+```c
+x=open(“/aa/bb”, .......);  // open file /aa/bb
+read(x, buf, 10);           // read first 10 bytes into “buf”
+lseek(x, 50, SEEK_SET);     // move f_pos to offset 50
+read(x, buf, 10);           // read 10 bytes staring from offset 50
+```
+
+### 6) dup
+
+```c
+y = dup(x);
+```
+
+- meaning: copy `fd[x]` into `fd[y]`
+- example:
+
+```c
+x = open(“/aa/bb”, ........);  // fd[x] points to /aa/bb
+y = dup(x);               // fd[y] also points to /aa/bb
+read(x, buf, 10);    // read first 10 bytes
+read(y, buf, 10);    // read next 10 bytes
+```
+
+### 7) link
+
+```c
+y = link(“/aa/bb”, “/aa/newbb”);
+```
+
+- meaning: `/aa/newbb` is now pointing to the same file as `/aa/bb`
+- algorithm:
+  - make file `newbb` in `/aa` directory
+  - give it the same inode as `/aa/bb`
+
 ## 5. homework
 
 ### 1) Your Gentoo Linux has two disks: `/dev/sda3` and `/dev/sda1`. Which one is the root file system? Where is the mounting point for the other one? Use `mount` command to answer this.
@@ -257,53 +596,116 @@ MAJOR(in->i_rdev), MINOR(in->i_rdev), in->i_ino, in->i_sb->s_id);
 
 "/sbin/init"는 파일 시스템의 구조를 검사하고, 시스템을 마운트하고, 서버 데몬을 띄우고, 사용자 로그인을 기다리는 등의 역할을 한다. 만약 "/sbin/init"을 실행하지 않고 "/bin/sh"를 실행하면, "/dev/sda1"가 "/boot"에 연결되지 않을 것이다.
 
-### 8) Try following code. Make /aa/bb and type some text with length longer than 50 bytes. Explain the result.
+### 8) Try following code. Make `/aa/bb` and type some text with length longer than 50 bytes. Explain the result.
 
-```c
-      x=open("/aa/bb", O_RDONLY, 00777);
-      y=read(x, buf, 10);
-      buf[y]=0;
-      printf("we read %s\n", buf);
-      lseek(x, 20, SEEK_SET);
-      y=read(x, buf, 10);
-      buf[y]=0;
-      printf("we read %s\n", buf);
-      x1=dup(x);
-      y=read(x1, buf, 10);
-      buf[y]=0;
-      printf("we read %s\n", buf);
-      link("/aa/bb", "/aa/newbb");
-      x2=open("/aa/newbb", O_RDONLY, 00777);
-      y=read(x2, buf, 10);
-      buf[y]=0;
-      printf("we read %s\n", buf);
+```bash
+$ cd /      # cd /로 /에 가서
+$ mkdir aa  # mkdir aa로 /aa 디렉토리를 만들고
+$ cd aa     # cd aa로 aa에 이동해서
+$ vi bb     # vi bb로 /aa/bb를 만듭니다.
 ```
 
-### 9) Check the inode number of /aa/bb and /aa/newbb and confirm they are same.
+![/aa/bb](img/bb.png)
+
+```bash
+$ vi ex1.c
+```
+
+[`ex1.c`](./code/ex1.c) :
+
+```c
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
+
+int main(void)
+{
+    char buf[100];
+    int x = open("/aa/bb", O_RDONLY, 00777);
+    int y = read(x, buf, 10);
+    buf[y] = '\0';
+    printf("we read %s\n", buf);
+
+    lseek(x, 20, SEEK_SET);
+    y = read(x, buf, 10);
+    buf[y] = '\0';
+    printf("we read %s\n", buf);
+
+    int x1 = dup(x);
+    y = read(x1, buf, 10);
+    buf[y] = '\0';
+    printf("we read %s\n", buf);
+
+    link("/aa/bb", "/aa/newbb");
+    int x2 = open("/aa/newbb", O_RDONLY, 00777);
+    y = read(x2, buf, 10);
+    buf[y] = '\0';
+    printf("we read %s\n", buf);
+
+    return 0;
+}
+```
+
+![](img/8.png)
+
+첫번째 `printf` 시점의 `buf`는 `/aa/bb`의 10바이트만큼 `read`한 것이므로 "0123456789"가 출력되었다.
+
+두번째 `printf` 시점에 `x`의 포인터는 `lseek`를 통해 문자열의 현재 위치로부터 20바이트만큼 옮겨졌다. 이 때의 출력되는 `buf`는 파일의 20바이트부터 10바이트만큼 `read`한 것이므로 "9876543210"이 출력되었다.
+
+세번째 `printf` 시점에는 `x1`이 `dup`를 통해 `x`로부터 복제되었다. 이 때의 출력되는 `buf`는 두번째 `printf` 시점에서 마지막으로 읽은 위치의 다음 위치부터 10바이트만큼 `read`한 것이므로 "klmnopqrst"가 출력되었다.
+
+네번째 `printf` 시점에 `link`를 통해 `/aa/newbb`가 같은 파일인 `/aa/bb`를 가리키게 되었다. `buf`는 새로운 `/aa/newbb`의 10바이트만큼 `read`한 것이므로 "0123456789"가 출력되었다.
+
+### 9) Check the inode number of `/aa/bb` and `/aa/newbb` and confirm they are same.
 
 ```bash
 $ ls –i /aa/*
 ```
 
+![](img/9.png)
+
+`/aa/bb`와 `/aa/newbb`의 inode number는 "502947"로 동일한 것을 확인하였다.
+
 ### 10) Try `fork()` and confirm the parent and child can access the same file.
 
+[`ex2.c`](./code/ex2.c) :
+
 ```c
-    x=open("/aa/bb", ...);
-    y=fork();
-    if (y==0){
-       z=read(x, buf, 10);
-       buf[z]=0;
-       printf("child read %s\n", buf);
-    }else{
-       z=read(x, buf, 10);
-       buf[z]=0;
-       printf("parent read %s\n", buf);
-   }
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
+
+int main(void)
+{
+    char buf[100];
+    int x = open("/aa/bb", O_RDONLY, 00777);
+    int y = fork();
+    int z;
+
+    if (y == 0)
+    {
+        z = read(x, buf, 10);
+        buf[z] = '\0';
+        printf("child read %s\n", buf);
+    }
+    else
+    {
+        z = read(x, buf, 10);
+        buf[z] = '\0';
+        printf("parent read %s\n", buf);
+    }
+
+    return 0;
+}
 ```
 
-### 11) (Using "chroot" and "chdir") Do following and explain the result of "ex1".
+![](img/10.png)
 
-#### a. Make f1 in several places with different content (in "/", in "/root", and in "/root/d1") as follows.
+parent와 child가 동일한 파일에 접근한 것을 확인할 수 있다. 프로세스가 `fork`되면 `x`의 `f_pos`가 저장되는 위치도 같이 복사되므로 두 프로세스가 이를 공유하게 된다. 따라서 parent는 child가 읽었던 부분부터 계속 읽게 된다.
+
+### 11) (Using `chroot` and `chdir`) Do following and explain the result of `ex1`.
+
+#### a. Make `f1` in several places with different content (in `/`, in `/root`, and in `/root/d1`) as follows.
 
 ```bash
 $ cd  /
@@ -314,80 +716,203 @@ $ mkdir d1
 $ echo hello3 > d1/f1
 ```
 
-#### b. Make ex1.c that will display "/f1" before and after "chroot", and "f1" before and after "chdir" as follows.
+#### b. Make `ex3.c` that will display "/f1" before and after `chroot`, and "f1" before and after `chdir` as follows.
+
+[`ex3.c`](./code/ex3.c) :
 
 ```c
-      display_root_f1();  // display the content of "/f1"
-      chroot(".");
-      display_root_f1();
-      display_f1();       // display the content of "f1"
-      chdir("d1");
-      display_f1();
-```
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
 
-where "display_root_f1()" is
-
-```c
-    x=open("/f1", ...);
-    y=read(x, buf, 100);
-    buf[y]=0;
+void display_root_f1(void) // display the content of "/f1"
+{
+    char buf[100];
+    int x = open("/f1", O_RDONLY);
+    int y = read(x, buf, 100);
+    buf[y] = '\0';
     printf("%s\n", buf);
-```
+}
 
-and "display_f1()" is
-
-```c
-    x=open("f1", ...);
-    y=read(x, buf, 100);
-    buf[y]=0;
+void display_f1(void)      // display the content of "f1"
+{
+    char buf[100];
+    int x = open("f1", O_RDONLY);
+    int y = read(x, buf, 100);
+    buf[y] = '\0';
     printf("%s\n", buf);
+}
+
+int main(void)
+{
+    display_root_f1(); // display the content of "/f1"
+    chroot(".");
+    display_root_f1(); // display the content of "/f1"
+    display_f1();      // display the content of "f1"
+    chdir("d1");
+    display_f1();      // display the content of "f1"
+    return 0;
+}
 ```
 
-### 12) Make a new system call, “show_fpos()”, which will display the current process ID and the file position for fd=3 and fd=4 of the current process. Use this system call to examine file position as follows. (Use %lld to print the file position since f_pos is long long integer)
+![](img/11.png)
+
+- 첫 `display_root_f1`은 `cd /`로 이동해서 만든 `f1`의 내용을 보여준다.
+- `chroot(".")`를 통해 현재 디렉토리로 root가 변경이 되는데, 현재 디렉토리는 홈 디렉토리이다.
+- root가 변경된 이후로 다시 `display_root_f1`을 실행하면 현재 디렉토리가 root이므로 현재 디렉토리에 있는 `f1`의 내용이 출력되므로 hello2가 출력이 된다.
+- 첫 `display_f1`은 현재 디렉토리의 `f1`의 내용이 출력되므로 똑같이 hello2가 출력된다.
+- `chdir("d1")`으로 현재 디렉토리를 `d1`을 바꾼 뒤 실행하면, `d1` 안쪽에 만든 `f1`이 출력되므로 hello3이 출력된다.
+
+### 12) Make a new system call, `my_show_fpos()`, which will display the current process ID and the file position for `fd=3` and `fd=4` of the current process. Use this system call to examine file position as follows. (Use `%lld` to print the file position since f_pos is long long integer)
+
+`arch/x86/kernel/syscall_table_32.S` :<br>
+![](img/12.png)
+
+56번에 `my_show_fpos` 시스템 콜을 등록해준다.
+
+`fs/read_write.c` :
+
+```
+asmlinkage void my_show_fpos(void)
+{
+    printk("fd=3, f_pos=%lld\n", current->files->fdt->fd[3]->f_pos);
+    printk("fd=4, f_pos=%lld\n", current->files->fdt->fd[4]->f_pos);
+}
+```
+
+[`ex4.c`](./code/ex4.c) :
 
 ```c
-          x=open("f1", .............);
-          y=open("f2", .............);
-         show_fpos(); // f_pos right after opening two files
-         read(x, buf, 10);
-         read(y, buf, 20);
-         show_fpos(); // f_pos after reading some bytes
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
+
+void my_show_fpos()
+{
+    syscall(56);
+}
+
+int main(void)
+{
+    char buf[25];
+    int x = open("f1", O_RDONLY);
+    int y = open("f2", O_RDONLY);
+
+    my_show_fpos(); // f_pos right after opening two files
+    read(x, buf, 10);
+    read(y, buf, 20);
+    my_show_fpos(); // f_pos after reading some bytes
+
+    return 0;
+}
 ```
 
-### 13) Modify your show_fpos() such that it also displays the address of f_op->read and f_op->write function for fd 0, fd 1, fd 2, fd 3, and fd 4, respectively. Find the corresponding function names in System.map. Why the system uses different functions for fd 0, 1, 2 and fd 3 or 4?
+```bash
+$ make bzImage
+$ cp arch/x86/boot/bzImage /boot/bzImage
+$ reboot
+# after reboot
+$ echo 8 > /proc/sys/kernel/printk
+$ ./ex4
+```
 
-### 14) Use show_fpos() to explain the result of the following code. File f1 has “ab” and File f2 has “q”. When you run the program, File f2 will have “ba”. Explain why f2 have “ba” after the execution.
+![](img/12-1.png)
+
+`x`와 `y`는 각각 파일 디스크립터 3과 4를 의미한다. 각각 10글자, 20글자를 읽었으므로 `f_pos`가 0에서 10이, 10에서 20이 되었다.
+
+### 13) Modify your `my_show_fpos()` such that it also displays the address of `f_op->read` and `f_op->write` function for fd 0, fd 1, fd 2, fd 3, and fd 4, respectively. Find the corresponding function names in `System.map`. Why the system uses different functions for fd 0, 1, 2 and fd 3 or 4?
+
+`fs/read_write.c` :
 
 ```c
-             int  f1, f2, x; char buf[10];
-             f1=open(“./f1”, O_RDONLY, 00777);
-             f2=open(“./f2”,O_WRONLY, 00777);
-             printf(“f1 and f2 are %d %d\n”, f1, f2); // make sure they are 3 and 4
-             x=fork();
-             if (x==0){
-                 show_fpos();
-                 read(f1,buf,1);
-                 sleep(2);
-                 show_fpos();
-                 write(f2, buf, 1);
-             }else{
-                 sleep(1);
-                 show_fpos();
-                 read(f1,buf,1);
-                 write(f2,buf,1);
-             }
+asmlinkage void my_show_fpos(void)
+{
+    printk("fd=3, f_pos=%lld\n", current->files->fdt->fd[3]->f_pos);
+    printk("fd=4, f_pos=%lld\n", current->files->fdt->fd[4]->f_pos);
 
+    // Update
+    int i;
+    for(i = 0; i < 5; i++) {
+        printk("fd=%d, read=%p\n", i, current->files->fdt->fd[i]->f_op->read);
+        printk("fd=%d, write=%p\n", i, current->files->fdt->fd[i]->f_op->write);
+    }
+}
 ```
+
+```bash
+$ make bzImage
+$ cp arch/x86/boot/bzImage /boot/bzImage
+$ reboot
+# after reboot
+$ echo 8 > /proc/sys/kernel/printk
+$ ./ex4
+```
+
+![](img/13.png)
+
+read와 write 함수의 주소를 출력할 수 있게 했다. 출력된 주소를 리눅스 코드의 `System.map`에서 찾아보면 아래와 같이 나온다. `System.map`은 컴파일할 때마다 리눅스 코드 디렉토리에 생성된다.
+
+### 14) Use `my_show_fpos()` to explain the result of the following code. File `f1` has “ab” and File `f2` has “q”. When you run the program, File `f2` will have “ba”. Explain why `f2` have “ba” after the execution.
+
+```c
+#include <fcntl.h>
+#include <stdio.h>
+#include <unistd.h>
+
+void my_show_fpos()
+{
+    syscall(56);
+}
+
+int main(void)
+{
+    char buf[10];
+    int f1 = open("./f1", O_RDONLY, 00777);
+    int f2 = open("./f2", O_WRONLY, 00777);
+    printf("f1 and f2 are %d %d\n", f1, f2); // make sure they are 3 and 4
+    if (fork() == 0)
+    {
+        my_show_fpos();
+        read(f1, buf, 1);
+        sleep(2);
+        my_show_fpos();
+        write(f2, buf, 1);
+    }
+    else
+    {
+        sleep(1);
+        my_show_fpos();
+        read(f1, buf, 1);
+        write(f2, buf, 1);
+    }
+
+    return 0;
+}
+```
+
+![](img/14-1.png)<br>
+![](img/14-2.png)<br>
+![](img/14-3.png)
+
+`fork`에 의해 `f_pos`를 공유하는 프로세스 2개로 나누어진다.
+가장 먼저 자식 프로세스에서 `f1`과 `f2` 초기 상태를 출력하고 둘 다 `f_pos`는 0이다.
+그후 "f1" 파일을 읽어 `buf`에 저장한다. 현재 `buf`에서는 `['a']`가 저장되어 있다.
+
+자식 프로세스가 2초간 대기하는 사이에, 부모 프로세스는 `f1`과 `f2` 상태를 출력하고 이때 `f1`의 `f_pos`가 읽은 글자 수만큼 증가한 것을 확인할 수 있다.
+다시 한 글자 읽어 `buf`에 저장하면 `buf`에는 `['b']`가 저장되게 된다.
+두 프로세스 사이에 `buf`와 같은 지역변수는 공유되지 않는다.
+
+부모 프로세스의 `buf`를 "f2"에 저장하고, 1초 후 자식 프로세스의 `buf`를 "f2"에 저장하면 "f2"는 "ba"가 된다.
 
 ### 15) Find corresponding kernel code for each step below in open and read system calls:
 
 - `x=open(fpath, .......);`
   - 1.  find empty fd
   - 2.  search the inode for "fpath"
-        - 2-1) if "fpath" starts with "/", start from "fs->root" of the current process
-        - 2-2) otherwise, start from "fs->pwd"
-        - 2-3) visit each directory in "fpath" to find the inode of the "fpath"
-        - 2-4) while following mounted file path if it is a mounting point.
+    - 2-1) if "fpath" starts with "/", start from "fs->root" of the current process
+    - 2-2) otherwise, start from "fs->pwd"
+    - 2-3) visit each directory in "fpath" to find the inode of the "fpath"
+    - 2-4) while following mounted file path if it is a mounting point.
   - 3.  find empty file{} entry and fill-in relevant information.
   - 4.  chaining
   - 5.  return fd
@@ -406,4 +931,4 @@ $ vi f1
 $
 ```
 
-Try to read this file before “mount_root”, after “mount_root”, after sys_mount(“.”, “/”, ...), and after sys_chroot(“.”) in init/do_mounts.c/prepare_namespace(). Explain what happens and why. For this problem, the kernel_init process should exec to /sbin/init.
+Try to read this file before “`mount_root`”, after “`mount_root`”, after sys_mount(“`.`”, “`/`”, ...), and after sys_chroot(“`.`”) in `init/do_mounts.c/prepare_namespace()`. Explain what happens and why. For this problem, the `kernel_init` process should exec to `/sbin/init`.
