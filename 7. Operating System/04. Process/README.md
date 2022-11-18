@@ -166,7 +166,7 @@ pid: 0, pname: swapper, state: 0
 `arch/x86/kernel/syscall_table_32.S` :<br>
 ![](img/3-4-system_call.png)
 
-이후, 변경사항을 적용하기 위해 `make` 명령어로 리눅스 커널을 컴파일하고 재부팅한 하였다.
+이후, 변경사항을 적용하기 위해 `make` 명령어로 리눅스 커널을 컴파일하고 재부팅하였다.
 
 ```bash
 $ make bzImage
