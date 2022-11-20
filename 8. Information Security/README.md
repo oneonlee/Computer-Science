@@ -9,3 +9,5 @@
 - [06. Sending a SYN packet](./06.%20Sending%20a%20SYN%20packet/)
 - [07. Encryption, Decryption](./07.%20Encryption%2C%20Decryption/)
 - [08. Public Key](./08.%20Public%20Key/)
+- [09. SSL](./09.%20SSL/)
+- [10. Heartbeat and Heartbleed](./10.%20Heartbeat%20and%20Heartbleed/)
