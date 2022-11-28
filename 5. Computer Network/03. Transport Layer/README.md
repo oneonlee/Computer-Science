@@ -4,6 +4,7 @@
 - [Multiplexing, Demultiplexing](#2-multiplexing-demultiplexing)
 - [Principles of RDT](#3-principles-of-rdtreliable-data-transfer)
 - [Pipelined Protocols](#4-pipelined-protocols)
+- [Connection-oriented transport: TCP](#5-connection-oriented-transport-tcp)
 
 ## 1. Transport Layer services
 
@@ -210,6 +211,77 @@ Selective Repeat 방식은 송신자 측에서 받은 각각의 패킷들에 대
 - [YouTube - "Go back N sliding window Protocol by Khurram Tanvir"](https://www.youtube.com/watch?v=9BuaeEjIeQI)
 - [YouTube - "Go Back N demonstration"](https://www.youtube.com/watch?v=gaocB7unrqs)
 - [YouTube - "Selective Repeat sliding Window Protocol by Khurram Tanvir"](https://www.youtube.com/watch?v=Cs8tR8A9jm8)
+
+## 5. Connection-oriented transport: TCP
+
+- point-to-point:
+  - one sender, one receiver
+- reliable data transfer
+- in-order **byte** stream
+- pipelined (↔ stop & wait)
+- full duplex data
+  - MSS (maximum segment size)를 정의하고, 데이터 송수신 전에 미리 알려줌
+- connection oriented
+  - handshaking (exchange of control msgs) inits sender, receiver state before data exchange
+- flow control
+  - sender will not overwhelm receiver
+  - 시간에 따라 변하는 Adaptive window size (N)
+- segment structure
+  - TCP Header와 Data를 통틀어서 TCP segement라고 한다.
+  - TCP Segment는 여러 field로 이루어져 있는데, field는 의미 있게 packet을 자른 것을 의미한다.
+
+### TCP segment structure
+
+![](img/TCP_segment_structure.png)
+
+each line's length is 32 bits
+
+#### Header
+
+##### Default Header = 20 bytes
+
+- (1-1) source port # (16 bits)
+- (1-2) dest port # (16 bits)
+- (2) sequence number (32 bits)
+  - TCP Connection을 맺고 나서, 몇 번째 byte의 메세지에 대한 데이터인지 나타내는 순서
+- (3) acknowledgement number (32 bits)
+  - e.g., 만약 ACK=200이라면?
+    - 199까지 잘 받았고, 200을 기대중이다.
+- (4-1) header length (5 bits)
+- (4-2) not used (5 bits)
+- (4-3) FLAG FIELD : U, A, P, R, S, F (6 bits)
+  - (4-3-1) URG (1 bit)
+    - urgent data (일반적으로 잘 사용되지 않음)
+    - 긴급하게 Application에 전달할 데이터의 존재 유무
+  - (4-3-2) ACK (1 bit)
+    - ACK # valid
+    - 0이면 ACK number가 의미 없다.
+    - 1이면 ACK number가 의미 있다.
+  - (4-3-3) PSH (1 bit)
+    - push data now (일반적으로 잘 사용되지 않음)
+  - (4-3-4) RST (1 bit)
+    - reset
+  - (4-3-5) SYN (1 bit)
+    - 1이면 초기 연결 설정용 패킷이라는 뜻
+      - 데이터를 포함하지 않는다.
+    - 데이터가 정상적으로 송수신 될 때는 SYN=0 일 것이다.
+  - (4-3-6) FIN (1 bit)
+    - 1이면 연결을 종료할 때 사용
+    - 데이터가 정상적으로 송수신 될 때는 FIN=0 일 것이다.
+- (4-4) receive window (16 bits)
+  - \# bytes receiver willing to accept
+    - for flow control
+- (5-1) checksum (16 bits)
+- (5-2) Urg data pointer (16 bits)
+  - 데이터에서 Urg data의 위치
+
+##### Option Header
+
+- (6) options (variable length)
+
+#### Data
+
+- application data (variable length)
 
 ---
 
