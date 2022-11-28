@@ -616,45 +616,93 @@ struct mm_struct{
 
 #### hw 7) Make a system call, `sys_get_phyloc()`, which will display the physical address of `main()`.
 
+`arch/x86/kernel/syscall_table_32.S` :<br>
+![](img/syscall32.png)
+
 ##### 1) Write a simple program that prints the address of `main()`.
+
+`hw7-1.c` :<br>
+![](img/hw7-1.png)
+
+![](img/r7-1.png)
 
 ##### 2) Call `sys_get_phyloc(main)` in this program which passes the address of `main`.
 
+`hw7-2.c` :<br>
+![](img/hw7-2.png)
+
 ##### 3) `sys_get_phyloc(addr)` is a system call that performs following steps in order:
 
-- step0: print the value of PGDIR_SHIFT, PTRS_PER_PGD, PAGE_SHIFT, PTRS_PER_PTE
-  - PGDIR_SHIFT=22: number of shifting to extract directory number from a logical address. Logical address 0x080484a4 = (dir 20h, page 48h, offset 4a4h) pgd_index=20h, pte_index=48h
-  - PAGE_SHIFT=12: number of shifting to extract page number from a logical address.
-  - PTRS_PER_PGD=1024: number of directory entries in a directory table
-  - PTRS_PER_PTE=1024: number of frame pointer entries in a directory
+- step0: print the value of `PGDIR_SHIFT`, `PTRS_PER_PGD`, `PAGE_SHIFT`, `PTRS_PER_PTE`
+  - `PGDIR_SHIFT=22`: number of shifting to extract directory number from a logical address. Logical address 0x080484a4 = (dir 20h, page 48h, offset 4a4h) pgd_index=20h, pte_index=48h
+  - `PAGE_SHIFT=12`: number of shifting to extract page number from a logical address.
+  - `PTRS_PER_PGD=1024`: number of directory entries in a directory table
+  - `PTRS_PER_PTE=1024`: number of frame pointer entries in a directory
 - step1: extract directory number (dir), page number(pg), and offset(off) from addr, and display them.
-- step2: print the location of directory table of the current process: x
-- step3: print the location of directory table entry for main(): y
+- step2: print the location of directory table of the current process: `x`
   - ```c
-      y= &x[dir];
+      unsigned int *x = current->mm->pgd; // virtual
+      printk("x: %x\n", x);
     ```
-- step4: print the physical location of the directory (partial page table) for main():pdir
+- step3: print the location of directory table entry for `main()`: `y`
   - ```c
-      pdir= *y & 0xfffff000; // the physical address should be at frame boundary
+      unsigned int *y= &x[dir]; // virtual
     ```
-- step5: print the virtual address of this directory: vdir
+- step4: print the physical location of the directory (partial page table) for `main()`: `pdir`
   - ```c
-      vdir = pdir + 0xc0000000; // physical to virtual mapping for kernel address
+      unsigned int pdir = *y & 0xfffff000; // the physical address should be at frame boundary
+    ```
+- step5: print the virtual address of this directory: `vdir`
+  - ```c
+      unsigned int *vdir = pdir + 0xc0000000; // physical to virtual mapping for kernel address
                                 // read about kernel address space in Section 7.4.
     ```
-- step6: print the location of the frame entry for main(): k
+- step6: print the location of the frame entry for `main()`: `k`
   - ```c
-    k = &vdir[pg];
+      // this is not working!
+      unsigned int *k = &pdir[pg]; // We can't access physical memory directly
+      // Compute vdir, corresponding virtual address for pdir, and use it to k.
+      unsigned int *k = &vdir[pg]; // virtual
     ```
-- step7: print the physical location of frame for main(): pfr
+- step7: print the physical location of frame for `main()`: `pfr`
   - ```c
-    pfr = *k & 0xfffff000; // the physical address should be at frame boundary
+      unsigned int pfr = *k & 0xfffff000; // the physical address should be at frame boundary
     ```
-- step8: print the physical address of main(): pmain
-- step9: print the virtual address for the physical address of main(): vmain
-- step10: display the first 4 bytes in vmain and compare them with the first 4 bytes of main in the original executable file(use "objdump -d program-name" to see the first 4 bytes of main in the original program). If they are same, you have the correct physical address of main.
+- step8: print the physical address of `main()`: `pmain`
+- step9: print the virtual address for the physical address of `main()`: `vmain`
+- step10: display the first 4 bytes in `vmain` and compare them with the first 4 bytes of `main` in the original executable file(use "`objdump -d program-name`" to see the first 4 bytes of main in the original program). If they are same, you have the correct physical address of `main`.
 
-### 7.3) page frame table: mem_map
+`mm/mmap.c` :<br>
+![](img/7-3-1.png)<br>
+![](img/7-3-2.png)<br>
+![](img/7-3-3.png)
+
+파일을 수정 후에 컴파일 및 재부팅한다.
+
+```bash
+$ make bzImage
+$ cp arch/x86/boot/bzImage /boot/bzImage
+$ reboot
+```
+
+바로 직전 [7-2 문제](#2-call-sys_get_phylocmain-in-this-program-which-passes-the-address-of-main)에서 만든 `hw7-2` 프로그램을 실행시켰다.
+
+```bash
+$ echo 8 > /proc/sys/kernel/printk
+$ ./hw7-2
+```
+
+![](img/r7-3.png)
+
+```bash
+$ objdump -d ./hw7-2
+```
+
+![](img/s10-6.png)
+
+`main`의 첫 주소와 `objdump`로 출력한 주소 값이 **0x80483f4**로 같은 것을 확인할 수 있다.
+
+### 7.3) page frame table: `mem_map`
 
 ```c
 struct page * mem_map; // array of struct page
