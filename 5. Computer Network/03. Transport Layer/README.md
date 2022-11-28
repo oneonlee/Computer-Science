@@ -240,48 +240,43 @@ each line's length is 32 bits
 
 ##### Default Header = 20 bytes
 
-- (1-1) source port # (16 bits)
-- (1-2) dest port # (16 bits)
-- (2) sequence number (32 bits)
-  - TCP Connection을 맺고 나서, 몇 번째 byte의 메세지에 대한 데이터인지 나타내는 순서
-- (3) acknowledgement number (32 bits)
-  - e.g., 만약 ACK=200이라면?
-    - 199까지 잘 받았고, 200을 기대중이다.
-- (4-1) header length (5 bits)
-- (4-2) not used (5 bits)
-- (4-3) FLAG FIELD : U, A, P, R, S, F (6 bits)
-  - (4-3-1) URG (1 bit)
-    - urgent data (일반적으로 잘 사용되지 않음)
-    - 긴급하게 Application에 전달할 데이터의 존재 유무
-  - (4-3-2) ACK (1 bit)
-    - ACK # valid
-    - 0이면 ACK number가 의미 없다.
-    - 1이면 ACK number가 의미 있다.
-  - (4-3-3) PSH (1 bit)
-    - push data now (일반적으로 잘 사용되지 않음)
-  - (4-3-4) RST (1 bit)
-    - reset
-  - (4-3-5) SYN (1 bit)
-    - 1이면 초기 연결 설정용 패킷이라는 뜻
-      - 데이터를 포함하지 않는다.
-    - 데이터가 정상적으로 송수신 될 때는 SYN=0 일 것이다.
-  - (4-3-6) FIN (1 bit)
-    - 1이면 연결을 종료할 때 사용
-    - 데이터가 정상적으로 송수신 될 때는 FIN=0 일 것이다.
-- (4-4) receive window (16 bits)
-  - \# bytes receiver willing to accept
-    - for flow control
-- (5-1) checksum (16 bits)
-- (5-2) Urg data pointer (16 bits)
-  - 데이터에서 Urg data의 위치
+- (1-1) IP protocol version number
+- (1-2) header length (bytes)
+  - 20 bytes + @
+- (1-3) "type" of data
+  - "type" : 빠른 길 or 느리지만 싼 길
+  - 실제 router가 고려하지는 않음
+- (1-4) total datagram length (bytes)
+- (2-1) 16-bit identifier
+  - for fragmentation/reassembly
+- (2-2) flags
+  - D (Done fragmentation)
+    - 0이면 fragmentation을 수행
+    - 1이면 fragmentation을 수행 x
+  - M (More flag)
+    - 0이면 내가 마지막이다.
+    - 1이면 내가 마지막이 아니다.
+  - for fragmentation/reassembly
+- (2-3) fragmentation offset
+  - 원래 데이터에서 어느 위치에 있었는지를 나타낸다.
+  - for fragmentation/reassembly
+- (3-1) time to live
+  - max number remaining hops (decremented at each router)
+- (3-2) upper layer
+  - upper layer protocol to deliver payload to
+- (3-3) header checksum
+  - IPv4에서는 모든 패킷에 대해 checksum을 계산해주어야 한다. (시간이 느려짐)
+  - 왜냐하며느 라우터를 거칠때마다 TTL이 변경되기 때문이다.
+- (4) 32 bit source IP address
+- (5) 32 bit destination IP address
 
 ##### Option Header
 
-- (6) options (variable length)
+- (6) options (if any)
 
 #### Data
 
-- application data (variable length)
+- data (variable length, typically a TCP or UDP segment)
 
 ---
 
