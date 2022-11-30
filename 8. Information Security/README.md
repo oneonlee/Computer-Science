@@ -11,3 +11,5 @@
 - [08. Public Key](./08.%20Public%20Key/)
 - [09. SSL](./09.%20SSL/)
 - [10. Heartbeat and Heartbleed](./10.%20Heartbeat%20and%20Heartbleed/)
+- [11. PE format](./11.%20PE%20format/)
+- [12. Malware](./12.%20Malware/)
