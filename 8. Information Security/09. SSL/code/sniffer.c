@@ -265,6 +265,7 @@ int main()
         // print_ip_header(pkt_data);
         // print_tcp_header(pkt_data);
         print_data(pkt_data, header->caplen);
+        printf("==================================\n\n");
     }
     return 0;
 }
