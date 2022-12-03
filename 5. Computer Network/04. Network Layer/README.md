@@ -44,7 +44,7 @@ each line's length is 32 bits
   - D (Done fragmentation)
     - 0이면 fragmentation을 수행
     - 1이면 fragmentation을 수행 x
-  - M (More flag)
+  - M (More flag = fragflag)
     - 0이면 내가 마지막이다.
     - 1이면 내가 마지막이 아니다.
   - for fragmentation/reassembly
