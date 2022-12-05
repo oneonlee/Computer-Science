@@ -7,4 +7,4 @@ Refer to **Computer Networking: A Top Down Approach** 6th edition - Jim Kurose, 
 - [03. Transport Layer](./03.%20Transport%20Layer/README.md)
 - [04. Network Layer](./04.%20Network%20Layer/README.md)
 - [05. Link Layer](./05.%20Link%20Layer/README.md)
-<!-- - [06. Wireless and Mobile Networks] -->
+- [06. Wireless and Mobile Networks](./06.%20Wireless%20and%20Mobile%20Networks/README.md)
