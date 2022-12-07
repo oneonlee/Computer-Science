@@ -47,7 +47,7 @@ int main()
    X509 *server_cert;
    char *str;
    char buf[4096];
-   const SSL_METHOD *meth;
+   SSL_METHOD *meth;
 
    SSLeay_add_ssl_algorithms();
    meth = TLSv1_client_method();
@@ -78,7 +78,7 @@ int main()
    ssl = SSL_new(ctx);
    CHK_NULL(ssl);
    SSL_set_fd(ssl, sd);
-   printf("Start SSL Protocol in client\n");
+   printf("cli.cpp : Start SSL Protocol in client\n");
    err = SSL_connect(ssl);
    CHK_SSL(err);
 

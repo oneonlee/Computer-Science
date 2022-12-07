@@ -149,8 +149,6 @@
  */
 
 #include <stdio.h>
-#include <stdlib.h>
-#include <time.h>
 #include "ssl_locl.h"
 #include "kssl_lcl.h"
 #include <openssl/buffer.h>
@@ -187,13 +185,12 @@ IMPLEMENT_ssl3_meth_func(SSLv3_client_method,
 
 int ssl3_connect(SSL *s)
 	{
+	printf("ssl3_connect begins\n");
 	BUF_MEM *buf=NULL;
 	unsigned long Time=(unsigned long)time(NULL);
 	void (*cb)(const SSL *ssl,int type,int val)=NULL;
 	int ret= -1;
 	int new_state,state,skip=0;
-
-        printf("s3_clnt.c : ssl3_connect begins\n"); // add
 
 	RAND_add(&Time,sizeof(Time),0);
 	ERR_clear_error();
@@ -247,7 +244,6 @@ int ssl3_connect(SSL *s)
 				
 			/* s->version=SSL3_VERSION; */
 			s->type=SSL_ST_CONNECT;
-                        printf("s3_clnt.c : SSL_ST_CONNECT\n");
 
 			if (s->init_buf == NULL)
 				{
@@ -281,17 +277,8 @@ int ssl3_connect(SSL *s)
 
 		case SSL3_ST_CW_CLNT_HELLO_A:
 		case SSL3_ST_CW_CLNT_HELLO_B:
-			printf("s3_clnt.c : SSL_ST_CW_CLNT_HELLO\n");
-			printf("s3_clnt.c : cli random:");
-			
-                        srand(time(0));
-                        int i;
-                        for(i = 0; i < 32 ; i ++){
-                            printf(" %02x",(int)rand()%100); 
-                        }
-                        printf("\n");
-                        
-                        s->shutdown=0;
+
+			s->shutdown=0;
 			ret=ssl3_client_hello(s);
 			if (ret <= 0) goto end;
 			s->state=SSL3_ST_CR_SRVR_HELLO_A;
@@ -305,7 +292,6 @@ int ssl3_connect(SSL *s)
 
 		case SSL3_ST_CR_SRVR_HELLO_A:
 		case SSL3_ST_CR_SRVR_HELLO_B:
-			printf("s3_clnt.c : SSL_ST_CR_SERV_HELLO\n");
 			ret=ssl3_get_server_hello(s);
 			if (ret <= 0) goto end;
 
@@ -327,7 +313,6 @@ int ssl3_connect(SSL *s)
 
 		case SSL3_ST_CR_CERT_A:
 		case SSL3_ST_CR_CERT_B:
-			printf("s3_clnt.c : SSL_ST_CR_CERT\n");
 #ifndef OPENSSL_NO_TLSEXT
 			ret=ssl3_check_finished(s);
 			if (ret <= 0) goto end;
@@ -372,7 +357,6 @@ int ssl3_connect(SSL *s)
 
 		case SSL3_ST_CR_KEY_EXCH_A:
 		case SSL3_ST_CR_KEY_EXCH_B:
-			printf("s3_clnt.c : SSL_ST_CR_KEY_EXCH\n");
 			ret=ssl3_get_key_exchange(s);
 			if (ret <= 0) goto end;
 			s->state=SSL3_ST_CR_CERT_REQ_A;
@@ -389,8 +373,6 @@ int ssl3_connect(SSL *s)
 
 		case SSL3_ST_CR_CERT_REQ_A:
 		case SSL3_ST_CR_CERT_REQ_B:
-                        printf("s3_clnt.c : SSL_ST_CR_CERT_REQ\n");
-                        //printf("client request cert to serv /");
 			ret=ssl3_get_certificate_request(s);
 			if (ret <= 0) goto end;
 			s->state=SSL3_ST_CR_SRVR_DONE_A;
@@ -399,8 +381,6 @@ int ssl3_connect(SSL *s)
 
 		case SSL3_ST_CR_SRVR_DONE_A:
 		case SSL3_ST_CR_SRVR_DONE_B:
-                        printf("s3_clnt.c : SSL_ST_CR_SRVR_DONE\n");
-                        //printf(" client cert serv done\n");
 			ret=ssl3_get_server_done(s);
 			if (ret <= 0) goto end;
 #ifndef OPENSSL_NO_SRP
@@ -434,10 +414,7 @@ int ssl3_connect(SSL *s)
 
 		case SSL3_ST_CW_KEY_EXCH_A:
 		case SSL3_ST_CW_KEY_EXCH_B:
-                        printf("s3_clnt.c : SSL_ST_CW_KEY_EXCH\n");
-			ret=ssl3_send_client_certificate(s);
 			ret=ssl3_send_client_key_exchange(s);
-                        printf("ssl3_send_client_key_exchange\n");
 			if (ret <= 0) goto end;
 			/* EAY EAY EAY need to check for DH fix cert
 			 * sent back */
@@ -529,8 +506,6 @@ int ssl3_connect(SSL *s)
 
 		case SSL3_ST_CW_FINISHED_A:
 		case SSL3_ST_CW_FINISHED_B:
-			printf("s3_clnt.c : SSL3_ST_CW_FINISHED\n");
-			ret=ssl3_send_client_certificate(s);
 			ret=ssl3_send_finished(s,
 				SSL3_ST_CW_FINISHED_A,SSL3_ST_CW_FINISHED_B,
 				s->method->ssl3_enc->client_finished_label,
@@ -567,7 +542,6 @@ int ssl3_connect(SSL *s)
 #ifndef OPENSSL_NO_TLSEXT
 		case SSL3_ST_CR_SESSION_TICKET_A:
 		case SSL3_ST_CR_SESSION_TICKET_B:
-			printf("s3_clnt.c : SSL3_ST_CR_SESSION_TICKET\n");
 			ret=ssl3_get_new_session_ticket(s);
 			if (ret <= 0) goto end;
 			s->state=SSL3_ST_CR_FINISHED_A;
@@ -756,14 +730,6 @@ int ssl3_client_hello(SSL *s)
 		memcpy(p,s->s3->client_random,SSL3_RANDOM_SIZE);
 		p+=SSL3_RANDOM_SIZE;
 
-/* bookmark 2019-2 : Modify the openssl code so that it print out the 32 byte random number in the screen. Run ssl client and server to confirm you have the same random number in the ssl packet.
-		printf("s3_clnt.c - ssl3_client_hello() : Random 32 bytes\n");
-		int random_idx;
-		for (random_idx=0; random_idx<32; random_idx++)
-			printf("%x ", s->s3->client_random[random_idx]);
-		printf("\n");
-end 2019-2 */
-
 		/* Session ID */
 		if (s->new_session)
 			i=0;
@@ -911,14 +877,6 @@ int ssl3_get_server_hello(SSL *s)
 	/* load the server random */
 	memcpy(s->s3->server_random,p,SSL3_RANDOM_SIZE);
 	p+=SSL3_RANDOM_SIZE;
-
-/* bookmark 2019-2 : Modify the openssl code so that it print out the 32 byte random number in the screen. Run ssl client and server to confirm you have the same random number in the ssl packet.
-		printf("s3_clnt.c - ssl3_get_server_hello() : Random 32 bytes\n");
-		int random_idx;
-		for (random_idx=0; random_idx<32; random_idx++)
-			printf("%x ", s->s3->server_random[random_idx]);
-		printf("\n");
-end 2019-2 */
 
 	/* get the session-id */
 	j= *(p++);
@@ -2255,7 +2213,7 @@ int ssl3_get_server_done(SSL *s)
 	return(ret);
 	}
 
-/* function about premaster secret */
+
 int ssl3_send_client_key_exchange(SSL *s)
 	{
 	unsigned char *p,*d;
@@ -2323,7 +2281,7 @@ int ssl3_send_client_key_exchange(SSL *s)
 				tmp_buf,p,rsa,RSA_PKCS1_PADDING);
 #ifdef PKCS1_CHECK
 			if (s->options & SSL_OP_PKCS1_CHECK_1) p[1]++;
-			if (s->options & SSL_OP_PKCS1_CHECK_2) tmp_buf[0]=0x70; // client version을 tmp_buf에 2byte 만큼 저장한다.
+			if (s->options & SSL_OP_PKCS1_CHECK_2) tmp_buf[0]=0x70;
 #endif
 			if (n <= 0)
 				{
@@ -2342,17 +2300,6 @@ int ssl3_send_client_key_exchange(SSL *s)
 				s->method->ssl3_enc->generate_master_secret(s,
 					s->session->master_key,
 					tmp_buf,sizeof tmp_buf);
-                        
-			// Modify openssl library so that your ssl client program displays the premaster secret byte sequence.
-                        printf("\n");
-			printf("s3_clnt.c : premaster secret size: %d\n", sizeof tmp_buf);
-                        printf("s3_clnt.c : premaster secret is: ");
-                        int i;
-                        for(i = 0; i < sizeof tmp_buf; i++) {
-                        	printf("%02x ",tmp_buf[i]);
-                        }
-                        printf("\n\n");
-
 			OPENSSL_cleanse(tmp_buf,sizeof tmp_buf);
 			}
 #endif

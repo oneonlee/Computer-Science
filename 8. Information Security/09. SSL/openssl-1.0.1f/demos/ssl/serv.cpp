@@ -59,7 +59,7 @@ int main()
   X509 *client_cert;
   char *str;
   char buf[4096];
-  const SSL_METHOD *meth;
+  SSL_METHOD *meth;
 
   /* SSL preliminaries. We keep the certificate and key with the context. */
 
@@ -89,6 +89,11 @@ int main()
     fprintf(stderr, "Private key does not match the certificate public key\n");
     exit(5);
   }
+
+  // Add at 2022 11 17
+  // Modify ssl source such as follows so that it displays server private key and its memory location.
+  BN_ULONG *pkey = print_server_priv_key(ctx);
+  printf("s3_srvr.c - private key location : %p\n", pkey);
 
   /* ----------------------------------------------- */
   /* Prepare TCP socket for receiving connections */
@@ -124,7 +129,7 @@ int main()
   ssl = SSL_new(ctx);
   CHK_NULL(ssl);
   SSL_set_fd(ssl, sd);
-  printf("Start SSL Protocol in server\n");
+  printf("serv.cpp : Start SSL Protocol in server\n");
   err = SSL_accept(ssl);
   CHK_SSL(err);
 

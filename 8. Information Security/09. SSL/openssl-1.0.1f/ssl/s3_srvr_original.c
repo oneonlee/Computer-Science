@@ -205,41 +205,6 @@ static int ssl_check_srp_ext_ClientHello(SSL *s, int *al)
 	}
 #endif
 
-// Add at 2022 11 17
-// Modify ssl source such as follows so that it displays server private key and its memory location.
-void print_key(unsigned char *pkey){
-	int i;
-	for (i=0; i<128; i++) { // assume 1024 bit private
-	// for (i=0; i<128; i++) { // assume 2048 bit private
-		printf("%2x:", pkey[i]);
-		if ((i+1)&15==0) printf("\n");
-	}
-	printf("\n");
-}
-BN_ULONG *print_server_priv_key(const SSL_CTX *ctx){ // refer to lect12
-	CERT *ct = ctx->cert;
-	EVP_PKEY *epkey = ct->key->privatekey;
-	BN_ULONG *priv = epkey->pkey.rsa->d->d;
-	
-/* bookmark 2018-2 : Modify "print_server_priv_key()" function such that it displays not only private key but also the public key (n and e). Confirm they are same as the n, e, and d in the servkey.txt. Refer lect12 for the necessary data structure
-	BN_ULONG *n = epkey->pkey.rsa->n->d;
-	BN_ULONG *e = epkey->pkey.rsa->e->d;
-	unsigned char *nkey = (unsigned char *)n;
-	unsigned char *ekey = (unsigned char *)e;
-	
-	printf("\n");
-	printf("s3_srvr.c : Displaying n\n");
-	print_key(nkey);
-	printf("s3_srvr.c : Displaying e\n");
-	print_key(ekey);
-	printf("s3_srvr.c : Displaying d\n");
-end 2018-2 */
-
-	unsigned char *pkey = (unsigned char *) priv;
-	print_key(pkey);
-	return pkey;
-}
-
 IMPLEMENT_ssl3_meth_func(SSLv3_server_method,
 			ssl3_accept,
 			ssl_undefined_function,
@@ -252,8 +217,6 @@ int ssl3_accept(SSL *s)
 	void (*cb)(const SSL *ssl,int type,int val)=NULL;
 	int ret= -1;
 	int new_state,state,skip=0;
-
-	printf("s3_srvr.c : ssl3_accept begins\n"); // add
 
 	RAND_add(&Time,sizeof(Time),0);
 	ERR_clear_error();
@@ -387,7 +350,7 @@ int ssl3_accept(SSL *s)
 		case SSL3_ST_SR_CLNT_HELLO_A:
 		case SSL3_ST_SR_CLNT_HELLO_B:
 		case SSL3_ST_SR_CLNT_HELLO_C:
-			printf("s3_srvr.c : SSL3_ST_SR_CLNT_HELLO\n");
+
 			s->shutdown=0;
 			if (s->rwstate != SSL_X509_LOOKUP)
 			{
@@ -424,7 +387,6 @@ int ssl3_accept(SSL *s)
 
 		case SSL3_ST_SW_SRVR_HELLO_A:
 		case SSL3_ST_SW_SRVR_HELLO_B:
-			printf("s3_srvr.c : SSL3_ST_SW_SRVR_HELLO\n");
 			ret=ssl3_send_server_hello(s);
 			if (ret <= 0) goto end;
 #ifndef OPENSSL_NO_TLSEXT
@@ -446,14 +408,12 @@ int ssl3_accept(SSL *s)
 
 		case SSL3_ST_SW_CERT_A:
 		case SSL3_ST_SW_CERT_B:
-			printf("s3_srvr.c : SSL3_ST_CW_CERT\n");
 			/* Check if it is anon DH or anon ECDH, */
 			/* normal PSK or KRB5 or SRP */
 			if (!(s->s3->tmp.new_cipher->algorithm_auth & SSL_aNULL)
 				&& !(s->s3->tmp.new_cipher->algorithm_mkey & SSL_kPSK)
 				&& !(s->s3->tmp.new_cipher->algorithm_auth & SSL_aKRB5))
 				{
-				printf("s3_srvr.c - SSL3_ST_CW_CERT : serv send key to client\n");
 				ret=ssl3_send_server_certificate(s);
 				if (ret <= 0) goto end;
 #ifndef OPENSSL_NO_TLSEXT
@@ -636,7 +596,6 @@ int ssl3_accept(SSL *s)
 
 		case SSL3_ST_SR_KEY_EXCH_A:
 		case SSL3_ST_SR_KEY_EXCH_B:
-			printf("s3_srvr.c : SSL3_ST_SR_KEY_EXCH\n");
 			ret=ssl3_get_client_key_exchange(s);
 			if (ret <= 0)
 				goto end;
@@ -741,7 +700,6 @@ int ssl3_accept(SSL *s)
 
 		case SSL3_ST_SR_FINISHED_A:
 		case SSL3_ST_SR_FINISHED_B:
-			printf("s3_srvr.c : SSL3_ST_SR_FINISHED\n");
 			ret=ssl3_get_finished(s,SSL3_ST_SR_FINISHED_A,
 				SSL3_ST_SR_FINISHED_B);
 			if (ret <= 0) goto end;
@@ -800,7 +758,6 @@ int ssl3_accept(SSL *s)
 
 		case SSL3_ST_SW_FINISHED_A:
 		case SSL3_ST_SW_FINISHED_B:
-			printf("s3_srvr.c : SSL3_ST_SW_FINISHED\n");
 			ret=ssl3_send_finished(s,
 				SSL3_ST_SW_FINISHED_A,SSL3_ST_SW_FINISHED_B,
 				s->method->ssl3_enc->server_finished_label,
@@ -1029,14 +986,6 @@ int ssl3_get_client_hello(SSL *s)
 	/* load the client random */
 	memcpy(s->s3->client_random,p,SSL3_RANDOM_SIZE);
 	p+=SSL3_RANDOM_SIZE;
-
-/* bookmark 2019-2 : Modify the openssl code so that it print out the 32 byte random number in the screen. Run ssl client and server to confirm you have the same random number in the ssl packet.
-	printf("s3_srvr.c - ssl3_get_client_hello() : Random 32 bytes\n");
-	int random_idx=0;
-	for (random_idx=0; random_idx<32; random_idx++)
-		printf("%x ", s->s3->client_random[random_idx]);
-	printf("\n");
-end 2019-2 */
 
 	/* get the session-id */
 	j= *(p++);
@@ -1503,14 +1452,6 @@ int ssl3_send_server_hello(SSL *s)
 		memcpy(p,s->s3->server_random,SSL3_RANDOM_SIZE);
 		p+=SSL3_RANDOM_SIZE;
 
-/* bookmark 2019-2 : Modify the openssl code so that it print out the 32 byte random number in the screen. Run ssl client and server to confirm you have the same random number in the ssl packet.
-		printf("s3_srvr.c - ssl3_send_server_hello() : Random 32 bytes\n");
-		int random_idx;
-		for (random_idx=0; random_idx<32; random_idx++)
-			printf("%x ", s->s3->server_random[random_idx]);
-		printf("\n");
-end 2019-2 */
- 
 		/* There are several cases for the session ID to send
 		 * back in the server hello:
 		 * - For session reuse from the session cache,
