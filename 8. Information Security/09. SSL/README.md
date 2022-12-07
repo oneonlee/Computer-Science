@@ -182,6 +182,7 @@ $ openssl req -config servconf.txt -new -x509 -key servkey.pem -out servcert.pem
     - `#define KEYF HOME "servkey.pem"`
   - change the return data type of `main()` to `int`
   - change `size_t client_len` to `socklen_t client_len`
+  - `/ Ï`
 - `cli.cpp`:
   - change the server port number and IP address
     - server port number : 임의의 숫자인 12500으로 지정함
@@ -348,8 +349,6 @@ Message type HB request, HB response
 ![](img/3.png)
 
 ### 4) `serv.cpp` calls `SSL_accept()` which in turn calls `ssl3_accept()` (defined in `openssl-1.0.1f/ssl/s3_srvr.c`). Add `printf("ssl3_accept begins\n");` in the beginning of `ssl3_accept()`. Recompile and re-install ssl library. Recompile `cli.cpp` and `serv.cpp` and see if the server displays the above message.
-
-g++ -L/home/sec11/12181879/openssl/lib -I/home/sec11/12181879/openssl/include -fpermissive -o serv serv.cpp -lssl -lcrypto -ldl & g++ -L/home/sec11/12181879/openssl/lib -I/home/sec11/12181879/openssl/include -fpermissive -o cli cli.cpp -lssl -lcrypto -ldl
 
 ### 5) Modify `ssl3_connect()`, `ssl3_accept()` such that they print some message at each ssl protocol stage. Recompile ssl libraries, `cli`, `serv`, and rerun. Match the state changes in the client and the server with the state changes explained in [Section 1](#1-sslsecure-socket-layer).
 
