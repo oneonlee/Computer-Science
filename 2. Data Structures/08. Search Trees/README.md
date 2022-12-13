@@ -1,11 +1,9 @@
 # Search Trees
 
-## Contents
-
-1. Binary Search Trees
-2. AVL Trees
-3. Splay Trees
-4. (2,4) Trees
+- [1. Binary Search Trees](#1-binary-search-trees)
+- [2. AVL Trees](#2-avl-trees)
+- [3. Splay Trees](#3-splay-trees)
+- [4. (2,4) Trees](#4-24-trees)
 
 ## 1. Binary Search Trees
 
@@ -57,7 +55,7 @@ Algorithm TreeSearch(k, u)
 
 ### Insertion
 
-참고 : https://new93helloworld.tistory.com/115?category=691027
+참고 : [티스토리 DEV_NUNU - 이진 검색 트리 2](https://new93helloworld.tistory.com/115?category=691027)
 
 Step 1) Find `k`<br>
 Step 2) Insert `k`
@@ -97,7 +95,7 @@ protected:
 
 ### Removal
 
-참고 : https://new93helloworld.tistory.com/116?category=691027
+참고 : [티스토리 DEV_NUNU - 이진 검색 트리 3](https://new93helloworld.tistory.com/116?category=691027)
 
 - To perform operation `erase(k)`, we search for key `k`
 - Assume key `k` is in the tree, and let `v` be the node storing `k`

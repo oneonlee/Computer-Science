@@ -1,6 +1,12 @@
-## Deque
+- [1. Stack](./Stack.md)
+- [2. Queue](./Queue.md)
+- [3. Deque](./Deque.md)
+
+## 3. Deque
+
 - The double-Ended Queue, or Deque, ADT stores arbitrary objects
 - Main deque operations
+
   - `insertFront(object)`: Insert a new element at the beginning of the deque
   - `insertBack(object)`: Insert a new element at the end of the deque
   - `eraseFront()`: Remove the first element of the deque; an error occurs if the deque is empty
@@ -15,7 +21,9 @@
   - Attempting the execution of erase, front, or back on an empty queue throws a `DequeEmpty`
 
 ### Deque with a Doubly Linked List
+
 - DLinkedList.h
+
 ```cpp
 #include <string>
 using std::string;
@@ -125,6 +133,7 @@ void DLinkedList::removeBack() // remove from back
 ```
 
 - Deque_exception.h
+
 ```cpp
 #include <string>
 using std::string;
@@ -150,6 +159,7 @@ public:
 ```
 
 - Deque_with_a_Doubly_Linked_List.cpp
+
 ```cpp
 #include <string>
 #include "DLinkedList.h"

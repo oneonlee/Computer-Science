@@ -2,12 +2,14 @@
 
 An abstract model of a hierarchical structure
 
-## Contents
-
-1. Tree
-2. Binary Tree
-3. Traversal
-4. Arithmetic Expression Tree
+- [1. Tree](#1-tree)
+- [2. Binary Tree](#2-binary-trees)
+- [3. Traversal](#3-traversal)
+  - [(1) Preorder Traversal](#1-preorder-traversal)
+  - [(2) Postorder Traversal](#2-postorder-traversal)
+  - [(3) Inorder Traversal](#3-inorder-traversal)
+  - [(4) Euler Tour Traversal](#4-euler-tour-traversal)
+- [4. Arithmetic Expression Tree](#4-arithmetic-expression-tree)
 
 ## 1. Tree
 
@@ -18,7 +20,7 @@ An abstract model of a hierarchical structure
 | Terminology           | Explain                                                              | Example                   |
 | --------------------- | -------------------------------------------------------------------- | ------------------------- |
 | Root                  | node without parent                                                  | A                         |
-| Child                 | if node u is the parent of node v, v is a child of u                 | except A                         |
+| Child                 | if node u is the parent of node v, v is a child of u                 | except A                  |
 | Internal node         | node with at least one child                                         | A, B, C, F                |
 | External node (=Leaf) | node without children                                                | E, I, J, K, G, H, D       |
 | Ancestors of a node   | parent, grandparent, great-grandparent, etc.                         |                           |
@@ -31,7 +33,6 @@ An abstract model of a hierarchical structure
 | Edge                  | a pair of node (u, v) such that u is a parent of v((C, H))           |                           |
 | Path                  | A sequence of nodes such that any two consecutive nodes form an edge | A, B, F, J                |
 | Ordered tree          | a tree with a linear ordering defined for the children of each node  |                           |
-
 
 ### Tree ADT
 
@@ -166,7 +167,7 @@ Algorithm height(T, p)
 
 ### Vector-Based Structure of Binary Trees
 
-<img width="196" alt="스크린샷 2021-12-12 오후 8 18 19" src="https://user-images.githubusercontent.com/73745836/145710167-d3882581-1e74-48ae-af8a-fab2a352e627.png">
+<img width="196" src="https://user-images.githubusercontent.com/73745836/145710167-d3882581-1e74-48ae-af8a-fab2a352e627.png">
 
 - Level numbering of nodes in a binary tree `T`
   - If `v` is the root of `T`, then `f(v)=1`
@@ -201,7 +202,7 @@ Algorithm height(T, p)
 - A traversal visits the nodes of a tree in a systematic manner
 - search 랑은 다르다. (모든 node들을 찾아가는 규칙)
 
-### 1) Preorder Traversal
+### (1) Preorder Traversal
 
 <img width="677" alt="스크린샷 2021-12-12 오후 8 55 54" src="https://user-images.githubusercontent.com/73745836/145711152-30764330-cec9-4e33-9c85-a3e8cfcecf66.png">
 
@@ -227,7 +228,7 @@ A B E F I J K C G H D
 </div>
 </details>
 
-### 2) Postorder Traversal
+### (2) Postorder Traversal
 
 <img width="754" alt="스크린샷 2021-12-12 오후 8 57 09" src="https://user-images.githubusercontent.com/73745836/145711193-0dc68ac2-e28d-4ec2-bd81-1633df5aea22.png">
 
@@ -257,7 +258,7 @@ E, I, J, K, F, B, G, H, C, D, A
 </div>
 </details>
 
-### 3) Inorder Traversal
+### (3) Inorder Traversal
 
 - In an inorder traversal, a node is visited after its left subtree and before its right subtree
 - Application: draw a binary tree
@@ -289,7 +290,7 @@ D, B, H, E, I, A, F, C, G
 </div>
 </details>
 
-### 4) Euler Tour Traversal
+### (4) Euler Tour Traversal
 
 - Generic traversal of a binary tree
 - Includes as special cases the preorder, postorder and inorder traversals

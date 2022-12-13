@@ -1,16 +1,22 @@
-## Stack
+- [1. Stack](./Stack.md)
+- [2. Queue](./Queue.md)
+- [3. Deque](./Deque.md)
+
+## 1. Stack
+
 - The Stack ADT stores arbitrary objects.
 - Insertions and deletions follow the last-in first-out(LIFO) scheme.
 - Main stack operations:
   - `push(object)`: inserts an element
   - object `pop()`: removes the last inserted element
 - Auxiliary stack operations:
-  - object `top()`: returns the last inserted element without removing it 
+  - object `top()`: returns the last inserted element without removing it
   - integer `size()`: returns the number of element sstored
   - boolean `empty()`: indicates whether no elements are stored
 
 ### STL Stack
-스택 객체를 선언하기 위해서는 "stack"이라고 불리는 정의 파일을 먼저 포함해야 한다. STL 벡터 클래스와 마찬가지로 스택 클래스도 std 네임스페이스에 포함되기 때문에 ```std::stack```으로 사용하던지 `using`문을 사용해야 한다. 예를 들어, 다음 프로그램은 정수의 스택을 선언한다.
+
+스택 객체를 선언하기 위해서는 "stack"이라고 불리는 정의 파일을 먼저 포함해야 한다. STL 벡터 클래스와 마찬가지로 스택 클래스도 std 네임스페이스에 포함되기 때문에 `std::stack`으로 사용하던지 `using`문을 사용해야 한다. 예를 들어, 다음 프로그램은 정수의 스택을 선언한다.
 
 ```cpp
 #include <stack>
@@ -25,11 +31,12 @@ stack<int> myStack; // 정수의 스택
   - `pop()`: 스택의 최상위에 있는 객체를 스택에서 제거한다.
   - `top()`: 스택의 최상위 원소의 레퍼런스를 반환한다.
 
-스택 연산의 우리 정의와 STL 구현의 중요한 차이가 있다. STL 구현에는 중요한 차이가 있자. STL 구현에는 빈 스택에 대한 `top` 또는 `pop` 연산의 결과가 정의되어 있지 않다. 
+스택 연산의 우리 정의와 STL 구현의 중요한 차이가 있다. STL 구현에는 중요한 차이가 있자. STL 구현에는 빈 스택에 대한 `top` 또는 `pop` 연산의 결과가 정의되어 있지 않다.
 즉, 오류(exception)가 발생되지 않는다. 오류가 발생되지 않더라도, 당신의 프로그램이 중단될 가능성이 높다. 따라서 프로그래머가 그러한 불법적인 접근을 하지 않는 것이 필요하다.
 
 ### Stack Interface in C++
-- C++ interface corresponding to our StackADT 
+
+- C++ interface corresponding to our StackADT
 - Uses an exception class `StackEmpty`
 - Different from the built-in C++ STL class stack
 
@@ -49,6 +56,7 @@ public:
 ```
 
 ### Array-based Stack in C++
+
 ```cpp
 #include <iostream>
 #include <string>
@@ -173,7 +181,9 @@ int main()
 ```
 
 ### Stack with a Singly-linked List
+
 SinglyLinkedList.h
+
 ```cpp
 #include <string>
 using std::string;
@@ -243,6 +253,7 @@ void SLinkedList<E>::removeFront()
 ```
 
 Stack_with_a_Singly-linked_List.cpp
+
 ```cpp
 #include <iostream>
 #include <string>
@@ -277,16 +288,20 @@ public:
 ```
 
 ### Applications of Stacks
+
 #### Parentheses Matching Algorithm
+
 괄호검사
-스택을 사용하여 수식의 괄호 사용이 올바른지 확인할 수 있다. 괄호에는 세 종류가 있다 '()', '{}', '[]' 여는 괄호를 왼쪽, 닫는 괄호를 오른쪽이라 표현하겠다. 
+스택을 사용하여 수식의 괄호 사용이 올바른지 확인할 수 있다. 괄호에는 세 종류가 있다 '()', '{}', '[]' 여는 괄호를 왼쪽, 닫는 괄호를 오른쪽이라 표현하겠다.
 
 - 올바른 괄호의 사용은 다음과 같은 조건을 가진다:
+
   - 조건 1: 왼쪽과 오른쪽의 개수가 같아야한다
   - 조건 2: 같은 괄호일 때 왼쪽이 오른쪽보다 먼저 나와야 한다
   - 조건 3: 서로 다른 괄호쌍이 서로를 교차하면 안된다.
 
 - 알고리즘:
+
   - 문자열을 차례대로 조사하다가 왼쪽 발견시 스택에 push.
   - 오른쪽 발견시 pop으로 top에 있는 괄호 제거
   - 스택 비어있을 시 false 반환 (조건 2)
@@ -294,12 +309,13 @@ public:
   - 문자열 조사가 끝났음에도 스택에 괄호가 있을시 false 반환 (조건 1)
 
 - 다음은 위 알고리즘의 구현이다:
+
 ```cpp
 bool ParenMatch(char X[])
 {
 	int i = 0; prev;
     char ch;
-    
+
     while(X[i] != '\0')
     {
     	ch = X[i++];;
@@ -316,7 +332,7 @@ bool ParenMatch(char X[])
         }
     }
     if (empty()) return false;
-    
+
     return true;
 }
 ```

@@ -1,17 +1,23 @@
-### Queue
+- [1. Stack](./Stack.md)
+- [2. Queue](./Queue.md)
+- [3. Deque](./Deque.md)
+
+## 2. Queue
+
 - The Queue ADT stores arbitrary objects
 - Insertions and deletions follow the first-in first-out scheme
 - Main queue operations:
   - `enqueue(object)`: inserts an element at the end of the queue
   - `dequeue()`: removes the element at the front of the queue
 - Auxiliary queue operations:
-  - object `front()`: returns the element at the front without removing it 
+  - object `front()`: returns the element at the front without removing it
   - integer `size()`: returns the number of elements stored
   - boolean `empty()`: indicates whether no elements are stored
 - Exceptions
   - Attempting the execution of dequeue or front on an empty queue throws an `QueueEmpty`
 
-#### Applications of Queues
+### Applications of Queues
+
 - Direct applications
   - Waiting lists, bureaucracy
   - Access to shared resources (e.g.,printer)

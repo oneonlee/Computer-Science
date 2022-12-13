@@ -1,19 +1,23 @@
-# 01. Fundamental Data Structures
+# Fundamental Data Structures
 
-[Arrays](#arrays) and [Linked Lists](#linked-lists)
+- [1. Arrays](#1-arrays)
+- [2. Linked Lists](#2-linked-lists)
+  - [(1) Singly Linked List](#1-singly-linked-list)
+  - [(2) Doubly Linked List](#2-doubly-linked-list)
+  - [(3) Circularly Linked List](#3-circularly-linked-list)
 
-## Arrays
+## 1. Arrays
 
 배열은 확실하게 정해진 순서로 무언가를 저장할 때는 유용하고, 간단하게 적용될 수 있지만. 약간의 단점이 존재한다. <br>
 배열은 변화에 취약하다. 예를 들어 배열은 미리 크기 n을 정해야 하며 배열의 크기를 다시 정하는 것이 어렵다. (STL 벡터에서 이 단점은 해결된다.)<br>
 그리고 원소 추가를 위해 추가될 공간을 만들거나, 원소 제거 후에 빈 공간을 채우는 등, 원소들의 이동이 요구되기 때문에, 배열에서의 삽입과 제거에 어려움이 있다.
 
-## Linked Lists
+## 2. Linked Lists
 
 [Singly Linked List](#singly-linked-list), [Doubly Linked List](#doubly-linked-list) and [Circularly Linked List](#circularly-linked-list)
 <br>
 
-### Singly Linked List
+### (1) Singly Linked List
 
 <img width="30%" src="https://user-images.githubusercontent.com/73745836/137891671-51b87fd4-7676-49ee-a153-afbdfa54df7c.jpeg">
 
@@ -133,7 +137,7 @@ void StringLinkedList::removeFront()
 }
 ```
 
-### Doubly Linked List
+### (2) Doubly Linked List
 
 <img width="30%" src="https://user-images.githubusercontent.com/73745836/137899953-1b5a8b1a-1a6b-454c-b57e-74868e7267a9.jpeg">
 
@@ -147,7 +151,7 @@ Linked List에서 앞 방향과 반대 방향 등 양 방향으로 탐색을 가
 
 Time Complexity : O(n+1) = O(n)
 
-### Circularly Linked List
+### (3) Circularly Linked List
 
 - Rather than having a head or tail, the nodes of a circularly linked list are linked into a cycle
 - Cursor:Aplacetostartfromifweeverneedtotraverseacircularlylinkedlist

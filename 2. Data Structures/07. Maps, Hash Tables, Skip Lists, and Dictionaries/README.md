@@ -1,11 +1,9 @@
 # Maps, Hash Tables, Skip Lists, and Dictionaries
 
-## Contents
-
-1. Maps
-2. Hash Tables
-3. Skip Lists
-4. Dictionaries
+- [1. Maps](#1-maps)
+- [2. Hash Tables](#2-hash-tables)
+- [3. Skip Lists](#3-skip-lists)
+- [4. Dictionaries](#4-dictionaries)
 
 ## 1. Maps
 
@@ -217,21 +215,23 @@ Algorithm erase(k):
 <details>
 <summary>Result :</summary>
 <div markdown="1">
+
 - (Jacob,TX)→5→5
-- (Kevin,PA)→28→1 
+- (Kevin,PA)→28→1
 - (Angie,PA)→19→1
 - (Mary,NY)→15→6
 - (John,MA)→20→2
 - (Mike,WA)→33→6
-- (James,CA)→12→3 
-- (Jane,WY)→17→8 
+- (James,CA)→12→3
+- (Jane,WY)→17→8
 - (Julie,FL)→10→1
-  
-| 0 | 1           | 2          | 3           | 4 | 5           | 6          | 7 | 8          |
-|---|-------------|------------|-------------|---|-------------|------------|---|------------|
-|   | (Kevin, PA) | (John, MA) | (James, CA) |   | (Jacob, TX) | (Mary, NY) |   | (Jane, WY) |
-|   | (Angie, PA) |            |             |   |             | (Mike, WA) |   |            |
-|   | (Julie, FL) |            |             |   |             |            |   |            |
+
+| 0   | 1           | 2          | 3           | 4   | 5           | 6          | 7   | 8          |
+| --- | ----------- | ---------- | ----------- | --- | ----------- | ---------- | --- | ---------- |
+|     | (Kevin, PA) | (John, MA) | (James, CA) |     | (Jacob, TX) | (Mary, NY) |     | (Jane, WY) |
+|     | (Angie, PA) |            |             |     |             | (Mike, WA) |     |            |
+|     | (Julie, FL) |            |             |     |             |            |     |            |
+
 </div>
 </details>
 
@@ -263,6 +263,7 @@ Algorithm erase(k):
 <details>
 <summary>Result :</summary>
 <div markdown="1">
+
 - (Jacob,TX)→10→ 10
 - (Kevin,PA)→22→ 0
 - (Angie,PA)→31→ 9

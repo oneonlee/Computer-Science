@@ -2,28 +2,33 @@
 
 ## Contents
 
-1. Merge-Sort
-2. Quick-Sort
-3. Lower Bound for Sorting
+- [0. Sorting so far...](#0-sorting-so-far)
+  - [(1) PQ-sort](#1-pq-sort)
+  - [(2) Selection-sort](#2-selection-sort)
+  - [(3) Insertion-sort](#3-insertion-sort)
+  - [(4) Heap-sort](#4-heap-sort)
+- [1. Merge-Sort](#1-merge-sort)
+- [2. Quick-Sort](#2-quick-sort)
+- [Summary of Sorting Algorithms](#summary-of-sorting-algorithms-2)
 
-## Sorting so far...
+## 0. Sorting so far...
 
-### PQ-sort
+### (1) PQ-sort
 
 - Insert the elements one by one with a series of `insert(e)` operations
 - Remove the elements in sorted order with a series of `removeMin()` operations
 
-### Selection-sort
+### (2) Selection-sort
 
 - Inserting elements into a PQ (implemented with an **unsorted list**) without taking care of the order;
   - Removing an element from the PQ needs a search
 
-### Insertion-sort
+### (3) Insertion-sort
 
 - Inserting elements into a PQ (implemented with a **sorted list**) while taking care of the order;
   - Removing an element at the front
 
-### Heap-sort
+### (4) Heap-sort
 
 - Inserting elements into a PQ (implemented with a **heap**) while keeping the heap-order;
   - Removing an element at the root of the heap (a downheap maybe necessary)
@@ -255,8 +260,6 @@ Algorithm inPlaceQuickSort(S, l, r)
 
 ![ezgif com-gif-maker (2)](https://user-images.githubusercontent.com/73745836/146051888-ea8796d9-f48d-4e07-a54c-e1cd1a2368a3.gif)
 
-### Summary of Sorting Algorithms
+## Summary of Sorting Algorithms
 
 <img width="656" alt="스크린샷 2021-12-15 오전 2 44 55" src="https://user-images.githubusercontent.com/73745836/146051815-29231caa-4867-42c0-94b4-edca5af1977d.png">
-
-## 3. Lower Bound for Sorting

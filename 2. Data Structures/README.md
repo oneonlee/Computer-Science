@@ -1,26 +1,37 @@
 # Data Structures
 
 - [01. Fundamental Data Structures](./01.%20Fundamental%20Data%20Structures)
-  - Arrays 
-  - Linked Lists<br><br>
+  - Arrays
+  - Linked Lists
+    - Singly Linked List
+    - Doubly Linked List
+    - Circularly Linked List<br><br>
 - [02. Analysis of Algorithms](./02.%20Analysis%20of%20Algorithms)
   - Recursion
-  - Analysis of Algorithms<br><br>
+  - Analysis of Algorithms
+  - Big-Oh Notation
+  - Exception Handling<br><br>
 - [03. Abstract Data Types](./03.%20Abstract%20Data%20Types)
   - Stack
   - Queue
   - Deque<br><br>
 - [04. List and Iterator ADTs](./04.%20List%20and%20Iterator%20ADTs)
-  - Vectors (Array Lists)<br><br>
+  - Vectors (Array Lists)
+  - List
+  - Sequences<br><br>
 - [05. Trees](./05.%20Trees)
   - Tree
   - Binary Tree
   - Traversal
+    - Preorder Traversal
+    - Postorder Traversal
+    - Inorder Traversal
+    - Euler Tour Traversal
   - Arithmetic Expression Tree<br><br>
 - [06. Priority Queues and Heaps](./06.%20Priority%20Queues%20and%20Heaps)
   - Priority Queues (Selection Sort, Insertion Sort, Priority Queue Sort)
   - Heaps
-  - Heaps and Priority Queues (Heap Sort)<br><br>
+  - Priority Queues and Heaps (Heap Sort)<br><br>
 - [07. Maps, Hash Tables, Skip Lists, and Dictionaries](./07.%20Maps,%20Hash%20Tables,%20Skip%20Lists,%20and%20Dictionaries)
   - Maps
   - Hash Tables
@@ -32,7 +43,11 @@
   - Splay Trees
   - (2,4) Trees<br><br>
 - [09. Sorting](./09.%20Sorting)
+  - Sorting so far...
+    - PQ-sort
+    - Selection-sort
+    - Insertion-sort
+    - Heap-sort
   - Merge-Sort
   - Quick-Sort
-  - Lower Bound for Sorting
-
+  - Summary of Sorting Algorithms

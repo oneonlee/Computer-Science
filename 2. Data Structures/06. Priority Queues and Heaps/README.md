@@ -1,10 +1,12 @@
 # Priority Queues and Heaps
 
-## Contents
-
-1. Priority Queues
-2. Heaps
-3. Heaps and Priority Queues
+- [1. Priority Queues](#1-priority-queues)
+  - Selection Sort
+  - Insertion Sort
+  - Priority Queue Sort
+- [2. Heaps](#2-heaps)
+- [3. Priority Queues and Heaps](#3-priority-queues-and-heaps)
+  - Heap Sort
 
 ## 1. Priority Queues
 
@@ -15,7 +17,7 @@
 - Functions
   - `insert(e)`: inserts an element e
   - `object min()`: returns (but does not remove) an element with smallest key; error if empty - **return O**
-  - `removeMin()`: removes the element referenced by min(); error if empty - **return X**
+  - `removeMin()`: removes the element referenced by `min();` error if empty - **return X**
   - `integer size()`
   - `boolean empty()`
 - Applications: Standby flyers, auctions, stock market
@@ -236,7 +238,7 @@ Algorithm PQ-Sort(L, P)
 
 <img width="241" alt="스크린샷 2021-12-13 오후 2 15 02" src="https://user-images.githubusercontent.com/73745836/145756256-4d62bf07-03f3-40fc-84c8-b17035e43587.png">
 
-## 3. Heaps and Priority Queues
+## 3. Priority Queues and Heaps
 
 <img width="495" alt="스크린샷 2021-12-13 오후 2 16 31" src="https://user-images.githubusercontent.com/73745836/145756384-35718552-2af0-4a76-9ac0-f4b99bfb39bd.png">
 
