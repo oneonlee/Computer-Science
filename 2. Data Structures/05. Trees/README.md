@@ -267,11 +267,11 @@ E, I, J, K, F, B, G, H, C, D, A
 
 ```cpp
 Algorithm inOrder(T,p)
-  if ¬p.isExternal()
+  if not p.isExternal()
     inOrder(T,p.left())
   visit(p)
 
-  if ¬p.isExternal()
+  if not p.isExternal()
     inOrder(T,p.right())
 ```
 
@@ -303,10 +303,10 @@ D, B, H, E, I, A, F, C, G
 ```cpp
 Algorithm eulerTour(T,p)
   visit(p) on the left // preOrder
-  if ¬p.isExternal()
+  if not p.isExternal()
     eulerTour(T,p.left())
   visit(p) from below // inOrder
-  if ¬p.isExternal()
+  if not p.isExternal()
     eulerTour(T,p.right())
   visit(p) on the right // postOrder
 ```
@@ -352,13 +352,13 @@ Algorithm eulerTour(T,p)
 
 ```cpp
 Algorithm printExpression(T,p)
-  if ¬p.isExternal()
-    print(“(”)
+  if not p.isExternal()
+    print("(")
     inOrder(T,p.left())
   print(p.element())
-  if ¬p.isExternal()
+  if not p.isExternal()
     inOrder(p.right())
-    print (“)”)
+    print (")")
 ```
 
 ##### Exercise
@@ -381,14 +381,14 @@ Algorithm printExpression(T,p)
 
 ```cpp
 Algorithm printExpEuler(T,p)
-  if ¬p.isExternal()
+  if not p.isExternal()
     print(p.element())
   else
-    print(“(”)
+    print("(")
     printExpEuler(T,p.left())
     print(p.element())
     printExpEuler(T,p.right())
-    print (“)”)
+    print (")")
 ```
 
 ### Evaluate Arithmetic Expressions
@@ -402,8 +402,10 @@ Algorithm evalExpr(T,p)
   if p.isExternal()
     return p.element()
   else
-    x ← evalExpr(T,p.left())
-    y ← evalExpr(T,p.right()) à ¬ operator stored at p return x à y
+    x ← evalExpr(T, p.left())
+    y ← evalExpr(T, p.right())
+    ♢ ← operator stored at p
+    return x ♢ y
 ```
 
 #### Exercise

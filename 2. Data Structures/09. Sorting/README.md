@@ -87,7 +87,7 @@ Algorithm merge(A, B)
   Output sorted sequence of A È B
 
   S ← empty sequence
-  while ¬A.empty() ∩ ¬B.empty()
+  while (not A.empty()) and (not B.empty())
     if A.front() < B.front()
       S.addBack(A.front());
       A.eraseFront();
@@ -95,11 +95,11 @@ Algorithm merge(A, B)
       S.addBack(B.front());
       B.eraseFront();
 
-  while ¬A.empty()
+  while not A.empty()
     S.addBack(A.front());
     A.eraseFront();
 
-  while ¬B.empty()
+  while not B.empty()
     S.addBack(B.front());
     B.eraseFront();
 
@@ -164,8 +164,8 @@ Algorithm partition(S, p)
   L, E, G ← empty sequences
   x ← S.erase(p)
 
-  while ¬S.empty()
-    y ¬ S.eraseFront()
+  while not S.empty()
+    y ← S.eraseFront()
     if y < x
       L.insertBack(y)
     else if y = x

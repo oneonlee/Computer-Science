@@ -68,11 +68,11 @@
 Algorithm PQ-Sort(L, P)
   Input List L, priority queue P
   Output Sorted list L
-  while ¬L.empty()
+  while not L.empty()
     e ← L.front()
     L.eraseFront()
     P.insert(e)
-  while ¬P.empty()
+  while not P.empty()
     e ← P.min()
     P.removeMin()
     L.insertBack(e)
