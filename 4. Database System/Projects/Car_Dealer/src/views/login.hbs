@@ -1,0 +1,74 @@
+<style>
+    body {
+        height: 75vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    #header {
+        margin-bottom: 50px;
+    }
+
+    h1 {
+        justify-content: center;
+        text-align: center;
+    }
+
+    .frame {
+        border-radius: 15px;
+        box-sizing: border-box;
+        border: 1px solid #757575;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        width: 30em;
+    }
+
+    form {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+    }
+
+    #id,
+    #passwd,
+    .btn {
+        font-size: 25px;
+    }
+
+    .pwd {
+        margin-top: 15px;
+    }
+
+    .btn {
+        width: 322px;
+        margin-top: 20px;
+        margin-bottom: 20px;
+    }
+</style>
+
+<body>
+    <div class="header" style="margin-bottom: 50px;">
+        <header>
+            <h1>Vehicle Sales System</h1>
+        </header>
+    </div>
+
+    <div class="frame">
+        <h2>Welcome to the Vehicle Sales System</h2>
+
+        <form id="deparment" method="post" action='/'>
+            <div class="id">
+                <input id="id" name="id" type="text" required placeholder="ID">
+            </div>
+            <div class="pwd">
+                <input id="passwd" name='password' type="password" required placeholder="PASSWORD">
+            </div>
+            <button class='btn' type="submit">Sign in</button>
+        </form>
+    </div>
+</body>

@@ -1,0 +1,73 @@
+<h1>{{ title }}</h1>
+<ul>
+    <li><strong><a href="/logout">Logout</a></strong></li>
+</ul>
+<hr style="border: solid 3px black;"><br>
+
+{{#if isEmpty}}
+<h2>List of Available Vehicles</h2>
+<ul>
+    <li><a href="/reserve">SHOW 10 AVAILABLE VEHICLES</a></li>
+    <li><a href="/reserve/all">SHOW ALL AVAILABLE VEHICLES</a></li>
+</ul>
+
+<table>
+    <tr>
+        <td>Vid</td>
+        <td>Vin</td>
+        <td>Model</td>
+        <td>Price</td>
+        <td>Status</td>
+        <td>Salesperson_id</td>
+    </tr>
+    {{#each available_vehicles}}
+    <form method="post">
+        <tr>
+            <td>{{ Vid }}</td>
+            <td style="display: none"><input type="text" name="vid" value={{ Vid }}></td>
+            <td>{{ Vin }}</td>
+            <td>{{ Model }}</td>
+            <td>{{ Price }}</td>
+            <td>{{ Status }}</td>
+            <td>{{ Salesperson_id }}</td>
+            <td style="display: none"><input type="text" name="salesperson_id" value={{ Salesperson_id }}></td>
+            <td style="border: none; margin-left: 10px;">
+                <center><input type="submit" value="Apply" formaction="/reserve/Apply"></center>
+            </td>
+        </tr>
+    </form>
+    {{/each}}
+</table>
+
+{{else}}
+<h2>My Reservation</h2>
+<table>
+    <tr>
+        <td>Vin</td>
+        <td>Model</td>
+        <td>Price</td>
+        <td>Status</td>
+        <td>Dealer_id</td>
+        <td>Reserved_vehicle_id</td>
+    </tr>
+    {{#each user_reservation}}
+    <form method="post">
+        <tr>
+            <td>{{ Vin }}</td>
+            <td>{{ Model }}</td>
+            <td>{{ Price }}</td>
+            <td>{{ Status }}</td>
+            <td>{{ Dealer_id }}</td>
+            <td style="display: none"><input type="text" name="dealer_id" value={{ Dealer_id }}></td>
+            <td>{{ Reserved_vehicle_id }}</td>
+            <td style="border: none; margin-left: 10px;">
+                <center><button style="margin-left: 10px;" name='delBtn' type="submit" value="{{ Reserved_vehicle_id }}"
+                    formaction="/reserve/Delete">
+                    Delete
+                </button></center>
+            </td>
+        </tr>
+    </form>
+    {{/each}}
+</table>
+{{/if}}

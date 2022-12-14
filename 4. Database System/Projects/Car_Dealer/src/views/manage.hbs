@@ -1,0 +1,91 @@
+<h1>{{title}}</h1>
+<ul>
+    <li><strong><a href="/logout">Logout</a></strong></li>
+</ul>
+<hr style="border: solid 3px black;"><br>
+
+<h2>Insert the Vehicle</h2>
+<table>
+    <tr>
+        <td>Vid</td>
+        <td>Vin</td>
+        <td>Model</td>
+        <td>Price</td>
+        <td>Status</td>
+    </tr>
+
+    <form method="post">
+        <tr>
+            <!-- placeholder : 기본값 -->
+            <!-- value : 초기값 -->
+            <td>AUTO INCREMENT</td>
+            <td><input type="text" name="vin" required placeholder="VIN (16 upper letters and numbers)"></td>
+            <td><input type="text" name="model" required placeholder="Model name"></td>
+            <td><input type="text" name="price" required placeholder="Price"></td>
+            <td>
+                <select name="status" required>
+                    <option value="">Reservation Status</option>
+                    <option value="ONSALE">On Sale</option>
+                    <option value="RESERVED">Reserved</option>
+                    <option value="SOLDOUT">Sold Out</option>
+                </select>
+            </td>
+            <td style="border: none; margin-left: 10px;">
+                <center><input type="submit" value="Create" formaction="/manage/Create"></center>
+            </td>
+        </tr>
+    </form>
+</table>
+
+<hr style="border: solid 3px black;"><br>
+
+<h2>{{ display_type }}</h2>
+
+<h3>View by Vehicle Reservation Status</h3>
+<ul>
+    <li><a href="/manage">SHOW 10 VEHICLES</a></li>
+    <li><a href="/manage/all">SHOW ALL VEHICLES</a></li>
+    <li><a href="/manage/ONSALE">SHOW ON SALE VEHICLES</a></li>
+    <li><a href="/manage/RESERVED">SHOW RESERVED VEHICLES</a></li>
+    <li><a href="/manage/SOLDOUT">SHOW SOLD OUT VEHICLES</a></li>
+</ul><br>
+
+<table>
+    <tr>
+        <td>Vid</td>
+        <td>Vin</td>
+        <td>Model</td>
+        <td>Price</td>
+        <td>Status</td>
+        <td>Dealer_id</td>
+    </tr>
+    {{#each vehicles}}
+    <form method="post">
+        <tr>
+            <!-- placeholder : 기본값 -->
+            <!-- value : 초기값 -->
+            <td>{{ Vid }}</td>
+            <td style="display: none"><input type="text" name="vid" value={{ Vid }}></td>
+            <td><input type="text" name="vin" value={{ Vin }}></td>
+            <td><input type="text" name="model" value={{ Model }}></td>
+            <td><input type="text" name="price" value={{ Price }}></td>
+
+            <td>{{ Status }}</td>
+            <td style="display: none"><input type="text" name="status" value={{ Status }}></td>
+
+            <td>{{ Dealer_id }}</td>
+            <td style="display: none"><input type="text" name="dealer_id" value={{ Dealer_id }}></td>
+
+            <td style="border: none; margin-left: 10px;">
+                <center><input type="submit" value="Update" formaction="/manage/Update"></center>
+            </td>
+            <td style="border: none; margin-left: 10px;">
+                <center><button style="margin-left: 10px;" name='delBtn' type="submit" value="{{ Vid }}"
+                    formaction="/manage/Delete">
+                    Delete
+                </button></center>
+            </td>
+        </tr>
+    </form>
+    {{/each}}
+</table>
