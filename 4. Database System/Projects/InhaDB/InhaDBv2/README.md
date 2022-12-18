@@ -30,7 +30,7 @@ MySQL Workbench 상에서 그린 `InhaDB`의 Schema Diagram은 아래와 같다.
 
 ### STEP 2 : 확장한 InhaDBv2를 Express와 연동
 
-Express는 Node.js의 핵심 모듈인 http와 Connect 컴포넌트를 기반으로 한 빠르고 간편한 웹 프 레임워크이다.<br>
+Express는 Node.js의 핵심 모듈인 http와 Connect 컴포넌트를 기반으로 한 빠르고 간편한 웹 프레임워크이다.<br>
 Node.js를 통해 다양한 자바스크립트 애플리케이션을 실행하며, 웹서버와 같이 확장성 있는 네트워크 프로그램을 제작하기 위해 만들어졌다.
 
 ```bash
@@ -78,6 +78,7 @@ $ npm install dotenv
 생성된 `package.json` 파일의 `”scripts”` 부분에 위와 같이 `"start": "nodemon --exec babel-node index.js"` 구문을 추가해주었다.
 
 <br>
+
 다음으로 프로젝트 상위 폴더에 `babel.config.json`, `index.html`, `index.js`, `sql.js` 파일을 생성하고, 아래와 같이 코드를 작성하였다.
 
 #### `babel.config.json`
