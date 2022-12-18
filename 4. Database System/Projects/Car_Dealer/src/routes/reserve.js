@@ -48,7 +48,7 @@ router.get('/all', async (req, res) => {
     );
 });
 
-// Apply 버튼을 눌렀을 경우 setUserReservation query를 실행
+// Apply 버튼을 눌렀을 경우 setUserReservation 트랜잭션을 실행
 router.post('/Apply', async (req, res) => {
     let username = req.cookies.username;
     let name = req.cookies.name;
@@ -64,7 +64,7 @@ router.post('/Apply', async (req, res) => {
     res.redirect('/reserve');
 });
 
-// Delete 버튼을 눌렀을 경우 removeUserReservation query를 실행
+// Delete 버튼을 눌렀을 경우 removeUserReservation 트랜잭션을 실행
 router.post('/Delete', async (req, res) => {
     const data = {
         Dealer_id: req.body.dealer_id,

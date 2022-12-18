@@ -64,7 +64,7 @@ router.get('/SOLDOUT', async (req, res) => {
     });
 });
 
-// Create 버튼을 눌렀을 경우 createVehicle query를 실행
+// Create 버튼을 눌렀을 경우 createVehicle 트랜잭션을 실행
 router.post('/Create', async (req, res) => {
     const vars = req.body;
     const data = {
@@ -80,7 +80,7 @@ router.post('/Create', async (req, res) => {
     res.redirect('/manage');
 })
 
-// Update 버튼을 눌렀을 경우 updateVehicle query를 실행
+// Update 버튼을 눌렀을 경우 updateVehicle 트랜잭션을 실행
 router.post('/Update', async (req, res) => {
     const vars = req.body;
     const data = {
@@ -95,7 +95,7 @@ router.post('/Update', async (req, res) => {
     res.redirect('/manage');
 })
 
-// Delete 버튼을 눌렀을 경우 deleteVehicle query를 실행
+// Delete 버튼을 눌렀을 경우 deleteVehicle 트랜잭션을 실행
 router.post('/Delete', async (req, res) => {
     const data = {
         Vid: req.body.delBtn,

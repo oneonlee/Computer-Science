@@ -17,7 +17,7 @@ const pool = mysql.createPool(
 // async & awiat 사용
 const promisePool = pool.promise();
 
-// Queries for Login
+// Transactions for Login
 export const loginSql = {
     getSalesperson: async () => {
         await promisePool.query(`START TRANSACTION`); // BEGIN of transaction
@@ -39,12 +39,12 @@ export const loginSql = {
     },
 };
 
-// Quries for reservation
+// Transactions for reservation
 export const reserveSql = {
     getAvailableVehicles: async () => {
         await promisePool.query(`START TRANSACTION`); // BEGIN of transaction
 
-        const sql = `SELECT Vid, Vin, Model, Price, Status, Salesperson_id FROM VEHICLE, SALESPERSON_manages_VEHICLE WHERE Vid=Vehicle_id AND STATUS='ONSALE'`;
+        const sql = `SELECT * from Reservation_table`;
         const [rows] = await promisePool.query(sql);
 
         await promisePool.query(`COMMIT`); // END of transaction
@@ -53,7 +53,7 @@ export const reserveSql = {
     get10AvailableVehicles: async () => {
         await promisePool.query(`START TRANSACTION`); // BEGIN of transaction
 
-        const sql = `SELECT Vid, Vin, Model, Price, Status, Salesperson_id FROM VEHICLE, SALESPERSON_manages_VEHICLE WHERE Vid=Vehicle_id AND STATUS='ONSALE' LIMIT 10`;
+        const sql = `SELECT * from Reservation_table LIMIT 10`;
         const [rows] = await promisePool.query(sql);
 
         await promisePool.query(`COMMIT`); // END of transaction
@@ -106,7 +106,7 @@ export const reserveSql = {
     },
 };
 
-// Queries for managing vehicles
+// Transactions for managing vehicles
 export const manageSql = {
     get10Vehicles: async (data) => {
         await promisePool.query(`START TRANSACTION`); // BEGIN of transaction
