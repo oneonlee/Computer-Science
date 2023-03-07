@@ -27,7 +27,7 @@ matrixmult 함수는 3개의 행렬 a, b, c의 곱셈을 수행하는 함수이�
 ![Exponential_complexity_code](Exponential_complexity_code) 
 fib 함수는 n을 인자로 받아 피보나치 수열의 n번째 수를 구하는 함수이다. 본 알고리즘은 실행이 될 때마다, 아래 Figure 1처럼 자기자신을 두 번 불러내는 행위 즉, 2번의 재귀호출을 수행하므로 알고리즘의 time complexity는 O(2^n)이다.
 
-![Figure 1](Figure 1) 
+![Figure 1](Figure%201.png) 
 Figure 1 Recursion tree for fib(8)<br>
 
 
@@ -37,10 +37,10 @@ Figure 1 Recursion tree for fib(8)<br>
  
 ## 3. 실행 화면
 ### Cubic complexity
-![Cubic_complexity_result](Cubic_complexity_result) 
+![Cubic_complexity_result](Cubic_complexity_result.png) 
 
 ### Exponential complexity
-![Exponential_complexity_result](Exponential_complexity_result) 
+![Exponential_complexity_result](Exponential_complexity_result.png) 
  
 ## 4. 결론
 ### Cubic complexity
