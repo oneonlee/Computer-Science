@@ -11,3 +11,4 @@ Introduction to Computer Science
 - [6. System Programming](./6.%20System%20Programming)
 - [7. Operating System](./7.%20Operating%20System/)
 - [8. Information Security](./8.%20Information%20Security/)
+- [9. Artificial Intelligence](./9.%20Artificial%20Intelligence/)
