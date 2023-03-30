@@ -47,6 +47,7 @@ Manhattan distance라고도 하는 **L1 Distance**는 두 벡터의 해당 요�
 수학적으로 두 벡터 p와 q 사이의 L1 Distance는 아래와 같이 정의된다.
 
 **L1 Distance (Manhattan distance):**<br>
+
 $$
 \begin{equation}
 d_{1}(\mathbf{p},\mathbf{q}) = \sum_{i=1}^{n} |p_{i}-q_{i}|
@@ -60,6 +61,7 @@ $$
 유클리드 Distance라고도 하는 **L2 Distance**는 두 벡터의 해당 요소 간 **차이 제곱합의 제곱근**이다. 직선의 두 점 사이의 최단 거리를 측정한다는 사실에서 이름이 붙여졌다. 수학적으로 두 벡터 p와 q 사이의 L2 거리는 다음과 같이 정의된다.
 
 **L2 Distance (Euclidean distance):**<br>
+
 $$
 \begin{equation}
 d_{2}(\mathbf{p},\mathbf{q}) = \sqrt{\sum_{i=1}^{n} (p_{i}-q_{i})^2}
@@ -96,6 +98,7 @@ $$
 <br>
 
 **L1 Loss (Mean Absolute Error):**
+
 $$
 \begin{equation}
 L_{1}=\frac{1}{n}\sum_{i=1}^{n}|y_{i}-\hat{y}_{i}|
@@ -104,6 +107,7 @@ $$
 <br>
 
 **L2 Loss (Mean Squared Error):**
+
 $$
 \begin{equation}
 L_{2}=\frac{1}{n}\sum_{i=1}^{n}(y_{i}-\hat{y}_{i})^2
