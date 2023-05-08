@@ -7,8 +7,9 @@
   - [KMP 알고리즘](#kmp-알고리즘)
   - [보이어-무어 알고리즘](#보이어-무어-알고리즘)
   - [라빈-카프 알고리즘](#라빈-카프-알고리즘)
+  - [Levenshtein Distance 편집거리 알고리즘](../05.%20Dynamic%20Programming/README.md/#스트링-편집거리-levenshtein-distance)
 - [패턴 매칭 알고리즘](#패턴-매칭-알고리즘)
-- [화일 압축 알고리즘](#화일-압축-알고리즘)
+- [파일 압축 알고리즘](#파일-압축-알고리즘)
   - [허프만 인코딩](#허프만-인코딩-huffman-encoding)
 - [암호화 알고리즘](#암호화-알고리즘)
   - [공개 키 암호화 시스템](#공개-키-암호화-시스템)
@@ -19,13 +20,14 @@
 ## 스트링 탐색 알고리즘
 
 - 문서 작성 시
-
   - 텍스트(text) : 문서
   - 패턴(pattern) : 탐색할 스트링
   - 스트링(string)
     - 문자가 연속적으로 나열된 것
     - 텍스트(text) 스트링
     - 이진(binary) 스트링
+
+<br>
 
 - 스트링 탐색 알고리즘의 설계 목적
   - 필연적으로 잘못된 시작(false start) 발생
@@ -38,6 +40,8 @@ aka. 무작정 무지성 알고리즘
 
 - 한 글자 또는 한 비트씩 오른쪽으로 진행
 - 텍스트의 처음부터 끝까지 모두 비교하며 탐색하는 알고리즘
+
+#### Pseudo Code
 
 ```cpp
 BruteForce(p[], t[]) // 단순한 algo지만 직접 구현하면 어려울 수 있다.
@@ -71,7 +75,7 @@ end ButeForce()
 
 `O(M+N)`
 
-#### 재시작 위치 알고리즘
+#### Pseudo Code: 재시작 위치 알고리즘
 
 ```cpp
 InitNext(p[])
@@ -89,7 +93,7 @@ end InitNext()
 - `next[]`의 의미
   - `next[i]`는 주어진 문자열의 0~(i-1)까지의 부분 문자열 중에서 prefix == suffix가 될 수 있는 부분 문자열 중에서 가장 긴 것의 길이
 
-#### KMP 알고리즘
+#### Pseudo Code: KMP 알고리즘
 
 ```cpp
 KMP(p[], t[])
@@ -106,7 +110,6 @@ end KMP()
 #### 패턴이 내장된 KMP 알고리즘
 
 - KMP 알고리즘을 위한 유한 상태 장치
-
   - 유한 상태 장치 (finite state machine: FSM)
     - 상태(state; 원으로 표시)
     - 전이(transition; 선으로 표시)
@@ -115,7 +118,7 @@ end KMP()
     - 시작점 (왼쪽 끝의 사각형)
     - 종료점 (오른쪽 끝의 사각형)
 
-  <img width="484" alt="스크린샷 2022-04-19 - ᅩ전 11 02 35" src="https://user-images.githubusercontent.com/73745836/163907383-bf841d64-402c-4b28-9bba-4ef699859297.png">
+<img width="484" src="https://user-images.githubusercontent.com/73745836/163907383-bf841d64-402c-4b28-9bba-4ef699859297.png">
 
 - 개선된 유한 상태 장치
   - `InitNext` 알고리즘의 `next[i] ← j;` 변경
@@ -142,7 +145,7 @@ else next[i] ← j
 
 <img width="526" alt="스크린샷 2022-04-19 오전 11 26 39" src="https://user-images.githubusercontent.com/73745836/163907926-767343c4-b476-4da8-9f65-67100c69ecd0.png">
 
-#### 불일치 문자 방책 알고리즘
+#### Pseudo Code: 불일치 문자 방책 알고리즘
 
 ```cpp
 void InitSkip(char *p) {
@@ -168,12 +171,16 @@ MisChar(p[], t[])
 end MisChar()
 ```
 
-<img width="599" alt="스크린샷 2022-04-19 오전 11 32 52" src="https://user-images.githubusercontent.com/73745836/163909688-600eb6e4-2b7b-4ca3-82c4-7af76fb22d18.png">
+<img width="599" src="https://user-images.githubusercontent.com/73745836/163909688-600eb6e4-2b7b-4ca3-82c4-7af76fb22d18.png">
 
 ### 라빈-카프 알고리즘
 
 - 스트링을 숫자값으로 바꾼 다음 **해시** 값을 계산하여 매칭하는 알고리즘
-- 최악의 시간 복잡고는 `O(MN)`이지만 평균적으로는 선형에 가까운 빠른 속도를 가지는 알고리즘
+- 최악의 시간 복잡도는 `O(MN)`이지만 평균적으로는 선형에 가까운 빠른 속도를 가지는 알고리즘
+
+### Levenshtein Distance 편집거리 알고리즘
+
+[링크 참고](../05.%20Dynamic%20Programming/README.md/#스트링-편집거리-levenshtein-distance)
 
 ## 패턴 매칭 알고리즘
 
@@ -234,7 +241,7 @@ end MisChar()
 
 <img src="https://user-images.githubusercontent.com/73745836/171323280-63ef8485-dd51-483a-8c14-61671bfe78d8.jpeg" width = 60%/>
 
-## 화일 압축 알고리즘
+## 파일 압축 알고리즘
 
 ### 허프만 인코딩 (Huffman encoding)
 
