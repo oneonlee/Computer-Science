@@ -132,14 +132,27 @@ SVM과 Softmax Classifier의 차이점을 간단히 정리하면 다음과 같�
 2. SVM은 초평면(hyperplane)을 사용하여 데이터를 분류한다. Softmax Classifier는 입력 데이터를 각 클래스로 분류할 확률을 계산한다.
 3. SVM은 이진 분류 문제와 다중 클래스 분류 문제에 모두 적용 가능하다. Softmax Classifier는 다중 클래스 분류 문제에 적용 가능하다.
 
+### Softmax function
+
+Softmax fuction의 수식은 아래와 같다.
+
+$$\sigma (\textup{z})_i =\frac{ \exp(z_i)}{\sum_{j=1}^{K}\exp(z_j)}$$
+
+- 여기서 $\exp$의 기능은 두가지가 있다.
+    1. 모든 값들을 0 이상의 값으로 만들어준다.
+    2. 큰 값은 더 크게, 작은 값은 더 작게 만들어준다.
+
 ## Information Theory
 > (Shannon) Entropy, Cross Entropy, KL Divergence
 
 참고하면 좋은 자료 : [KL divergence - 공돌이의 수학정리노트](https://angeloyeo.github.io/2020/10/27/KL_divergence.html#kl-divergence-%EC%A0%95%EB%B3%B4-%EC%97%94%ED%8A%B8%EB%A1%9C%ED%94%BC%EC%9D%98-%EC%83%81%EB%8C%80%EC%A0%81-%EB%B9%84%EA%B5%90)
+
 ### Entropy
 **Entropy**는 정보 이론에서 사용되는 개념 중 하나로, 어떤 확률 분포가 가지는 정보의 평균적인 양을 나타내는 값이다. 
 
 정보량이 많을수록 Entropy 값은 높아지며, 정보량이 적을수록 Entropy 값은 낮아진다. 
+
+*(엔트로피가 크다 = 무질서도가 크다 = 예측 불가능)*
 
 $$H(X) = - \sum_{i=1}^{n} p(x_i) log_2 p(x_i)$$
 
@@ -163,7 +176,7 @@ $$H(X) = - \sum_{i=1}^{n} p(x_i) log_2 p(x_i)$$
 
 $$H(P, Q) = -\sum_{i=1}^{n} P(x_i) log(Q(x_i))$$
 
-여기서 p(x)는 실제 정답값의 확률 분포, q(x)는 예측 값의 확률 분포를 나타낸다.
+여기서 p(x)는 **실제 정답값**의 확률 분포, q(x)는 **예측 값의 확률 분포**를 나타낸다.
 
 ### KL Divergence
 
