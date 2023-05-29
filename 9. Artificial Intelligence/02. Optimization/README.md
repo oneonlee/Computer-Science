@@ -22,7 +22,6 @@
     - if `batch_size = 256`로 **2배** 한다면
         - `learning_rate=0.002`로 똑같이 **2배** 해줌
 
-
 ## Gradient Descent
 
 ## Stochastic Gradient Descent
@@ -31,6 +30,11 @@
 2. **Forward prop** it thriugh the graph(network), **get loss**
 3. **Backprop** to calculate the gradients
 4. **Update the parameters** using the gradient
+
+### Momentum
+- 장점
+    1. weight 변수들에 대한 편미분 계수 값들의 차이가 클 때에도 빠르게 수렴할 수 있도록 도와준다.
+    2. Saddle Point나 Local Minimum에서 빠져나오도록 도와준다.
 
 ## Learning Rate Scheduling
 
@@ -47,6 +51,7 @@
     - Warmup은 모델의 초기 학습 단계에서 점차 Learning Rate를 늘려나가는 것이다. 앞서 말한대로, Warmup 이후에는 고정된 Learning Rate를 사용하거나, Learning Rate Decay 기법을 사용한다.
 
 # References
+
 1. 인공지능 응용 (ICE4104), 인하대학교 정보통신공학과 홍성은 교수님
 2. [uni1023.log - 배치 사이즈(batch size), 에포크(epoch), 반복(iteration)의 차이는?](https://velog.io/@uni1023/%EB%B0%B0%EC%B9%98-%EC%82%AC%EC%9D%B4%EC%A6%88batch-size-%EC%97%90%ED%8F%AC%ED%81%ACepoch-%EB%B0%98%EB%B3%B5iteration%EC%9D%98-%EC%B0%A8%EC%9D%B4%EB%8A%94)
 3. [[논문요약] Classification 학습방법 - Bag of Tricks(2018)](https://kmhana.tistory.com/25)

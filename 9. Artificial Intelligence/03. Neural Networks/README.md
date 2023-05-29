@@ -1,5 +1,10 @@
 # Neural Networks
 
+## 활성화 함수(Activation Function)
+
+- 활성화 함수(Activation Function)란 인공 신경망(Neural Network)에서 사용되는 은닉층(Hidden Layer)을 활성화하기 위해 **Non-linear한 함수를 사용하여 Output 뉴런을 바꿔주는 함수**이다.
+- 활성화 함수를 사용하는 이유는, 활성화 함수가 전체 인공 신경망(Neural Network)이 표현할 수 있는 함수를 더 다양하게 만들어주기 때문이다.
+
 ## Curse of dimensionality (차원의 저주)
 
 ![curse_of_dimensionality](img/curse_of_dimensionality.jpg)
@@ -12,7 +17,7 @@
 
 ![dimensionality-performance](img/dimensionality-performance.PNG)
 
-## Dimensionality Reduction
+### Dimensionality Reduction
 
 - 목적
     1. 차원을 축소함으로써, curse of dimensionality를 줄일 수 있다.
@@ -20,9 +25,13 @@
 
 ![dimensionality-reduction](img/dimensionality-reduction.PNG)
 
-## Dimensionality Expansion
+### Dimensionality Expansion
 
 - 목적
     - 차원을 적당히 늘려줌으로써, 데이터의 해석을 쉽게 할 수도 있음
      
 ![dimensionality-expansion](img/dimensionality-expansion.PNG)
+
+# References
+
+1. 인공지능 응용 (ICE4104), 인하대학교 정보통신공학과 홍성은 교수님

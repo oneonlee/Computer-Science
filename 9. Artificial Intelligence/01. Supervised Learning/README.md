@@ -124,13 +124,24 @@ SVM Classifier와 Softmax Classifier는 모두 분류 알고리즘 중 하나로
 
 먼저 SVM Classifier는 Support Vector Machine의 약자로, 각 클래스를 분리하는 최적의 초평면(hyperplane)을 찾아서 데이터를 분류한다. 이때 SVM은 데이터를 분류할 때, Margin(여유 공간)을 최대화하는 초평면을 찾아내어, 새로운 데이터가 들어왔을 때 분류를 더 잘할 수 있도록 한다. SVM은 이 Margin을 최대화하면서, 이상치(outlier)에 대해서는 덜 민감한 모델을 만들 수 있다.
 
-반면에 Softmax Classifier는 입력 데이터를 각 클래스로 분류할 확률을 계산한다. 이때 Softmax 함수를 사용하여, 입력 데이터가 각 클래스에 속할 확률을 구해낸다. Softmax 함수는 입력값을 일종의 확률값으로 변환하여, 모든 클래스에 대한 확률의 합이 1이 되도록 만들어 준다. 따라서 Softmax Classifier는 다중 클래스 분류 문제에 적합하다.
+반면에 Softmax Classifier는 입력 데이터를 각 클래스로 분류할 확률을 계산한다. 이때 Softmax 함수를 사용하여, 입력 데이터가 각 클래스에 속할 확률을 구해낸다. Softmax 함수는 함수의 입력값을 일종의 확률값으로 변환하여, 모든 클래스에 대한 확률의 합이 1이 되도록 만들어 준다. (output 값들의 크기 순서는 유지하면서, 각각이 0 이상이고 합이 1이 되게 만들어줌) 따라서 Softmax 함수는 Classification에서 자주 사용된다.
 
 SVM과 Softmax Classifier의 차이점을 간단히 정리하면 다음과 같다.
 
 1. SVM은 Margin을 최대화하여 이상치(outlier)에 대해 덜 민감한 모델을 만들 수 있다. Softmax Classifier는 다중 클래스 분류 문제에 적합한 모델이다.
 2. SVM은 초평면(hyperplane)을 사용하여 데이터를 분류한다. Softmax Classifier는 입력 데이터를 각 클래스로 분류할 확률을 계산한다.
 3. SVM은 이진 분류 문제와 다중 클래스 분류 문제에 모두 적용 가능하다. Softmax Classifier는 다중 클래스 분류 문제에 적용 가능하다.
+
+### SVM Classifier: Example
+
+> (1) 어떤 이미지에 대해, forward 진행 후 모델의 output vector가 (10, 8, -2, 5) 였다. 클래스 순서는 고양이, 개, 사슴, 곰 순서이고, 이 이미지의 정답이 '곰'이었다고 할 때, 이 이미지 하나에 대한 SVM Loss 값을 구하라.
+
+$$L = \max(0,\ 10-5+1) + \max(0,\ 8-5+1) + \max(0,\ -2-5+1) = 10$$
+
+> (2) 어떤 이미지에 대해, forward 진행 후 모델의 output vector가 (1, 2, 4) 였다. 클래스 순서는 자동차, 자전거, 오토바이 순서이고, 이 이미지의 정답이 '자동차'였다고 할 때, 이 이미지 하나에 대한 SVM Loss 값을 구하라.
+
+$$L = \max(0,\ 2-1+1) + \max(0,\ 4-1+1) = 6$$
+
 
 ### Softmax function
 
@@ -143,6 +154,7 @@ $$\sigma (\textup{z})_i =\frac{ \exp(z_i)}{\sum_{j=1}^{K}\exp(z_j)}$$
     2. 큰 값은 더 크게, 작은 값은 더 작게 만들어준다.
 
 ## Information Theory
+
 > (Shannon) Entropy, Cross Entropy, KL Divergence
 
 참고하면 좋은 자료 : [KL divergence - 공돌이의 수학정리노트](https://angeloyeo.github.io/2020/10/27/KL_divergence.html#kl-divergence-%EC%A0%95%EB%B3%B4-%EC%97%94%ED%8A%B8%EB%A1%9C%ED%94%BC%EC%9D%98-%EC%83%81%EB%8C%80%EC%A0%81-%EB%B9%84%EA%B5%90)
@@ -174,7 +186,7 @@ $$H(X) = - \sum_{i=1}^{n} p(x_i) log_2 p(x_i)$$
 ### Cross Entropy
 **Cross Entropy**는 두 확률 분포 간의 차이를 나타내는 값으로, 예측 모델의 결과값과 실제 값의 차이를 계산할 때 사용된다. 
 
-$$H(P, Q) = -\sum_{i=1}^{n} P(x_i) log(Q(x_i))$$
+$$H(P, Q) = -\sum_{i=1}^{n} P(x_i) \log(Q(x_i))$$
 
 여기서 p(x)는 **실제 정답값**의 확률 분포, q(x)는 **예측 값의 확률 분포**를 나타낸다.
 
@@ -189,8 +201,21 @@ $$D_{KL}(P | Q) = \sum_{i=1}^{n} P(x_i) \log \frac{P(x_i)}{Q(x_i)}$$
 여기서 p(x)는 실제 값의 확률 분포, q(x)는 예측 값의 확률 분포를 나타낸다. 
 
 ### KL Divergence VS. Cross Entropy
+
 KL Divergence와 Cross Entropy는 유사하지만, KL Divergence는 두 확률 분포 간의 차이를 측정할 때 **비대칭성을 가진다**는 차이점이 있다. 
 
 KL Divergence에서는 $D_{KL}(P | Q)$와 $D_{KL}(Q | P)$가 서로 다를 수 있는 반면, Cross Entropy는 항상 대칭적으로 계산된다. 
 
 따라서 KL Divergence는 Cross Entropy보다 더 엄격한 지표로써 예측 모델의 성능을 더욱 정확하게 평가할 수 있다.
+
+## Cross Entropy Loss
+
+Cross Entropy Loss는 [Classification](#회귀와-분류) 알고리즘에 사용된다.
+
+Network의 output에 [softmax 함수](#softmax-function)를 취한 후, target vector와 비교한다.
+
+[Cross Entropy Loss 계산 시](#cross-entropy), Output $p(x)$와 Target $g(x)$에 대해 $-\sum g(x) \log p(x)$로 계산한다.
+
+# References
+
+1. 인공지능 응용 (ICE4104), 인하대학교 정보통신공학과 홍성은 교수님

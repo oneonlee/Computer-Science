@@ -1,5 +1,11 @@
 # Intro2ML
 
+## Traing VS. Test
+- Training
+    - 데이터를 이용하여 모델의 최적의 weight parameter를 찾는 과정
+- Test
+    - 학습된 모델을 실제 적용하고자 하는 데이터에 사용하여 결과값을 찾는 과정
+
 ## Class Variation
 > Intra-class Variation VS. Inter-class Variation
 
@@ -134,3 +140,6 @@ L@ Loss는 회귀 작업에서 예측 값과 실제 값의 차이 또는 오류�
 
 train set는 모델을 훈련시키는 데 사용되며, validation set는 모델 하이퍼파라미터를 조정하는 데 사용되며, test set는 본 적이 없는 데이터에 대한 모델의 최종 성능을 평가하는 데 사용된다.
 
+# References
+
+1. 인공지능 응용 (ICE4104), 인하대학교 정보통신공학과 홍성은 교수님

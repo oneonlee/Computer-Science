@@ -10,4 +10,4 @@
 - [04. CNN (Convolutional Neural Network)](./04.%20CNN/)
 - [05. Temporal Modeling](./05.%20Temporal%20Modeling/)
 - [06. Attention Mechanism](./06.%20Attention%20Mechanism/)
-- [07. Advanced Models](./07.%20Advanced%20Models/)
+- [07. Advanced Topics](./07.%20Advanced%20Topics/)
