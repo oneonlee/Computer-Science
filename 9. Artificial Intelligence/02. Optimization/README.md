@@ -32,6 +32,21 @@
 3. **Backprop** to calculate the gradients
 4. **Update the parameters** using the gradient
 
+## Learning Rate Scheduling
+
+### Learning Rate Decay
+- 필요성
+    - 고정된 Learning Rate를 사용하는 경우, 모델이 Global Minimum Loss에 수렴하기 쉽지 않다. 따라서, 초기 학습 단계에서 큰 Learning Rate를 사용하여 Global Minimum Loss 주변에 빠르게 접근하고, 점차 Learning Rate를 줄여나가면서 Global Minimum Loss에 세부적으로 수렴하도록 사용한다.
+- 동작 방식
+    - 앞서 말한대로, Learning Rate Decay의 철학은 초기 학습 단계에서는 큰 Learning Rate를 사용하고, 학습이 진행됨에 따라 점차 Learning Rate를 줄여나가는 것이다. Learning Rate Decay의 알고리즘은 여러가지가 있으며, 대표적으로 사용되는 Cosine Annealing 기법은 Learning Rate가 Cosine 함수 그래프처럼 변한다. 이외에도 Learning Rate가 Exponential 함수의 개형처럼 변하는 ExponentialLR 기법과, 사용자가 지정한 Step 마다 일정하게 Learning Rate가 줄어드는 StepLR 기법 등이 있다.
+
+### Warmup
+- 필요성
+    - 모델 학습 시, 초기 학습 단계부터 큰 Learning Rate를 사용하는 것은 학습의 불안정을 초래할 수 있다. 따라서, Warmup을 통해 작은 Learning Rate부터 학습을 시작해서 점차 늘려나가고, Warmup 이후에 고정된 Learning Rate를 사용하거나, Learning Rate Decay 기법을 사용한다.
+- 동작 방식
+    - Warmup은 모델의 초기 학습 단계에서 점차 Learning Rate를 늘려나가는 것이다. 앞서 말한대로, Warmup 이후에는 고정된 Learning Rate를 사용하거나, Learning Rate Decay 기법을 사용한다.
+
 # References
 1. 인공지능 응용 (ICE4104), 인하대학교 정보통신공학과 홍성은 교수님
 2. [uni1023.log - 배치 사이즈(batch size), 에포크(epoch), 반복(iteration)의 차이는?](https://velog.io/@uni1023/%EB%B0%B0%EC%B9%98-%EC%82%AC%EC%9D%B4%EC%A6%88batch-size-%EC%97%90%ED%8F%AC%ED%81%ACepoch-%EB%B0%98%EB%B3%B5iteration%EC%9D%98-%EC%B0%A8%EC%9D%B4%EB%8A%94)
+3. [[논문요약] Classification 학습방법 - Bag of Tricks(2018)](https://kmhana.tistory.com/25)
