@@ -33,29 +33,29 @@ $$h_t = \tanh (W_{hh}h_{t-1} + W_{xh}x_{t})$$
     - LSTM은 Memory Cell과 Gate를 사용하여 장기 및 단기 Hidden State를 통과한다.
     - Cell state를 도입하면서 gradient flow가 방해 받지 않게 하며, gradient가 잘 흘러가지 않는 것을 막아준다.
 
-
 ### LSTM의 각 Gate들의 역할
 
 #### 1. Forget Gate ($f_{t}$)
 
 <img src="https://imghub.insilicogen.com/media/photos/LSTM3-focus-f.png"/>
 
-- 과거 정보를 얼마나 유지할 것인가?
-- Forget Gate는 cell state에서 sigmoid($\sigma{}$) layer를 거쳐 어떤 정보를 버릴 것인지 정한다.
+- 과거 정보를 얼마만큼 유지할 것인가?
+- Forget Gate는 cell state에서 sigmoid($\sigma{}$) layer를 거쳐 이전 hidden state를 얼마나 기억할지 정한다.
 
 #### 2. Input Gate ($i_{t}$)
 
 <img src="https://imghub.insilicogen.com/media/photos/LSTM3-focus-i.png"/>
 
 - 새로 입력된 정보는 얼마만큼 활용할 것인가?
-- Input Gate는 새로 입력된 정보 중 어떤 것을 cell state에 저장할 것인지를 정한다. 먼저 sigmoid($\sigma{}$) layer를 거처 어떤 값을 업데이트 할 것인지를 정한 후, tanh layer에서 새로운 후보 Vector를 만든다.
+- Input Gate는 새로 입력된 정보 중 어떤 것을 cell state에 저장할 것인지를 정한다. 먼저 sigmoid($\sigma{}$) layer를 거처 어떤 값을 업데이트 할 것인지를 정한 후, $\tanh$ layer에서 새로운 후보 Vector를 만든다.
+    - 활성화함수로써 sigmoid를 쓰지 않고, $\tanh$를 쓰는 이유는 [여기](https://wiserloner.tistory.com/1110) 참고
 
 #### 3. Output Gate ($o_{t}$)
     
 <img src="https://imghub.insilicogen.com/media/photos/LSTM3-focus-o.png"/>
 
 - 두 정보를 계산하여 나온 출력 정보를 얼마만큼 넘겨줄 것인가?
-- Output Gate는 어떤 정보를 output으로 내보낼지 정한다. 먼저 sigmoid($\sigma{}$) layer에 input data를 넣어 output 정보를 정한 후 Cell state를 tanh layer에 넣어 sigmoid($\sigma{}$) layer의 output과 곱하여 output으로 내보낸다.
+- Output Gate는 어떤 정보를 output으로 내보낼지 정한다. 먼저 sigmoid($\sigma{}$) layer에 input data를 넣어 output 정보를 정한 후 Cell state를 \tanh layer에 넣어 sigmoid($\sigma{}$) layer의 output과 곱하여 output으로 내보낸다.
 
 # References
 1. 인공지능 응용 (ICE4104), 인하대학교 정보통신공학과 홍성은 교수님
@@ -65,3 +65,5 @@ $$h_t = \tanh (W_{hh}h_{t-1} + W_{xh}x_{t})$$
 5. [LSTM(Long-Short Term Memory)과 GRU(gated Recurrent Unit)(코드 추가해야함)](https://velog.io/@yuns_u/LSTMLong-Short-Term-Memory%EA%B3%BC-GRUgated-Recurrent-Unit)
 6. [07-07 기울기 소실(Gradient Vanishing)과 폭주(Exploding) - 딥 러닝을 이용한 자연어 처리 입문](https://wikidocs.net/61375)
 7. [LSTM - 인코덤, 생물정보 전문위키](http://www.incodom.kr/LSTM#h_a963932a2464f3866c7891e38db0e30b)
+8. [[딥러닝] LSTM 쉽게 이해하기 - YouTube](https://www.youtube.com/watch?v=bX6GLbpw-A4)
+9. [Loner의 학습노트 :: LSTM 개인정리](https://wiserloner.tistory.com/1110)
