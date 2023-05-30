@@ -116,7 +116,7 @@ overlapping 되지 않기 위해, 보통 filter 크기와 stride를 같도록 �
 
 ### VGGNet이 `3x3` 크기의 작은 필터를 사용하는 이유 (Why use smaller filters?)
 
-1. `7x7` 필터 하나를 사용하는 것보다 `3x3` 필터를 세 번 사용하면 activation function을 여러번 서쳐지면서 더 non-linear 해진다.
+1. `7x7` 필터 하나를 사용하는 것보다 `3x3` 필터를 세 번 사용하면 activation function을 여러번 거쳐지면서 더 non-linear 해진다.
 2. 파라미터 수를 줄이고 Layer를 다층 쌓아서 모델의 전체 Depth를 깊게 만들기 위해서이다.
 
 
