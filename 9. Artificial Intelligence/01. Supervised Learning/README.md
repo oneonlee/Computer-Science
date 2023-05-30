@@ -147,7 +147,7 @@ $$L = \max(0,\ 2-1+1) + \max(0,\ 4-1+1) = 6$$
 
 Softmax fuction의 수식은 아래와 같다.
 
-$$\sigma (\textup{z})_i =\frac{ \exp(z_i)}{\sum_{j=1}^{K}\exp(z_j)}$$
+$$\sigma (z_i) ={\exp(z_i)} \div {\sum_{j=1}^{K} \exp(z_j)}$$
 
 - 여기서 $\exp$의 기능은 두가지가 있다.
     1. 모든 값들을 0 이상의 값으로 만들어준다.
@@ -160,20 +160,20 @@ $$\sigma (\textup{z})_i =\frac{ \exp(z_i)}{\sum_{j=1}^{K}\exp(z_j)}$$
 참고하면 좋은 자료 : [KL divergence - 공돌이의 수학정리노트](https://angeloyeo.github.io/2020/10/27/KL_divergence.html#kl-divergence-%EC%A0%95%EB%B3%B4-%EC%97%94%ED%8A%B8%EB%A1%9C%ED%94%BC%EC%9D%98-%EC%83%81%EB%8C%80%EC%A0%81-%EB%B9%84%EA%B5%90)
 
 ### Entropy
-**Entropy**는 정보 이론에서 사용되는 개념 중 하나로, 어떤 확률 분포가 가지는 정보의 평균적인 양을 나타내는 값이다. 
+**Entropy**는 정보 이론에서 사용되는 개념 중 하나로, 어떤 **확률 분포가 가지는 정보의 평균적인 양**을 나타내는 값이다. 
 
 정보량이 많을수록 Entropy 값은 높아지며, 정보량이 적을수록 Entropy 값은 낮아진다. 
 
 *(엔트로피가 크다 = 무질서도가 크다 = 예측 불가능)*
 
-$$H(X) = - \sum_{i=1}^{n} p(x_i) log_2 p(x_i)$$
+$$H(X) = - \sum_{i=1}^{n} P(x_i) \log_{2} P(x_i)$$
 
-여기서 p(x)는 확률 분포를 나타낸다.
+여기서 $P(x)$는 확률 분포를 나타낸다.
 
 #### Examples
 엔트로피를 이해하기 위해 동전 던지기의 예를 고려할 수 있다. 
 
-공정한 동전이 있다면 이 시스템의 엔트로피는 1이 될 것이다. 즉, 평균적으로 각 동전 던지기에서 1비트의 정보를 받을 것으로 예상된다. 
+공정한 동전이 있다면 이 시스템의 엔트로피는 1이 될 것이다. 즉, 평균적으로 각 동전 던지기에서 1bit의 정보를 받을 것으로 예상된다. 
 
 그러나 편향된 코인이 있으면 시스템의 불확실성과 무작위성이 적기 때문에 엔트로피가 낮아진다. 예를 들어 항상 앞면이 나오는 동전이 있는 경우 결과에 불확실성이 없기 때문에 이 시스템의 엔트로피는 0이 된다.
 
@@ -184,29 +184,29 @@ $$H(X) = - \sum_{i=1}^{n} p(x_i) log_2 p(x_i)$$
 언어 모델이 큰 텍스트 코퍼스에 대해 학습되면 다음 단어를 예측할 때 불확실성이 적기 때문에 엔트로피가 낮아진다.
 
 ### Cross Entropy
-**Cross Entropy**는 두 확률 분포 간의 차이를 나타내는 값으로, 예측 모델의 결과값과 실제 값의 차이를 계산할 때 사용된다. 
+**Cross Entropy**는 **두 확률 분포 간의 차이**를 나타내는 값으로, **예측 모델의 결과값과 실제 값의 차이를 계산**할 때 사용된다. 
 
 $$H(P, Q) = -\sum_{i=1}^{n} P(x_i) \log(Q(x_i))$$
 
-여기서 p(x)는 **실제 정답값**의 확률 분포, q(x)는 **예측 값의 확률 분포**를 나타낸다.
+여기서 $P(x)$는 **실제 정답값**의 확률 분포, $Q(x)$는 **예측 값의 확률 분포**를 나타낸다.
 
 ### KL Divergence
 
 **KL Divergence**는 **두 확률 분포 간의 차이**를 측정하는 지표 중 하나로, 기계 학습 및 정보 이론에서 예측 분포를 목표 분포와 비교하는 데 자주 사용된다.
 
-KL Divergence가 작으면 예측한 확률 분포가 실제 확률 분포와 비슷하다는 뜻이고, 클수록 차이가 크다는 뜻이다.
+KL Divergence가 작으면 예측한 확률 분포가 실제 확률 분포와 비슷하다는 뜻이고, **클수록 차이가 크다**는 뜻이다.
 
 $$D_{KL}(P | Q) = \sum_{i=1}^{n} P(x_i) \log \frac{P(x_i)}{Q(x_i)}$$
 
-여기서 p(x)는 실제 값의 확률 분포, q(x)는 예측 값의 확률 분포를 나타낸다. 
+여기서 $P(x)$는 실제 값의 확률 분포, $Q(x)$는 예측 값의 확률 분포를 나타낸다. 
 
 ### KL Divergence VS. Cross Entropy
 
 KL Divergence와 Cross Entropy는 유사하지만, KL Divergence는 두 확률 분포 간의 차이를 측정할 때 **비대칭성을 가진다**는 차이점이 있다. 
 
-KL Divergence에서는 $D_{KL}(P | Q)$와 $D_{KL}(Q | P)$가 서로 다를 수 있는 반면, Cross Entropy는 항상 대칭적으로 계산된다. 
+KL Divergence에서는 $D_{KL}(P | Q)$와 $D_{KL}(Q | P)$가 **서로 다를 수 있**는 반면, **Cross Entropy는 항상 대칭적**으로 계산된다. 
 
-따라서 KL Divergence는 Cross Entropy보다 더 엄격한 지표로써 예측 모델의 성능을 더욱 정확하게 평가할 수 있다.
+따라서 **KL Divergence는** Cross Entropy보다 **더 엄격한 지표**로써 예측 모델의 성능을 더욱 정확하게 평가할 수 있다.
 
 ## Cross Entropy Loss
 
@@ -214,8 +214,9 @@ Cross Entropy Loss는 [Classification](#회귀와-분류) 알고리즘에 사용
 
 Network의 output에 [softmax 함수](#softmax-function)를 취한 후, target vector와 비교한다.
 
-[Cross Entropy Loss 계산 시](#cross-entropy), Output $p(x)$와 Target $g(x)$에 대해 $-\sum g(x) \log p(x)$로 계산한다.
+[Cross Entropy Loss 계산 시](#cross-entropy), Target $P(x)$와 Output $Q(x)$와 에 대해 $-\sum P(x) \log Q(x)$로 계산한다.
 
 # References
 
 1. 인공지능 응용 (ICE4104), 인하대학교 정보통신공학과 홍성은 교수님
+2. [KL divergence - 공돌이의 수학정리노트](https://angeloyeo.github.io/2020/10/27/KL_divergence.html#kl-divergence-%EC%A0%95%EB%B3%B4-%EC%97%94%ED%8A%B8%EB%A1%9C%ED%94%BC%EC%9D%98-%EC%83%81%EB%8C%80%EC%A0%81-%EB%B9%84%EA%B5%90)
