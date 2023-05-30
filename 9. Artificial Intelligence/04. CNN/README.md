@@ -61,11 +61,9 @@
 
 #### 1x1 Convolution을 사용하는 이유
 
-가장 근본적인 이유는 채널 수를 조정하기 위함이다.
-
-output 크기에는 변화가 없고 채널의 수를 조정할 수 있는 역할을 하게 된다.
-
-1x1 Conv를 사용함으로써, 차원을 확대하거나 축소할 수 있다.
+- 가장 근본적인 이유는 채널 수를 조정하기 위함이다.
+- output 크기에는 변화가 없고 채널의 수를 조정할 수 있는 역할을 하게 된다.
+- 1x1 Conv를 사용함으로써, 차원을 확대하거나 축소할 수 있다.
 
 ### Pooling Layer
 
@@ -78,6 +76,12 @@ output 크기에는 변화가 없고 채널의 수를 조정할 수 있는 역�
 
 overlapping 되지 않기 위해, 보통 filter 크기와 stride를 같도록 해준다.
 
+#### Global Average Pooling (GAP)
+
+- GAP의 목적은 feature를 1차원 벡터로 만들기 위함이다.
+- 어떤 크기의 feature vector(`HxWxC`)도 `1x1xC`로 만들어준다.
+    - 기존 방법인 FC Layer를 사용하면 많은 파라미터 수가 필요하지만, GAP는 파라미터를 차지하지 않아 계산 속도가 빠르고, 오버피팅을 방지하는 효과가 있다.
+- 따라서 GAP 연산 결과 1차원 벡터가 되기 때문에 최종 출력에 FC Layer 대신 사용할 수 있다.
 
 ## [AlexNet](https://proceedings.neurips.cc/paper_files/paper/2012/file/c399862d3b9d6b76c8436e924a68c45b-Paper.pdf)
 
@@ -155,6 +159,10 @@ overlapping 되지 않기 위해, 보통 filter 크기와 stride를 같도록 �
     - bottleneck 구조를 사용
 
 # References
+
 1. 인공지능 응용 (ICE4104), 인하대학교 정보통신공학과 홍성은 교수님
 2. [[DL] 1x1 convolution은 무엇이고 왜 사용할까? | Sociological Imagination](https://euneestella.github.io/research/2021-10-14-why-we-use-1x1-convolution-at-deep-learning/)
 3. [합성곱 신경망 기초 5(VGGNet, Very Deep Convolutional Network)](https://jonghae5.github.io/cnn-basic-5)
+4. [Global Average Pooling 이란 - gaussian37](https://gaussian37.github.io/dl-concept-global_average_pooling/)
+5. [GAP (Global Average Pooling) : 전역 평균 풀링](https://mole-starseeker.tistory.com/66)
+6. [[딥러닝] GAP(Global Average Pooling)](https://lcyking.tistory.com/76)
