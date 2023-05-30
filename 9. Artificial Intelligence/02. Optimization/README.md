@@ -24,6 +24,20 @@
 
 ## Gradient Descent
 
+### Scalar derivative VS. Gradient
+
+- Scalar derivative (스칼라 미분)
+    - 스칼라 미분의 경우, 미분값이 이름처럼 스칼라 값을 갖게 된다. 
+    - 따라서 스칼라 미분을 하게 됐을 때는, 해당 지점에서의 순간기울기를 알 수 있다.
+        - 순간기울기는 해당 지점에서의 속도로 파악할 수 있다.
+    - 순간기울기를 통해 방향을 예측할 수 있지만, 음과 양의 1차원 상에서 해석할 수 있을 정도로만 알 수 있다.
+- Gradient (그라디언트) $\bigtriangledown f$
+    - 그라디언트는 미분값이 벡터로 표현된다.
+    - 해당 지점에서 미분 연산이 적용된다는 것이 스칼라 미분과 공통적이지만, 해당 위치에서의 방향을 3차원 공간 상으로 해석할 수 있다는 차이점이 있다.
+    - $\bigtriangledown f$는 $f$의 값이 가장 가파르게 증가하는 방향을 나타낸다.
+    - Gradient Descent가 Global Minimum Loss에 수렴하기 위해서는, **가장 빨리 감소시키는 방향**인 $-\bigtriangledown f$로 이동한다.
+
+
 ## Stochastic Gradient Descent
 ### Mini-batch SGD: Loop
 1. **Sample a batch of data**
@@ -55,3 +69,4 @@
 1. 인공지능 응용 (ICE4104), 인하대학교 정보통신공학과 홍성은 교수님
 2. [uni1023.log - 배치 사이즈(batch size), 에포크(epoch), 반복(iteration)의 차이는?](https://velog.io/@uni1023/%EB%B0%B0%EC%B9%98-%EC%82%AC%EC%9D%B4%EC%A6%88batch-size-%EC%97%90%ED%8F%AC%ED%81%ACepoch-%EB%B0%98%EB%B3%B5iteration%EC%9D%98-%EC%B0%A8%EC%9D%B4%EB%8A%94)
 3. [[논문요약] Classification 학습방법 - Bag of Tricks(2018)](https://kmhana.tistory.com/25)
+4. [다크 프로그래머 :: Gradient, Jacobian 행렬, Hessian 행렬, Laplacian](https://darkpgmr.tistory.com/132)
