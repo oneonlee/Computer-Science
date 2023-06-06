@@ -9,3 +9,8 @@
 - [06. Reading a non-text file](./06.%20Reading%20a%20non-text%20file)
 - [07. Command line argument](./07.%20Command%20line%20argument)
 - [08. Process](./08.%20Process)
+- [09. Exec](./09.%20Exec/)
+- [10. Shell (Exit, Wait)](./10.%20Shell%20(Exit%2C%20Wait)/)
+- [11. Network](./11.%20Network/)
+- [12. Select](./12.%20Select/)
+- [13. Signal](./13.%20Signal/)
