@@ -1,10 +1,22 @@
 # 알고리즘과 문제해결
 
-- Contents
-  - [알고리즘이란?](#알고리즘이란)
-  - [점근식 표기법](#점근식-표기법)
-  - [순환 (recursion)](#순환-recursion)
-  - [Master Theorem](#master-theorem)
+- [알고리즘이란?](#알고리즘이란-)
+- [성능 분석](#성능-분석)
+  * [공간 복잡도 (space complexity)](#공간-복잡도-space-complexity-)
+  * [시간 복잡도 (time complexity)](#시간-복잡도-time-complexity-)
+- [함수 호출의 Mechanism 7단계](#함수-호출의-mechanism-7단계)
+- [점근식 표기법](#점근식-표기법)
+  * [Big O 표기법](#big-o----)
+  * [Asymptotic Analysis](#asymptotic-analysis)
+  * [대표적인 복잡도 카테고리](#대표적인-복잡도-카테고리)
+    + [Polynomial Time](#polynomial-time)
+    + [Exponential Time](#exponential-time)
+  * [Ω 표기법](#ω-표기법)
+  * [Summary ✩](#summary-✩)
+- [순환 (recursion)](#순환--recursion-)
+- [Master Theorem](#master-theorem)
+  * [제약 조건 ✩](#제약-조건-✩)
+    + [Adavanced Master Theorem](#adavanced-master-theorem)
 
 ---
 
@@ -147,9 +159,10 @@ $n^{2} + 10n \in O(n^{2})$
 <img width="334" alt="스크린샷 2022-04-14 오후 10 05 25" src="https://user-images.githubusercontent.com/73745836/163396716-7236fc0f-cca6-489c-a835-f82c3756f2ae.png">
 
 - 어떤 알고리즘의 시간복잡도가 $\Omega (f(n))$이라면,
-  - 입력의 크기 $n$에 대해서 이 알고리즘의 수행시간은 아무리 빨라도 $f(n)$밖에 되지 않는다. ($f(n)$이 하한이다.)
+  - 입력의 크기 $n$에 대해서 이 알고리즘의 수행시간은 아무리 빨라도 $f(n)$ 밖에 되지 않는다. ($f(n)$이 하한이다.)
   - “최소한 이만한 시간은 걸린다”
-  - 모든 정렬 알고리즘은 $\Omega (N)$. $N$개의 데이터를 정렬하는데 $N$개 모두를 읽지 않고 정렬을 완료할 수는 없기 때문. ✩
+  - 모든 정렬 알고리즘은 $\Omega (N)$.
+    - $N$개의 데이터를 정렬하는데 $N$개 모두를 읽지 않고 정렬을 완료할 수는 없기 때문. ✩
 
 ### Summary ✩
 
@@ -191,25 +204,34 @@ end BinarySearch()
 
 ## Master Theorem
 
-![CodeCogsEqn (1)](https://user-images.githubusercontent.com/73745836/163401823-2a37df87-f0fa-4b69-b3a1-56892faff249.svg)와 같은 모양을 가진 점화식은 마스터 정리에 의해 바로 분석할 수 있다
+$T(n) = a \cdot T(\frac{n}{b}) + f(n)$와 같은 모양을 가진 점화식은 마스터 정리에 의해 바로 분석할 수 있다
 
-1. ![CodeCogsEqn (1)](https://user-images.githubusercontent.com/73745836/163401823-2a37df87-f0fa-4b69-b3a1-56892faff249.svg)
-2. ![](https://latex.codecogs.com/svg.image?h_n&space;=&space;n^{log_b&space;a}&space;&space;)
-3. ![](<https://latex.codecogs.com/svg.image?f(n)>)과 ![](<https://latex.codecogs.com/svg.image?h(n)>) 비교
-
-- if ![](<https://latex.codecogs.com/svg.image?f(n)&space;<&space;h(n)>), then <img src="https://latex.codecogs.com/svg.image?\inline&space;O(f(n))&space;=&space;h(n)" title="https://latex.codecogs.com/svg.image?\inline O(f(n)) = h(n)" />
-- if ![](<https://latex.codecogs.com/svg.image?f(n)&space;=&space;h(n)>), then <img src="https://latex.codecogs.com/svg.image?\inline&space;O(f(n))&space;=&space;h(n)&space;\cdot&space;\log&space;n" title="https://latex.codecogs.com/svg.image?\inline O(f(n)) = h(n) \cdot \log n" />
-- if ![](<https://latex.codecogs.com/svg.image?f(n)&space;>&space;h(n)>), then <img src="https://latex.codecogs.com/svg.image?\inline&space;O(f(n))&space;=&space;f(n)" title="https://latex.codecogs.com/svg.image?\inline O(f(n)) = f(n)" />
+1. $T(n) = a \cdot T(\frac{n}{b}) + f(n)$
+2. $h_n = n^{log_b a}$
+3. $f(n)$과 $h(n)$ 비교
+    - if $f(n) < h(n)$, then $O(f(n)) = h(n)$
+    - if $f(n) = h(n)$, then $O(f(n)) = h(n) \cdot \log n$
+    - if $f(n) > h(n)$, then $O(f(n)) = f(n)$
 
 ### 제약 조건 ✩
 
-1. ![](<https://latex.codecogs.com/svg.image?f(n)>)은 asymptotically positive function (양의 함수) 이어야 한다.
-2. <img src="https://latex.codecogs.com/svg.image?\inline&space;a&space;\geq&space;1" title="https://latex.codecogs.com/svg.image?\inline a \geq 1" /> and <img src="https://latex.codecogs.com/svg.image?\inline&space;b&space;>&space;1"/> 이어야 한다.
-3. the regularity condition that <img src="https://latex.codecogs.com/svg.image?\inline&space;af(\frac{n}{b})&space;\leq&space;cf(n)" title="https://latex.codecogs.com/svg.image?\inline af(\frac{n}{b}) \leq cf(n)" /> for some constant <img src="https://latex.codecogs.com/svg.image?\inline&space;c&space;<&space;1"/>
+1. $f(n)$은 asymptotically positive function (양의 함수) 이어야 한다.
+2. $a \geq 1$ and $b > 1$이어야 한다.
+3. the regularity condition that $a \cdot f(\frac{n}{b}) \leq c \cdot f(n)$ for some constant $c < 1$
+    - $f(n)$이 지수함수, $\cos$ 함수, $\sin$ 함수 등이 되어서는 안 됨
+4. $T(n) = aT(\frac{n}{b}) + n^k \log ^p (n)$의 형태일 때는 Adavanced Master Theorem을 적용해야 함
 
-- <img src="https://latex.codecogs.com/svg.image?\inline&space;f(n)" title="https://latex.codecogs.com/svg.image?\inline f(n)" />이 지수함수, cos 함수, sin 함수 등이 되어서는 안 됨
+#### Adavanced Master Theorem
+where $a \geq 1$, $k \geq  1$ is a real number
 
-4. <img src="https://latex.codecogs.com/svg.image?\inline&space;\bg{white}T(n)&space;=&space;aT(\frac{n}{b})&space;&plus;&space;n^k&space;\log&space;^p&space;(n)" title="https://latex.codecogs.com/svg.image?\inline \bg{white}T(n) = aT(\frac{n}{b}) + n^k \log ^p (n)" />의 형태일 때는 Adavanced Master Theorem을 적용해야 함
+- (1) if $a > b^{k}$
 
-- where <img src="https://latex.codecogs.com/svg.image?\inline&space;\bg{white}a&space;\geq&space;1"/>, <img src="https://latex.codecogs.com/svg.image?\inline&space;\bg{white}b&space;>&space;1"/>, <img src="https://latex.codecogs.com/svg.image?\inline&space;\bg{white}k&space;\geq&space;&space;1"/> and <img src="https://latex.codecogs.com/svg.image?\inline&space;\bg{white}p" title="https://latex.codecogs.com/svg.image?\inline \bg{white}p" /> is a real number
-- ![IMG_2141375D9C4F-1](https://user-images.githubusercontent.com/73745836/163408705-fa6a2e11-12de-4df9-a1d1-0ea6f7af7cef.jpeg)
+$$T(n) = \Theta ( n^{ \log_{k} a })$$
+
+- (2) if $a = b^{k}$
+
+$$T(n) = \begin{cases} \Theta ( n^{ \log_{k} a } \log^{p+1}(n)) & p>-1 \newline \Theta ( n^{ \log_{k} a } \log\log n) & p=-1 \newline \Theta ( n^{ \log_{k} a }) & p<-1 \end{cases}$$
+
+- (3) if $a < b^{k}$
+
+$$T(n) = \begin{cases} \Theta ( n^{k} \log^{p}(n)) & p \geq 0 \newline \Theta ( n^{k}) & p<0 \end{cases}$$
