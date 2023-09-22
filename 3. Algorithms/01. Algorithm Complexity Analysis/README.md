@@ -12,10 +12,10 @@
     + [Polynomial Time](#polynomial-time)
     + [Exponential Time](#exponential-time)
   * [Ω 표기법](#ω-표기법)
-  * [Summary ✩](#summary-✩)
+  * [Summary ✩](#summary-)
 - [순환 (recursion)](#순환--recursion-)
 - [Master Theorem](#master-theorem)
-  * [제약 조건 ✩](#제약-조건-✩)
+  * [제약 조건 ✩](#제약-조건-)
     + [Adavanced Master Theorem](#adavanced-master-theorem)
 
 ---
