@@ -149,10 +149,8 @@ $O(n^{2})$
 
 - 삽입정렬은 버블정렬 보다는 항상 최소한 빠르게 수행된다고 할 수 있다.
 - 선택정렬이 버블정렬 보다 빠른가?
-
   - 일반적으로는 선택정렬 알고리즘이 빠르다고 할 수 있다.
   - 그러나 입력이 이미 정렬되어 있는 경우, 선택정렬은 지정이 이루어지지만 버블정렬은 지정이 이루어지지 않으므로 버블정렬이 빠르다.
-
 - 선택정렬 알고리즘이 삽입정렬 알고리즘 보다 빠른가?
   - $n$의 크기가 크고,키의 크기가 큰 자료구조 일 때는 지정하는 시간이 많이 걸리므로 선택정렬 알고리즘이 더 빠르다.
 
@@ -563,10 +561,8 @@ end RadixSort()
 ## Bitonic Sort
 
 - Bubble Sort 기반의 Parallel Sorting Algorithm으로, Bi-tone 즉, 2개의 톤을 의미한다.
-
   - 아래 사진을 보면 방향이 위 아래 2개 즉, 톤이 2개이다.
   - ![](https://xilinx.github.io/Vitis_Libraries/database/2019.2/_images/bitonic_sort_architecture.png)
-
 - [Sorting Network](https://en.wikipedia.org/wiki/Sorting_network)(정렬망)을 미리 정의해야 사용할 수 있다.
 
 > In computer science, **comparator networks** are abstract devices built up of a fixed number of "wires", carrying values, and comparator modules that connect pairs of wires, swapping the values on the wires if they are not in a desired order. <br>Such networks are typically designed to perform sorting on fixed numbers of values, in which case they are called **sorting networks**.<br> <br>
@@ -579,10 +575,10 @@ end RadixSort()
 <br>
 
 - Analysis
-  - <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}&space;O&space;(n\log^2&space;n)&space;" title="O (n\log^2 n) " /> comparators (비교횟수)
+  - $O (n\log^2 n)$ comparators (비교횟수)
   - $O( \log ^{2} n)$ parallel time
 - Space complexity
-  - <img height="20" src="https://latex.codecogs.com/png.image?\dpi{1100}\bg{white}&space;O&space;(n\log^2&space;n)&space;" title="O (n\log^2 n) " />
+  - $O (n\log^2 n)$
 
 ## Odd-even Sort
 
@@ -594,20 +590,15 @@ end RadixSort()
 ![](https://i.stack.imgur.com/LZJKu.jpg)
 
 - The Odd-Even Transition Sorting Network for Keys
-
-  ![](https://developer.nvidia.com/sites/all/modules/custom/gpugems/books/GPUGems2/elementLinks/46_sorting_01.jpg)
-
+  ![](https://developer.download.nvidia.com/books/gpugems2/46_sorting_01.jpg)
 - Analysis
   - $O(n)$ parallel time
 
 ### Odd-even merge Sort
 
 - The Odd-Even Merge Sorting Network for Keys
-
-  ![](https://developer.nvidia.com/sites/all/modules/custom/gpugems/books/GPUGems2/elementLinks/46_sorting_02.jpg)
-
+  ![](https://developer.download.nvidia.com/books/gpugems2/46_sorting_02.jpg)
 - Analysis
-
   - $O( \log ^{2} n)$ parallel time
     - Worst-case performance - $O( \log ^{2} n)$ parallel time
     - Best-case performance - $O( \log ^{2} n)$ parallel time
