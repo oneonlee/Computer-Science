@@ -12,7 +12,7 @@
 2. [Insertion Sort](#insertion-sort) : $O(n^{2})$
 3. [Selection Sort](#selection-sort) : $O(n^{2})$
 4. [Merge Sort](#merge-sort) : $O(n \log n)$
-5. [Quick Sort](#quick-sort) : $O(n \log n)$
+5. [Quick Sort](#quick-sort) : 평균: $O(n \log n)$, 최악: $O(n^2)$
 6. [Shell Sort](#shell-sort) : $O(n^{2})$ \~ $O(n \log n)$ \~ $O(n \log ^{2} n)$
 7. [Heap Sort](#heap-sort) : $O(n \log n)$
 8. [Counting Sort](#counting-sort) : $O(n)$
