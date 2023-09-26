@@ -207,11 +207,11 @@ end BinarySearch()
 $T(n) = a \cdot T(\frac{n}{b}) + f(n)$와 같은 모양을 가진 점화식은 마스터 정리에 의해 바로 분석할 수 있다
 
 1. $T(n) = a \cdot T(\frac{n}{b}) + f(n)$
-2. $h_n = n^{log_b a}$
+2. $h(n) = n^{log_b a}$
 3. $f(n)$과 $h(n)$ 비교
-    - if $f(n) < h(n)$, then $O(f(n)) = h(n)$
-    - if $f(n) = h(n)$, then $O(f(n)) = h(n) \cdot \log n$
-    - if $f(n) > h(n)$, then $O(f(n)) = f(n)$
+    - if $f(n) < h(n)$, then $O(T(n)) = h(n)$
+    - if $f(n) = h(n)$, then $O(T(n)) = h(n) \cdot \log n$
+    - if $f(n) > h(n)$, then $O(T(n)) = f(n)$
 
 ### 제약 조건 ✩
 
