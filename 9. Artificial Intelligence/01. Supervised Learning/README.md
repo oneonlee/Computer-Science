@@ -214,7 +214,9 @@ Cross Entropy Loss는 [Classification](#회귀와-분류) 알고리즘에 사용
 
 Network의 output에 [softmax 함수](#softmax-function)를 취한 후, target vector와 비교한다.
 
-[Cross Entropy Loss 계산 시](#cross-entropy), Target $P(x)$와 Output $Q(x)$와 에 대해 $-\sum P(x) \log Q(x)$로 계산한다.
+[Cross Entropy Loss 계산 시](#cross-entropy), Target $P(x)$와 Output $Q(x)$에 대해 $-\sum P(x) \log Q(x)$로 계산한다.
+
+$$H(P, Q) = -\sum P(x) \log Q(x) $$
 
 # References
 
