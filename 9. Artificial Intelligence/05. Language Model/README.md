@@ -20,10 +20,46 @@ $$h_t = \tanh (W_{hh}h_{t-1} + W_{xh}x_{t})$$
     - [기울기 소실 (Vanashing Gradient)](https://wikidocs.net/61375)
         - 역전파 과정에서 입력층으로 갈수록 기울기가 점차 작아지는 현상. 
         - 입력층에 가까운 층들에서 가중치들이 업데이트가 제대로 되지 않으면 최적의 모델을 찾을 수 없게 된다.
-        - LSTM을 사용하면, 기울기 소실을 막을 수 있다.
     - [기울기 폭주 (Exploding Gradient)](https://wikidocs.net/61375)
-        - Gradient Clipping을 사용하면, 기울기 폭주를 막을 수 있다.
-    
+
+### Vanishing Gradient가 발생하는 이유
+활성화 함수로 흔히 사용되는 sigmoid 함수와 tanh 함수의 도함수는 아래와 같다. 도함수의 최대값이 1보다 작은 것을 확인할 수 있다.
+
+![](https://papari1123.github.io/assets/images/2022-09-19-Learning_basic_images/1663727722587.png)
+
+역전파 (back-propagation) 과정에서 활성화 함수의 미분값이 사용되는데, 1보다 작은 값이 반복해서 곱해지면 0에 수렴하게 된다.
+
+#### Why is Vanishing Gradient a Problem?
+
+먼 거리의 gradient signal은 가까운 거리의 gradient signal보다 훨씬 작기 때문에 손실된다.
+
+따라서 먼 거리의 gradient signal은 모델 가중치에 영향을 끼치지 못하고, 모델 가중치는 가까운 거리의 gradient signal에 대해서만 업데이트된다.
+
+### Exploding Gradient가 발생하는 이유
+
+Back propagation 연산에는 Activation function의 편미분 값뿐만 아니라 가중치 값들도 관여하게 된다.
+
+만약, 모델의 가중치들이 충분히 큰 값이라고 가정을 하면, 레이어가 깊어질수록 충분히 큰 가중치들이 반복적으로 곱해지면서 backward value가 폭발적으로 증가하게 된다. 이를 Exploding gradient라 한다.
+
+#### Why is Exploding Gradient a Problem?
+
+Gradient가 너무 크면, SGD update step이 커지게 된다.
+
+너무 큰 step으로 업데이트를 수행하여 잘못된 매개변수 구성에 도달하면, 큰 손실이 발생하여 잘못된 업데이트가 발생할 수 있다.
+
+
+### How to fix vanishing/exploding gradient problem?
+- Two new types of RNN
+    - [LSTM](#long-short-term-memory-lstm)
+    - GRU
+- Other fixes for vanishing (or exploding) gradient:
+    - Gradient clipping
+        - 그라데이션의 norm이 threshold보다 큰 경우, SGD 업데이트를 적용하기 전에 크기를 줄이는 방법
+    - Skip connections
+- More fancy RNN variants:
+    - Bidirectional RNNs
+    - Multi-layer RNNs
+
 ## Long Short-Term Memory (LSTM)
 
 <img src="https://velog.velcdn.com/images%2Fyuns_u%2Fpost%2F4ef2c3a5-832f-41be-ade8-5f4c76d13fd1%2Fimage.png" />
@@ -59,9 +95,12 @@ $$h_t = \tanh (W_{hh}h_{t-1} + W_{xh}x_{t})$$
 
 # References
 1. 인공지능 응용 (ICE4104), 인하대학교 정보통신공학과 홍성은 교수님
+1. [Stanford CS224N - NLP w/ DL | Winter 2021 | Lecture 5 - Recurrent Neural networks (RNNs)](https://www.youtube.com/watch?v=PLryWeHPcBs&list=PLoROMvodv4rMFqRtEuo6SGjY4XbRIVRd4)
 2. [[머신러닝/딥러닝] 10-1. Recurrent Neural Network(RNN)](https://sonsnotation.blogspot.com/2020/11/10-recurrent-neural-networkrnn.html)
 3. [RNN Tutorial Part 2 - Python, NumPy와 Theano로 RNN 구현하기](http://aikorea.org/blog/rnn-tutorial-2/)
 4. [Neural Network Notes](https://rstudio-pubs-static.s3.amazonaws.com/840976_c6e818a01f2c4b139e85e8074af60805.html)
+4. [(2) 활성함수와 순전파 및 역전파](https://papari1123.github.io/ml_basic/Learning_basic/)
+4. [Vanishing gradient / Exploding gradient](https://imlim0813.tistory.com/42)
 5. [LSTM(Long-Short Term Memory)과 GRU(gated Recurrent Unit)(코드 추가해야함)](https://velog.io/@yuns_u/LSTMLong-Short-Term-Memory%EA%B3%BC-GRUgated-Recurrent-Unit)
 6. [07-07 기울기 소실(Gradient Vanishing)과 폭주(Exploding) - 딥 러닝을 이용한 자연어 처리 입문](https://wikidocs.net/61375)
 7. [LSTM - 인코덤, 생물정보 전문위키](http://www.incodom.kr/LSTM#h_a963932a2464f3866c7891e38db0e30b)
