@@ -1,4 +1,4 @@
-# Temporal Modeling
+# Language Model
 
 ## Recurrent Neural Networks (RNN)
 

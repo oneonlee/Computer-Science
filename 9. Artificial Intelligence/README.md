@@ -8,6 +8,6 @@
 - [02. Optimization](./02.%20Optimization/)
 - [03. Neural Networks](./03.%20Neural%20Networks/)
 - [04. CNN (Convolutional Neural Network)](./04.%20CNN/)
-- [05. Temporal Modeling](./05.%20Temporal%20Modeling/)
+- [05. Language Model](./05.%20Language%20Model/)
 - [06. Attention Mechanism](./06.%20Attention%20Mechanism/)
 - [07. Advanced Topics](./07.%20Advanced%20Topics/)
