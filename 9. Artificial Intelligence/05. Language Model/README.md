@@ -84,14 +84,14 @@ Gradient가 너무 크면, SGD update step이 커지게 된다.
 
 - 새로 입력된 정보는 얼마만큼 활용할 것인가?
 - Input Gate는 새로 입력된 정보 중 어떤 것을 cell state에 저장할 것인지를 정한다. 먼저 sigmoid($\sigma{}$) layer를 거처 어떤 값을 업데이트 할 것인지를 정한 후, $\tanh$ layer에서 새로운 후보 Vector를 만든다.
-    - 활성화함수로써 sigmoid를 쓰지 않고, $\tanh$를 쓰는 이유는 [여기](https://wiserloner.tistory.com/1110) 참고
+    - 활성화함수로써 sigmoid를 쓰지 않고, $\tanh$를 쓰는 이유는 [여기](https://for-data-science.tistory.com/68) 참고
 
 #### 3. Output Gate ($o_{t}$)
     
 <img src="https://imghub.insilicogen.com/media/photos/LSTM3-focus-o.png"/>
 
 - 두 정보를 계산하여 나온 출력 정보를 얼마만큼 넘겨줄 것인가?
-- Output Gate는 어떤 정보를 output으로 내보낼지 정한다. 먼저 sigmoid($\sigma{}$) layer에 input data를 넣어 output 정보를 정한 후 Cell state를 \tanh layer에 넣어 sigmoid($\sigma{}$) layer의 output과 곱하여 output으로 내보낸다.
+- Output Gate는 어떤 정보를 output으로 내보낼지 정한다. 먼저 sigmoid($\sigma{}$) layer에 input data를 넣어 output 정보를 정한 후 Cell state를 $\tanh$ layer에 넣어 sigmoid($\sigma{}$) layer의 output과 곱하여 output으로 내보낸다.
 
 # References
 1. 인공지능 응용 (ICE4104), 인하대학교 정보통신공학과 홍성은 교수님
